@@ -7,21 +7,21 @@
 
 > ⚠️ **LEIA PRIMEIRO**: [**AVISO DE RESPONSABILIDADE IMPORTANTE**](./DISCLAIMER.md) - Leia antes de prosseguir!
 
-> ⚠️ **IMPORTANTE**: Este manual está em **constante evolução** e é atualizado regularmente pela comunidade. Os procedimentos descritos foram testados e funcionam perfeitamente para **2025**. No entanto, devido à natureza rolling release do Arch Linux, **alguns comandos podem se tornar obsoletos em anos futuros**. Sempre consulte a [documentação oficial](https://wiki.archlinux.org/) para verificar mudanças recentes.
+> ⚠️ **IMPORTANTE**: Este manual está em **constante evolução** e é atualizado regularmente por mim (e futuramente pela comunidade). Os procedimentos descritos foram testados e funcionam perfeitamente para **2025**. No entanto, devido à natureza rolling release do Arch Linux, **alguns comandos podem se tornar obsoletos em anos futuros**. Sempre consulte a [documentação oficial](https://wiki.archlinux.org/) para verificar mudanças recentes.
 
 ---
 
 ## **Sobre este Guia**
 
-Este é o **guia definitivo** para instalação do Arch Linux em português brasileiro, mantido e atualizado pela comunidade! Criado com amor para brasileiros que querem dominar o Arch Linux.
+Este é o **guia definitivo** para instalação do Arch Linux em português brasileiro, mantido e atualizado por mim! Criado com amor para brasileiros que querem dominar o Arch Linux.
 
-### 📅 **Status de Atualização:**
-- ✅ **Testado em**: Agosto 2025
-- 🔄 **Última revisão**: Mensal
-- 📋 **Compatibilidade**: Arch Linux ISO 2025.01+
-- ⚡ **Status**: Totalmente funcional
+### **Status de Atualização:**
+- **Testado em**: Agosto 2025
+- **Última revisão**: Mensal
+- **Compatibilidade**: Arch Linux ISO 2025.01+
+- **Status**: Totalmente funcional
 
-## 📋 Índice
+## Índice
 
 - [Pré-requisitos](#pré-requisitos)
 - [1. Configuração Inicial do Sistema](#1-configuração-inicial-do-sistema)
@@ -47,13 +47,13 @@ Este é o **guia definitivo** para instalação do Arch Linux em português bras
 
 ---
 
-## 🔧 Pré-requisitos
+## Pré-requisitos
 
-- ✅ Pendrive bootável com Arch Linux ISO
-- 🌐 Conexão com internet (cabo ethernet ou Wi-Fi)
-- 💻 Computador com UEFI (modo recomendado)
-- 🧠 Conhecimento básico de linha de comando
-- ⏱️ Tempo: 1-2 horas aproximadamente
+- Pendrive bootável com Arch Linux ISO
+- Conexão com internet (cabo ethernet ou Wi-Fi)
+- Computador com UEFI (modo recomendado)
+- Conhecimento básico de linha de comando
+- Tempo: 1-2 horas aproximadamente
 
 > ⚠️ **ATENÇÃO**: Este processo apagará todos os dados do disco selecionado. Faça backup de dados importantes!
 
@@ -67,7 +67,7 @@ Este é o **guia definitivo** para instalação do Arch Linux em português bras
 loadkeys br-abnt2
 ```
 
-**💡 O que faz**: Configura o layout do teclado para ABNT2 (padrão brasileiro) durante a instalação.
+**O que faz**: Configura o layout do teclado para ABNT2 (padrão brasileiro) durante a instalação.
 
 ### 1.2 Verificar Modo de Boot
 
@@ -75,7 +75,7 @@ loadkeys br-abnt2
 ls /sys/firmware/efi/efivars
 ```
 
-**💡 O que faz**: Verifica se o sistema iniciou em modo UEFI. Se o diretório existir, você está em UEFI (recomendado). Se não existir, está em modo BIOS legacy.
+**O que faz**: Verifica se o sistema iniciou em modo UEFI. Se o diretório existir, você está em UEFI (recomendado). Se não existir, está em modo BIOS legacy.
 
 ---
 
@@ -89,13 +89,13 @@ iwctl
 
 # Dentro do iwctl, execute os comandos:
 device list                           # Lista interfaces de rede disponíveis
-station wlan0 scan                   # Escaneia redes Wi-Fi disponíveis
-station wlan0 get-networks           # Mostra as redes encontradas
-station wlan0 connect "nome_da_rede" # Conecta à rede (substitua pelo nome real)
-exit                                 # Sai do iwctl
+station wlan0 scan                    # Escaneia redes Wi-Fi disponíveis
+station wlan0 get-networks            # Mostra as redes encontradas
+station wlan0 connect "nome_da_rede"  # Conecta à rede (substitua pelo nome real)
+exit                                  # Sai do iwctl
 ```
 
-**💡 O que faz**: Conecta o sistema à rede Wi-Fi. O `wlan0` pode variar (use o nome mostrado em `device list`).
+**O que faz**: Conecta o sistema à rede Wi-Fi. O `wlan0` pode variar (use o nome mostrado em `device list`).
 
 ### 2.2 Testar Conexão
 
@@ -103,7 +103,7 @@ exit                                 # Sai do iwctl
 ping -c 3 archlinux.org
 ```
 
-**💡 O que faz**: Testa se a conexão com internet está funcionando enviando 3 pacotes para o site do Arch Linux.
+**O que faz**: Testa se a conexão com internet está funcionando enviando 3 pacotes para o site do Arch Linux.
 
 ---
 
@@ -116,7 +116,7 @@ lsblk
 fdisk -l
 ```
 
-**💡 O que faz**: Lista todos os discos e partições disponíveis no sistema para identificar onde instalar.
+**O que faz**: Lista todos os discos e partições disponíveis no sistema para identificar onde instalar.
 
 <!-- COMANDO ADICIONADO: Sincronizar relógio do sistema antes de instalar -->
 ### 3.2 Sincronizar Horário (IMPORTANTE)
@@ -125,7 +125,7 @@ fdisk -l
 timedatectl set-ntp true
 ```
 
-**💡 O que faz**: Sincroniza o relógio do sistema via NTP. **Importante**: Alguns certificados SSL podem falhar se a data/hora estiverem incorretas, causando problemas no download de pacotes.
+**O que faz**: Sincroniza o relógio do sistema via NTP. **Importante**: Alguns certificados SSL podem falhar se a data/hora estiverem incorretas, causando problemas no download de pacotes.
 
 ### 3.3 Limpar Disco (CUIDADO - APAGA TUDO!)
 
@@ -134,7 +134,7 @@ timedatectl set-ntp true
 wipefs -a /dev/sda
 ```
 
-**💡 O que faz**: Remove todas as assinaturas de sistema de arquivos e estruturas de partição do disco. **⚠️ ATENÇÃO**: Isso apaga TODOS os dados!
+**O que faz**: Remove todas as assinaturas de sistema de arquivos e estruturas de partição do disco. **ATENÇÃO**: Isso apaga TODOS os dados!
 
 ### 3.4 Verificar Limpeza
 
@@ -143,7 +143,7 @@ lsblk
 fdisk -l /dev/sda
 ```
 
-**💡 O que faz**: Confirma que o disco foi limpo e não possui partições.
+**O que faz**: Confirma que o disco foi limpo e não possui partições.
 
 ---
 
@@ -155,7 +155,7 @@ fdisk -l /dev/sda
 fdisk /dev/sda
 ```
 
-**💡 O que faz**: Abre o utilitário de particionamento para o disco especificado.
+**O que faz**: Abre o utilitário de particionamento para o disco especificado.
 
 ### 4.2 Criar Tabela de Partição GPT
 
@@ -164,7 +164,7 @@ fdisk /dev/sda
 Command (m for help): g
 ```
 
-**💡 O que faz**: Cria uma nova tabela de partição GPT (GUID Partition Table), necessária para UEFI.
+**O que faz**: Cria uma nova tabela de partição GPT (GUID Partition Table), necessária para UEFI.
 
 <!-- COMANDO ADICIONADO: Verificação importante das partições antes de continuar -->
 ### 4.3 Verificar Espaço Disponível
@@ -174,37 +174,39 @@ Command (m for help): g
 Command (m for help): p
 ```
 
-**💡 O que faz**: Mostra o espaço total disponível no disco para você calcular melhor o tamanho das partições.
+**O que faz**: Mostra o espaço total disponível no disco para você calcular melhor o tamanho das partições.
 
 ### 4.4 Criar Partições
 
-#### 🔧 Partição 1 - EFI System (1GB)
+O usuário decide o tamanho de cada particionamento do armazenamento.
+
+#### Partição 1 - EFI System (1GB)
 
 ```bash
-Command (m for help): n          # Criar nova partição
+Command (m for help): n           # Criar nova partição
 Partition number (1-128): [Enter] # Aceitar padrão (1)
-First sector: [Enter]            # Aceitar início padrão
-Last sector: +1G                 # Definir tamanho de 1GB
+First sector: [Enter]             # Aceitar início padrão
+Last sector: +1G                  # Definir tamanho de 1GB 
 
-Command (m for help): t          # Alterar tipo da partição
-Partition number: 1              # Selecionar partição 1
-Hex code or alias: 1             # Tipo: EFI System
+Command (m for help): t           # Alterar tipo da partição
+Partition number: 1               # Selecionar partição 1
+Hex code or alias: 1              # Tipo: EFI System
 ```
 
-#### 💾 Partição 2 - Swap (8GB)
+#### Partição 2 - Swap (8GB)
 
 ```bash
-Command (m for help): n          # Criar nova partição
+Command (m for help): n           # Criar nova partição
 Partition number (2-128): [Enter] # Aceitar padrão (2)
-First sector: [Enter]            # Aceitar início padrão
-Last sector: +8G                 # Definir tamanho de 8GB
+First sector: [Enter]             # Aceitar início padrão
+Last sector: +8G                  # Definir tamanho de 8GB
 
-Command (m for help): t          # Alterar tipo da partição
-Partition number: 2              # Selecionar partição 2
-Hex code or alias: 19            # Tipo: Linux swap
+Command (m for help): t           # Alterar tipo da partição
+Partition number: 2               # Selecionar partição 2
+Hex code or alias: 19             # Tipo: Linux swap
 ```
 
-#### 🖥️ Partição 3 - Raiz / Root (60GB)
+#### Partição 3 - Raiz / Root (60GB)
 
 ```bash
 Command (m for help): n          # Criar nova partição
@@ -214,7 +216,7 @@ Last sector: +60G                # Definir tamanho de 60GB
 # Tipo já fica como Linux filesystem (padrão)
 ```
 
-#### 🏠 Partição 4 - Home (Resto do Disco)
+#### Partição 4 - Home (Resto do Disco)
 
 ```bash
 Command (m for help): n          # Criar nova partição
@@ -249,7 +251,7 @@ mkfs.ext4 /dev/sda3
 mkfs.ext4 /dev/sda4
 ```
 
-**💡 O que fazem**:
+**O que fazem**:
 - `mkfs.fat -F32`: Formata a partição EFI com sistema FAT32
 - `mkswap/swapon`: Cria e ativa a área de memória virtual (swap)
 - `mkfs.ext4`: Formata partições com sistema de arquivos ext4 (padrão Linux)
@@ -262,7 +264,7 @@ mkfs.ext4 /dev/sda4
 lsblk -f
 ```
 
-**💡 O que faz**: Lista todas as partições mostrando o tipo de sistema de arquivos, útil para confirmar que a formatação foi bem-sucedida.
+**O que faz**: Lista todas as partições mostrando o tipo de sistema de arquivos, útil para confirmar que a formatação foi bem-sucedida.
 
 ## 6. Montagem das Partições
 
@@ -281,7 +283,7 @@ mount /dev/sda1 /mnt/boot/efi
 mount /dev/sda4 /mnt/home
 ```
 
-**💡 O que faz**: Monta as partições nos diretórios corretos para que o sistema possa acessá-las durante a instalação.
+**O que faz**: Monta as partições nos diretórios corretos para que o sistema possa acessá-las durante a instalação.
 
 <!-- COMANDO ADICIONADO: Verificação das montagens -->
 ### 6.1 Verificar Montagens
@@ -291,7 +293,7 @@ lsblk
 mount | grep /mnt
 ```
 
-**💡 O que fazem**: Verificam se todas as partições foram montadas corretamente nos pontos de montagem esperados.
+**O que fazem**: Verificam se todas as partições foram montadas corretamente nos pontos de montagem esperados.
 
 ---
 
@@ -304,7 +306,7 @@ mount | grep /mnt
 pacman -Sy
 ```
 
-**💡 O que faz**: Sincroniza a base de dados de pacotes com os repositórios remotos.
+**O que faz**: Sincroniza a base de dados de pacotes com os repositórios remotos.
 
 ### 7.2 Configurar Mirrors Otimizados
 
@@ -316,7 +318,7 @@ pacman -S reflector
 reflector --country Brazil --latest 20 --sort rate --verbose --save /etc/pacman.d/mirrorlist
 ```
 
-**💡 O que faz**: 
+**O que faz**: 
 - Atualiza a base de dados de pacotes
 - Instala o reflector (ferramenta para otimizar mirrors)
 - Seleciona os 20 mirrors brasileiros mais rápidos e os salva na configuração
@@ -330,7 +332,7 @@ reflector --country Brazil --latest 20 --sort rate --verbose --save /etc/pacman.
 pacstrap -K /mnt base base-devel linux linux-firmware linux-headers nano neovim
 ```
 
-**💡 O que faz**:
+**O que faz**:
 - `base`: Pacotes fundamentais do sistema
 - `base-devel`: Ferramentas de desenvolvimento (compiladores, etc.)
 - `linux`: Kernel do Linux
@@ -338,7 +340,7 @@ pacstrap -K /mnt base base-devel linux linux-firmware linux-headers nano neovim
 - `linux-headers`: Cabeçalhos do kernel (para módulos)
 - `nano/neovim`: Editores de texto
 
-> 💡 **Dica**: Para maior estabilidade, você pode usar `linux-lts` (Long Term Support) no lugar de `linux`.
+> **Dica**: Para maior estabilidade, você pode usar `linux-lts` (Long Term Support) no lugar de `linux`.
 
 ---
 
@@ -350,7 +352,7 @@ pacstrap -K /mnt base base-devel linux linux-firmware linux-headers nano neovim
 genfstab -U /mnt >> /mnt/etc/fstab
 ```
 
-**💡 O que faz**: Gera automaticamente o arquivo `/etc/fstab` que define quais partições são montadas na inicialização.
+**O que faz**: Gera automaticamente o arquivo `/etc/fstab` que define quais partições são montadas na inicialização.
 
 ### 9.2 Entrar no Sistema Instalado
 
@@ -358,7 +360,7 @@ genfstab -U /mnt >> /mnt/etc/fstab
 arch-chroot /mnt
 ```
 
-**💡 O que faz**: Muda para o ambiente do sistema recém-instalado (chroot = change root).
+**O que faz**: Muda para o ambiente do sistema recém-instalado (chroot = change root).
 
 ### 9.3 Configurar Localização e Idioma
 
@@ -377,7 +379,7 @@ echo "LANG=pt_BR.UTF-8" > /etc/locale.conf
 echo "KEYMAP=br-abnt2" > /etc/vconsole.conf
 ```
 
-**💡 O que fazem**:
+**O que fazem**:
 - Define português brasileiro como idioma do sistema
 - Configura o teclado ABNT2 permanentemente
 - Gera as configurações de localização
@@ -393,7 +395,7 @@ locale -a | grep pt_BR
 locale
 ```
 
-**💡 O que fazem**: Confirmam se as configurações de idioma e localização foram aplicadas corretamente.
+**O que fazem**: Confirmam se as configurações de idioma e localização foram aplicadas corretamente.
 
 ---
 
@@ -404,14 +406,14 @@ nano /etc/pacman.conf
 
 # Descomente e configure as seguintes linhas:
 Color                    # Habilita cores na saída
-ParallelDownloads = 10   # Permite 10 downloads simultâneos
+ParallelDownloads = 15   # Permite 15 downloads simultâneos
 
 # Para suporte a programas 32-bits (se necessário):
 [multilib]
 Include = /etc/pacman.d/mirrorlist
 ```
 
-**💡 O que faz**: Otimiza o gerenciador de pacotes com cores e downloads paralelos, e habilita repositório de 32-bits se necessário.
+**O que faz**: Otimiza o gerenciador de pacotes com cores e downloads paralelos, e habilita repositório de 32-bits se necessário.
 
 ---
 
@@ -431,7 +433,7 @@ timedatectl set-ntp true
 timedatectl
 ```
 
-**💡 O que fazem**:
+**O que fazem**:
 - Define o fuso horário do sistema
 - Sincroniza o relógio do hardware com o do sistema
 - Habilita sincronização automática via NTP
@@ -459,7 +461,7 @@ nano /etc/hosts
 127.0.1.1   meu-arch.localdomain   meu-arch
 ```
 
-**💡 O que fazem**:
+**O que fazem**:
 - Define o nome da máquina na rede
 - Configura resolução de nomes locais
 
@@ -473,7 +475,7 @@ nano /etc/hosts
 passwd
 ```
 
-**💡 O que faz**: Define a senha do usuário administrador (root).
+**O que faz**: Define a senha do usuário administrador (root).
 
 ### 13.2 Instalar e Configurar Sudo
 
@@ -496,7 +498,7 @@ useradd -m -g users -G wheel,storage,power -s /bin/bash seu_usuario
 passwd seu_usuario
 ```
 
-**💡 O que fazem**:
+**O que fazem**:
 - Cria um usuário regular com diretório home
 - Adiciona o usuário aos grupos necessários (wheel para sudo)
 - Define bash como shell padrão
@@ -531,7 +533,7 @@ nano /etc/default/grub
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
-**💡 O que fazem**:
+**O que fazem**:
 - Instalam e configuram o carregador de boot GRUB
 - Detectam outros sistemas operacionais (dual-boot)
 - Geram o menu de inicialização
@@ -547,7 +549,7 @@ efibootmgr -v
 ls -la /boot/grub/grub.cfg
 ```
 
-**💡 O que fazem**: Confirmam se o GRUB foi instalado corretamente e se o arquivo de configuração foi criado.
+**O que fazem**: Confirmam se o GRUB foi instalado corretamente e se o arquivo de configuração foi criado.
 
 ---
 
@@ -564,7 +566,7 @@ systemctl enable NetworkManager
 systemctl enable fstrim.timer
 ```
 
-**💡 O que fazem**:
+**O que fazem**:
 - Instalam o gerenciador de rede gráfico
 - Habilitam os serviços para iniciar automaticamente
 - Otimizam SSDs com TRIM automático
@@ -578,7 +580,7 @@ systemctl is-enabled NetworkManager
 systemctl is-enabled fstrim.timer
 ```
 
-**💡 O que fazem**: Confirmam se os serviços essenciais foram habilitados para inicialização automática.
+**O que fazem**: Confirmam se os serviços essenciais foram habilitados para inicialização automática.
 
 ---
 
@@ -607,7 +609,7 @@ pacman -S git wget curl unzip zip
 pacman -S man-db man-pages texinfo
 ```
 
-**💡 O que fazem**:
+**O que fazem**:
 - Instalam microcódigo específico da CPU para correções e otimizações
 - Adicionam ferramentas essenciais para gerenciar arquivos e rede
 - Instalam documentação e manuais do sistema
