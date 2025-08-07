@@ -2,7 +2,7 @@
 
 ![Arch Linux](https://img.shields.io/badge/Arch_Linux-1793D1?style=for-the-badge&logo=arch-linux&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-Atualizado_2025-green?style=for-the-badge)
-![Versão](https://img.shields.io/badge/Versão-2025.01-orange?style=for-the-badge)
+![Versão](https://img.shields.io/badge/Versão-2025.08-orange?style=for-the-badge)
 
 > ⚠️ **LEIA PRIMEIRO**: [**AVISO DE RESPONSABILIDADE IMPORTANTE**](./DISCLAIMER.md) - Leia antes de prosseguir!
 
