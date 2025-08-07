@@ -41,8 +41,8 @@ Este é o **guia definitivo** para instalação do Arch Linux em português bras
 - [16. Instalação de Pacotes Essenciais](#16-instalação-de-pacotes-essenciais)
 - [17. Finalização da Instalação](#17-finalização-da-instalação)
 - [18. Solução de Problemas Comuns](#18-solução-de-problemas-comuns)
-- [Pós-Instalação - Primeiros Passos](#pós-instalação---primeiros-passos)
-- [Dicas Importantes](#-dicas-importantes)
+- [19. Próximos Passos - Pós-Instalação](#19-próximos-passos---pós-instalação)
+- [Dicas Importantes](#dicas-importantes)
 
 ---
 
@@ -693,6 +693,31 @@ sudo systemctl status NetworkManager
 sudo systemctl start NetworkManager
 sudo nmtui  # Interface gráfica para configurar rede
 ```
+
+---
+
+## 19. Próximos Passos - Pós-Instalação
+
+**Parabéns! Você tem agora um sistema Arch Linux funcional!** 
+
+Mas a jornada não termina aqui. Um sistema base do Arch é apenas o começo - agora é hora de transformá-lo no ambiente perfeito para suas necessidades. A pós-instalação é onde o Arch Linux realmente brilha, oferecendo infinitas possibilidades de personalização.
+
+### **O que vem depois?**
+
+Com seu sistema base funcionando, você pode instalar:
+- **Ambientes Desktop** (GNOME, KDE, XFCE, Hyprland, etc.)
+- **Drivers de vídeo** e otimizações
+- **AUR Helpers** para expandir seu repertório de software
+- **Temas e personalizações** visuais
+- **Ferramentas de desenvolvimento** específicas
+- **Configurações avançadas** de segurança e performance
+- **E muito mais!**
+
+### **Guia Completo de Pós-Instalação**
+
+Para um guia detalhado sobre como configurar seu sistema Arch Linux do zero até um ambiente completo e personalizado, consulte nosso guia especializado:
+
+**[ARCH_POST_INSTALL.md](./ARCH_POST_INSTALL.md)**
 
 ---
 
