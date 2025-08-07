@@ -4,9 +4,9 @@
 ![Status](https://img.shields.io/badge/Status-Atualizado_2025-green?style=for-the-badge)
 ![Versão](https://img.shields.io/badge/Versão-2025.08-orange?style=for-the-badge)
 
-> ⚠️ **LEIA PRIMEIRO**: [**AVISO DE RESPONSABILIDADE IMPORTANTE**](./DISCLAIMER.md) - Leia antes de prosseguir!
+> **LEIA PRIMEIRO**: [**AVISO DE RESPONSABILIDADE IMPORTANTE**](./DISCLAIMER.md) - Leia antes de prosseguir!
 
-> ⚠️ **IMPORTANTE**: Este manual está em **constante evolução** e é atualizado regularmente por mim (e futuramente pela comunidade). Os procedimentos descritos foram testados e funcionam perfeitamente para **2025**. No entanto, devido à natureza rolling release do Arch Linux, **alguns comandos podem se tornar obsoletos em anos futuros**. Sempre consulte a [documentação oficial](https://wiki.archlinux.org/) para verificar mudanças recentes.
+> **IMPORTANTE**: Este manual está em **constante evolução** e é atualizado regularmente por mim (e futuramente pela comunidade). Os procedimentos descritos foram testados e funcionam perfeitamente para **2025**. No entanto, devido à natureza rolling release do Arch Linux, **alguns comandos podem se tornar obsoletos em anos futuros**. Sempre consulte a [documentação oficial](https://wiki.archlinux.org/) para verificar mudanças recentes.
 
 ---
 
@@ -54,7 +54,7 @@ Este é o **guia definitivo** para instalação do Arch Linux em português bras
 - Conhecimento básico de linha de comando
 - Tempo: 1-2 horas aproximadamente
 
-> ⚠️ **ATENÇÃO**: Este processo apagará todos os dados do disco selecionado. Faça backup de dados importantes!
+> **ATENÇÃO**: Este processo apagará todos os dados do disco selecionado. Faça backup de dados importantes!
 
 ---
 
@@ -663,7 +663,7 @@ umount -R /mnt
 reboot
 ```
 
-**💡 O que fazem**:
+**O que fazem**:
 - Saem do ambiente de instalação
 - Desmontam as partições com segurança
 - Reiniciam para iniciar o sistema instalado
