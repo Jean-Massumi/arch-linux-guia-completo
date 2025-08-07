@@ -698,14 +698,8 @@ sudo nmtui  # Interface gráfica para configurar rede
 
 ## 19. Próximos Passos - Pós-Instalação
 
-**Parabéns! Você tem agora um sistema Arch Linux funcional!** 
-
-Mas a jornada não termina aqui. Um sistema base do Arch é apenas o começo - agora é hora de transformá-lo no ambiente perfeito para suas necessidades. A pós-instalação é onde o Arch Linux realmente brilha, oferecendo infinitas possibilidades de personalização.
-
-### **O que vem depois?**
-
 Com seu sistema base funcionando, você pode instalar:
-- **Ambientes Desktop** (GNOME, KDE, XFCE, Hyprland, etc.)
+- **Ambientes Desktop** (GNOME, KDE, XFCE, etc.)
 - **Drivers de vídeo** e otimizações
 - **AUR Helpers** para expandir seu repertório de software
 - **Temas e personalizações** visuais
@@ -715,7 +709,7 @@ Com seu sistema base funcionando, você pode instalar:
 
 ### **Guia Completo de Pós-Instalação**
 
-Para um guia detalhado sobre como configurar seu sistema Arch Linux do zero até um ambiente completo e personalizado, consulte nosso guia especializado:
+Para um guia detalhado sobre como configurar seu sistema Arch Linux do zero até um ambiente completo, consulte nosso guia especializado:
 
 **[ARCH_POST_INSTALL.md](./ARCH_POST_INSTALL.md)**
 
