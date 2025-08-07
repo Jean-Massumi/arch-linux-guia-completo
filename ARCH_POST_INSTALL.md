@@ -29,16 +29,16 @@ sudo pacman -Syu
 
 ---
 
-## 3. Instalação de Pacotes Essenciais
+## 3. Instalação de Pacotes Base Comuns
 
 ### 3.1 Rede e Bluetooth
 
 ```bash
 # Instalar ferramentas para gerenciamento de rede sem fio e Bluetooth
-sudo pacman -S wpa_supplicant wireless_tools netctl bluez bluez-utils
+sudo pacman -S wpa_supplicant network-manager-applet bluez bluez-utils
 
 # Ativar e iniciar serviços do Bluetooth
-sudo systemctl enable bluetooth.service
+sudo systemctl enable bluetooth.  
 sudo systemctl start bluetooth.service
 ```
 
@@ -52,18 +52,16 @@ sudo pacman -S cups cups-pdf
 sudo systemctl enable cups
 ```
 
-### 3.3 Terminal e Ferramentas Básicas
-
+### 3.2 Sistema de Áudio Moderno
 ```bash
-# Terminal moderno e monitor de sistema
-sudo pacman -S kitty htop
+# PipeWire - substituto moderno para PulseAudio/JACK
+sudo pacman -S pipewire pipewire-pulse wireplumber
 
-# Ferramentas de sistema e compressão
-sudo pacman -S lm_sensors zip unrar p7zip tar
+# Ativar serviços de áudio para o usuário
+systemctl --user enable pipewire pipewire-pulse wireplumber
 ```
 
-### 3.4 Drivers Gráficos (Configuração Híbrida Intel + NVIDIA)
-
+### 3.3 Drivers Gráficos (Configuração Híbrida Intel + NVIDIA)
 ```bash
 # Drivers Mesa para Intel (OpenGL e Vulkan)
 sudo pacman -S mesa lib32-mesa vulkan-intel
@@ -75,75 +73,35 @@ sudo pacman -S nvidia nvidia-utils lib32-nvidia-utils nvidia-settings
 sudo pacman -S egl-wayland
 ```
 
-### 3.5 Sistema de Áudio Moderno
-
+### 3.4 Suporte a Impressoras
 ```bash
-# PipeWire - substituto moderno para PulseAudio/JACK
-sudo pacman -S pipewire pipewire-pulse wireplumber
-
-# Ativar serviços de áudio para o usuário
-systemctl --user enable pipewire pipewire-pulse wireplumber
-
-# Interface gráfica para controle de áudio
-sudo pacman -S pavucontrol
+# Sistema de impressão CUPS
+sudo pacman -S cups cups-pdf
+sudo systemctl enable cups
 ```
 
-### 3.6 Firewall e Segurança
-
+### 3.5 Ferramentas de Sistema Essenciais
 ```bash
-# Firewall simples e eficaz
+# Utilitários básicos
+sudo pacman -S htop lm_sensors zip unrar p7zip tar ntfs-3g
+
+# Firewall
 sudo pacman -S ufw
 
 # Ativar firewall (opcional - configure conforme necessário)
-# sudo ufw enable
+sudo ufw enable
 ```
 
-### 3.7 Aplicações Básicas
-
+### 3.6 Codecs de Mídia e Fontes
 ```bash
-# Editor de imagens profissional
-sudo pacman -S gimp
-
-# Navegador web
-sudo pacman -S firefox
-
 # Codecs de áudio e vídeo
 sudo pacman -S ffmpeg gst-libav gst-plugins-good gst-plugins-bad gst-plugins-ugly gst-plugins-base gstreamer
 
-# Suporte para sistemas de arquivos NTFS (Windows)
-sudo pacman -S ntfs-3g
-
-# Gerenciador de pacotes Flatpak
-sudo pacman -S flatpak
-
-# Aplicações diversas
-sudo pacman -S discord libreoffice obs-studio code
-```
-
-### 3.8 Fontes do Sistema
-
-```bash
-# Fontes essenciais para melhor renderização de texto
+# Fontes essenciais
 sudo pacman -S noto-fonts noto-fonts-emoji ttf-dejavu ttf-liberation ttf-font-awesome ttf-jetbrains-mono-nerd ttf-roboto
 ```
 
-### 3.9 Gerenciador de Arquivos e Mídia
-
-```bash
-# Gerenciador de arquivos KDE Dolphin com extensões
-sudo pacman -S dolphin dolphin-plugins ark kio-admin polkit-kde-agent kio kio-extras
-
-# Players de mídia
-sudo pacman -S mpv vlc
-
-# Editor de vídeo profissional
-sudo pacman -S kdenlive
-```
-
----
-
-## 4. Instalação do YAY (AUR Helper)
-
+### 3.7 Instalação do YAY (AUR Helper)
 ```bash
 # Clonar repositório do YAY
 git clone https://aur.archlinux.org/yay.git
@@ -152,9 +110,23 @@ git clone https://aur.archlinux.org/yay.git
 cd yay
 makepkg -si
 
-# Remover diretório após instalação (opcional)
+# Remover diretório após instalação
 cd ..
 rm -rf yay
+```
+
+---
+
+## 4. Aplicações Básicas Independentes de DE/WM
+```bash
+# Navegador web
+sudo pacman -S firefox
+
+# Gerenciador de pacotes Flatpak
+sudo pacman -S flatpak
+
+# Aplicações diversas
+sudo pacman -S discord libreoffice-fresh obs-studio
 ```
 
 ---
