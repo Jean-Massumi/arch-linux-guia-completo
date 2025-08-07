@@ -2,7 +2,6 @@
 
 ![Arch Linux](https://img.shields.io/badge/Arch_Linux-1793D1?style=for-the-badge&logo=arch-linux&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-Atualizado_2025-green?style=for-the-badge)
-![Licença](https://img.shields.io/badge/Licença-MIT-blue?style=for-the-badge)
 ![Versão](https://img.shields.io/badge/Versão-2025.01-orange?style=for-the-badge)
 
 > ⚠️ **LEIA PRIMEIRO**: [**AVISO DE RESPONSABILIDADE IMPORTANTE**](./DISCLAIMER.md) - Leia antes de prosseguir!
@@ -660,9 +659,6 @@ exit
 # Desmontar todas as partições
 umount -R /mnt
 
-# Desativar swap antes de reiniciar
-swapoff /dev/sda2
-
 # Reiniciar o sistema
 reboot
 ```
@@ -670,7 +666,6 @@ reboot
 **💡 O que fazem**:
 - Saem do ambiente de instalação
 - Desmontam as partições com segurança
-- Desativam o swap antes de reiniciar
 - Reiniciam para iniciar o sistema instalado
 
 <!-- SEÇÃO ADICIONADA: Troubleshooting básico -->
@@ -701,86 +696,26 @@ sudo nmtui  # Interface gráfica para configurar rede
 
 ---
 
-## Pós-Instalação - Primeiros Passos
+## Dicas Importantes
 
-Após reiniciar, faça login com seu usuário e execute:
-
-```bash
-# Atualizar o sistema
-sudo pacman -Syu
-
-# Verificar conectividade
-ping -c 3 google.com
-
-# Instalar interface gráfica (exemplo com GNOME)
-sudo pacman -S gnome gnome-extra
-sudo systemctl enable gdm
-sudo systemctl start gdm
-
-# Ou instalar um ambiente mais leve (exemplo com XFCE)
-sudo pacman -S xfce4 xfce4-goodies lightdm lightdm-gtk-greeter
-sudo systemctl enable lightdm
-sudo systemctl start lightdm
-
-# Instalar driver de áudio (ALSA/PulseAudio)
-sudo pacman -S alsa-utils pulseaudio pulseaudio-alsa
-
-# Configurar áudio
-alsamixer  # Configurar níveis de áudio
-```
-
-<!-- SEÇÃO ADICIONADA: Pacotes úteis para o dia a dia -->
-### Pacotes Úteis para Instalar
-
-```bash
-# Navegadores
-sudo pacman -S firefox chromium
-
-# Editores de texto e IDEs
-sudo pacman -S code gedit
-
-# Multimídia
-sudo pacman -S vlc gimp
-
-# Utilitários do sistema
-sudo pacman -S htop neofetch tree
-
-# Compactadores
-sudo pacman -S p7zip unrar
-
-# Fontes adicionais
-sudo pacman -S ttf-dejavu ttf-liberation noto-fonts
-```
+1. **Backup**: Sempre faça backup de dados importantes antes da instalação
+2. **Documentação**: Mantenha o [Arch Wiki](https://wiki.archlinux.org/) sempre à mão
+3. **Paciência**: A instalação manual requer atenção e tempo
+4. **Prática**: Considere praticar em uma máquina virtual primeiro
+5. **AUR**: Após a instalação, considere instalar um AUR helper como `yay` ou `paru`
+6. **Firewall**: Configure um firewall (ex: `ufw`) para segurança adicional
 
 ---
 
-## 💡 Dicas Importantes
-
-1. **📦 Backup**: Sempre faça backup de dados importantes antes da instalação
-2. **📚 Documentação**: Mantenha o [Arch Wiki](https://wiki.archlinux.org/) sempre à mão
-3. **⏱️ Paciência**: A instalação manual requer atenção e tempo
-4. **🖥️ Prática**: Considere praticar em uma máquina virtual primeiro
-5. **🔄 AUR**: Após a instalação, considere instalar um AUR helper como `yay` ou `paru`
-6. **🛡️ Firewall**: Configure um firewall (ex: `ufw`) para segurança adicional
-
----
-
-## 📞 Suporte e Recursos
+## Suporte e Recursos
 
 - **Documentação Oficial**: [Arch Wiki](https://wiki.archlinux.org/)
 - **Fórum**: [Arch Linux Forums](https://bbs.archlinux.org/)
 - **Reddit**: [r/archlinux](https://www.reddit.com/r/archlinux/)
-- **Telegram**: Grupos brasileiros de Arch Linux
-
+  
 ---
 
-## 📄 Licença
-
-Este manual está sob licença MIT. Sinta-se livre para usar, modificar e distribuir.
-
----
-
-## 👥 Contribuições
+## Contribuições
 
 Contribuições são bem-vindas! Sinta-se livre para:
 
@@ -791,9 +726,9 @@ Contribuições são bem-vindas! Sinta-se livre para:
 
 ---
 
-**🎉 Parabéns! Você instalou o Arch Linux manualmente!**
+**Parabéns! Você instalou o básico do Arch Linux manualmente!**
 
-*Última atualização: Janeiro 2025*
+*Última atualização: Agosto 2025*
 
 ---
 
