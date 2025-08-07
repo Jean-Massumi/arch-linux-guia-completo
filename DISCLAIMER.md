@@ -69,7 +69,7 @@ Para informações mais atualizadas e oficiais, sempre consulte:
 
 ---
 
-### ✋ **CONFIRMAÇÃO DE ENTENDIMENTO**
+### **CONFIRMAÇÃO DE ENTENDIMENTO**
 
 **Ao prosseguir com este manual, você declara que:**
 
