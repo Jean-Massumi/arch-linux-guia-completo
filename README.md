@@ -234,6 +234,41 @@ Command (m for help): w          # Escrever mudanças no disco e sair
 
 ---
 
+## **ALERTA MÁXIMO: Verifique Seus Dispositivos Antes de Formatar**
+
+Esta é a etapa mais crítica de toda a instalação. Erros aqui podem levar à **perda total de dados** ou a um sistema que não funciona. Leia com atenção!
+
+### **1. O Nome do Disco** (`/dev/sda`) **NÃO é Fixo!**
+
+O nome `/dev/sda` usado neste guia é apenas um **exemplo** comum para um primeiro disco SATA (HD ou SSD). O seu pode ser diferente:
+
+* `/dev/sdb`, `/dev/sdc`, etc.: Se for um segundo ou terceiro disco.
+* `/dev/nvme0n1`: Se for um SSD do tipo NVMe (muito comum em notebooks modernos).
+* `/dev/vda`, `/dev/xvda`: Em ambientes de virtualização.
+
+**Como verificar o nome correto?** Abra um novo terminal e use o comando `lsblk` ou `fdisk -l`. Identifique na lista o disco com o tamanho correspondente ao que você quer instalar o sistema.
+
+### **2. A Numeração das Partições** (`1`, `2`, `3`) **DEPENDE DE VOCÊ!**
+
+A numeração `/dev/sda1`, `/dev/sda2`, etc., depende **exatamente** da ordem e das escolhas que você fez no `fdisk` na etapa anterior. Se você criou as partições em ordem diferente, a numeração será diferente.
+
+**Antes de executar qualquer comando** `mkfs` **(formatação), você DEVE verificar sua estrutura.**
+
+### **Exemplo de Verificação para o disco** `/dev/sda`
+
+Se o seu disco realmente for `/dev/sda` e você seguiu os passos de particionamento anteriores **exatamente**, sua estrutura final deverá ser esta. Use `fdisk -l /dev/sda` para confirmar:
+
+* `/dev/sda1` → Partição EFI → Deve ser formatada em **FAT32**.
+* `/dev/sda2` → Partição Swap → Deve ser configurada como **Linux Swap**.
+* `/dev/sda3` → Partição Raiz (/) → Deve ser formatada em **ext4**.
+* `/dev/sda4` → Partição Home (/home) → Deve ser formatada em **ext4**.
+
+Se o seu disco for `/dev/nvme0n1`, os nomes serão `/dev/nvme0n1p1`, `/dev/nvme0n1p2`, e assim por diante. **Adapte os comandos a seguir para a SUA realidade.**
+
+O mesmo cuidado extremo se aplica à etapa de **montagem** das partições.
+
+---
+
 ## 5. Formatação das Partições
 
 ```bash
