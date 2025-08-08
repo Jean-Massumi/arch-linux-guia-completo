@@ -83,7 +83,7 @@ sudo systemctl enable cups
 ### 3.5 Ferramentas de Sistema Essenciais
 ```bash
 # Utilitários básicos
-sudo pacman -S htop lm_sensors zip unrar p7zip tar ntfs-3g
+sudo pacman -S htop nvtop lm_sensors zip unrar p7zip tar ntfs-3g
 
 # Firewall
 sudo pacman -S ufw
