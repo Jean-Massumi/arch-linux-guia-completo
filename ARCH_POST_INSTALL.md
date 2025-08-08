@@ -1,8 +1,5 @@
 # Guia de Pós-Instalação do Arch Linux
 
-> **⚠️ Observação Importante:**  
-> As bibliotecas e drivers instalados dependem das especificações da sua máquina (versão da placa-mãe, placa de vídeo, processador, etc.). É recomendado que cada usuário verifique as especificações do seu PC e instale as bibliotecas apropriadas para garantir o melhor funcionamento e desempenho.
-
 ## 1. Conectando ao Wi-Fi
 
 Após finalizar a instalação básica do Arch Linux:
@@ -38,7 +35,7 @@ sudo pacman -Syu
 sudo pacman -S wpa_supplicant network-manager-applet bluez bluez-utils
 
 # Ativar e iniciar serviços do Bluetooth
-sudo systemctl enable bluetooth.  
+sudo systemctl enable bluetooth.service
 sudo systemctl start bluetooth.service
 ```
 
@@ -62,6 +59,16 @@ systemctl --user enable pipewire pipewire-pulse wireplumber
 ```
 
 ### 3.3 Drivers Gráficos (Configuração Híbrida Intel + NVIDIA)
+> **⚠️ Importante**: A instalação de drivers gráficos **depende completamente da sua configuração de hardware**. As bibliotecas e drivers instalados variam conforme as especificações da sua máquina. 
+
+> **É fundamental que cada usuário verifique as especificações do seu PC e instale as bibliotecas apropriadas** para garantir o melhor funcionamento e desempenho.
+
+> O exemplo abaixo é **apenas para sistemas híbridos Intel + NVIDIA**. Para outras configurações (AMD, Intel integrado, NVIDIA dedicado, etc.), consulte os links de referência:
+
+> - **NVIDIA + Hyprland**: https://wiki.hypr.land/Nvidia/
+> - **Drivers NVIDIA (Arch Wiki)**: https://wiki.archlinux.org/title/NVIDIA  
+> - **Drivers Xorg/Wayland**: https://wiki.archlinux.org/title/Xorg#Driver_installation
+
 ```bash
 # Drivers Mesa para Intel (OpenGL e Vulkan)
 sudo pacman -S mesa lib32-mesa vulkan-intel
