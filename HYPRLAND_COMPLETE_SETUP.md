@@ -18,9 +18,9 @@ sudo pacman -S kitty
 sudo pacman -S dolphin dolphin-plugins ark kio-admin
 
 # Lançador de aplicações
-sudo pacman -S wofi
+sudo pacman -S wofi               # simples e funcional
 # ou
-sudo pacman -S rofi-wayland
+sudo pacman -S rofi-wayland       # mais poderoso
 
 # Barra de status
 sudo pacman -S waybar
@@ -32,7 +32,7 @@ sudo pacman -S grim slurp
 sudo pacman -S pavucontrol
 
 # Gerenciador de notificações
-sudo pacman -S dunst mako
+sudo pacman -S dunst
 ```
 
 ### 7.3 Utilitários Específicos Wayland
