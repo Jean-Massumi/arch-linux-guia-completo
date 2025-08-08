@@ -3,10 +3,10 @@
 ### 7.1 Instalação do Hyprland
 ```bash
 # Hyprland e dependências essenciais
-sudo pacman -S hyprland sddm
+sudo pacman -S hyprland wayland wayland-protocols sddm
 
 # Utilitários oficiais do Hyprland
-sudo pacman -S hyprlock hypridle hyprcursor hyprpaper hyprpicker aquamarine hyprwayland-scanner hyprutils
+sudo pacman -S hyprlock hypridle hyprcursor hyprpaper hyprpicker aquamarine hyprwayland-scanner hyprutils hyprgraphics 
 ```
 
 ### 7.2 Dependências Essenciais para Hyprland
