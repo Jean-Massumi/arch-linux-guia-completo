@@ -80,14 +80,7 @@ sudo pacman -S nvidia nvidia-utils lib32-nvidia-utils nvidia-settings
 sudo pacman -S egl-wayland
 ```
 
-### 3.4 Suporte a Impressoras
-```bash
-# Sistema de impressão CUPS
-sudo pacman -S cups cups-pdf
-sudo systemctl enable cups
-```
-
-### 3.5 Ferramentas de Sistema Essenciais
+### 3.4 Ferramentas de Sistema Essenciais
 ```bash
 # Utilitários básicos
 sudo pacman -S htop nvtop lm_sensors zip unrar p7zip tar ntfs-3g
@@ -99,7 +92,7 @@ sudo pacman -S ufw
 sudo ufw enable
 ```
 
-### 3.6 Codecs de Mídia e Fontes
+### 3.5 Codecs de Mídia e Fontes
 ```bash
 # Codecs de áudio e vídeo
 sudo pacman -S ffmpeg gst-libav gst-plugins-good gst-plugins-bad gst-plugins-ugly gst-plugins-base gstreamer
@@ -108,7 +101,7 @@ sudo pacman -S ffmpeg gst-libav gst-plugins-good gst-plugins-bad gst-plugins-ugl
 sudo pacman -S noto-fonts noto-fonts-emoji ttf-dejavu ttf-liberation ttf-font-awesome ttf-jetbrains-mono-nerd ttf-roboto
 ```
 
-### 3.7 Instalação do YAY (AUR Helper)
+### 3.6 Instalação do YAY (AUR Helper)
 ```bash
 # Clonar repositório do YAY
 git clone https://aur.archlinux.org/yay.git
