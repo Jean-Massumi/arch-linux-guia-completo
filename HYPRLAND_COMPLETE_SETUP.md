@@ -14,6 +14,9 @@ sudo pacman -S hyprlock hypridle hyprcursor hyprpaper hyprpicker aquamarine hypr
 # Terminal (essencial - Hyprland não vem com terminal)
 sudo pacman -S kitty
 
+# Controle de brilho
+sudo pacman -S brightnessctl
+
 # Gerenciador de arquivos
 sudo pacman -S dolphin dolphin-plugins ark kio-admin
 
@@ -57,6 +60,9 @@ sudo pacman -S wl-mirror                  # espelhar displays
 
 # Controle remoto VNC
 sudo pacman -S wayvnc                     # servidor VNC para Wayland
+
+# Leitor de QR Code para Wayland
+sudo pacman -S zbar
 ```
 
 ### 7.4 Utilitários Específicos para Desktop
