@@ -28,11 +28,20 @@ sudo pacman -S waybar
 # Screenshot
 sudo pacman -S grim slurp
 
+# ou screenshot avançado
+sudo pacman -S flameshot          # interface gráfica amigável
+
 # Controle de áudio (OBRIGATÓRIO)
 sudo pacman -S pavucontrol
 
 # Gerenciador de notificações
 sudo pacman -S dunst
+
+# Talvez pode complementar junto com o dunst
+sudo pacman -S swayosd                    # OSD para volume/brilho
+
+# Alternativa ao hyprpaper (Se quiser, pode instalar ambos e decidir qual usar)
+sudo pacman -S swww
 ```
 
 ### 7.3 Utilitários Específicos Wayland
@@ -43,11 +52,29 @@ sudo pacman -S wl-clipboard cliphist
 # Polkit para autenticação gráfica
 sudo pacman -S polkit-kde-agent
 
-# Portal para Wayland
-sudo pacman -S xdg-desktop-portal-hyprland 
+# Espelhamento de tela
+sudo pacman -S wl-mirror                  # espelhar displays
+
+# Controle remoto VNC
+sudo pacman -S wayvnc                     # servidor VNC para Wayland
 ```
 
-### 7.4 Portais Desktop (ESSENCIAIS)
+### 7.4 Utilitários Específicos para Desktop
+```bash
+# Montagem automática de USB/dispositivos
+sudo pacman -S udiskie
+
+# Interface gráfica para Bluetooth
+sudo pacman -S blueberry
+
+# Controle automático de temperatura de cor
+sudo pacman -S gammastep
+
+# Menu de logout
+yay -S wlogout                    # menu elegante de logout/shutdown
+```
+
+### 7.5 Portais Desktop (ESSENCIAIS)
 ```bash
 # Sistema de portais base
 sudo pacman -S xdg-desktop-portal xdg-desktop-portal-hyprland xdg-desktop-portal-gtk
@@ -59,7 +86,7 @@ sudo pacman -S qt5-wayland qt6-wayland
 sudo pacman -S xdg-user-dirs-gtk
 ```
 
-### 7.5 Aplicações de Mídia
+### 7.6 Aplicações de Mídia
 ```bash
 # Players de mídia com suporte Wayland
 sudo pacman -S mpv vlc
@@ -69,9 +96,21 @@ sudo pacman -S kdenlive
 
 # Editor de imagem
 sudo pacman -S gimp
+
+# Visualizador de imagens minimalista
+sudo pacman -S imv               # visualizador de imagens para Wayland
+
+# Leitor de PDF/documentos
+sudo pacman -S okular            # visualizador universal KDE
 ```
 
-### 7.6 Ativação do Display Manager
+### 7.7 Streaming e Compartilhamento
+```bash
+# Streaming GameStream/Moonlight
+yay -S sunshine                   # servidor de streaming de jogos
+```
+
+### 7.8 Ativação do Display Manager
 ```bash
 sudo systemctl enable sddm
 ```
