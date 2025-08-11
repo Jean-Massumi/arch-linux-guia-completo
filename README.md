@@ -108,6 +108,51 @@ ping -c 3 archlinux.org
 
 ## 3. Preparação do Disco
 
+> **⚠️ PONTO CRÍTICO DA INSTALAÇÃO CHEGANDO!**
+> 
+> **A partir deste momento, você começará a trabalhar diretamente com seus discos rígidos.** Os próximos passos podem **APAGAR TODOS OS DADOS** de discos inteiros se executados incorretamente.
+> 
+> **LEIA COM ATENÇÃO O ALERTA A SEGUIR ANTES DE CONTINUAR!**
+
+---
+
+## ⚠️ **ALERTA MÁXIMO: Verifique Seus Dispositivos Antes de Formatar**
+
+Esta é a etapa mais crítica de toda a instalação. Erros aqui podem levar à **perda total de dados** ou a um sistema que não funciona. Leia com atenção!
+
+### **1. O Nome do Disco (`/dev/sda`) NÃO é Fixo!**
+
+O nome `/dev/sda` usado neste guia é apenas um **exemplo** comum para um primeiro disco SATA (HD ou SSD). O seu pode ser diferente:
+
+* `/dev/sdb`, `/dev/sdc`, etc.: Se for um segundo ou terceiro disco.
+* `/dev/nvme0n1`: Se for um SSD do tipo NVMe (muito comum em notebooks modernos).
+* `/dev/vda`, `/dev/xvda`: Em ambientes de virtualização.
+
+**Como verificar o nome correto?** Use os comandos da seção 3.1 a seguir. Identifique na lista o disco com o tamanho correspondente ao que você quer instalar o sistema.
+
+### **2. A Numeração das Partições (`1`, `2`, `3`) DEPENDE DE VOCÊ!**
+
+A numeração `/dev/sda1`, `/dev/sda2`, etc., depende **exatamente** da ordem e das escolhas que você fez no `fdisk` na etapa de particionamento. Se você criar as partições em ordem diferente, a numeração será diferente.
+
+**Antes de executar qualquer comando `mkfs` (formatação), você DEVE verificar sua estrutura.**
+
+### **3. Exemplo de Verificação para o disco `/dev/sda`**
+
+Se o seu disco realmente for `/dev/sda` e você seguir os passos de particionamento **exatamente** como descritos neste guia, sua estrutura final deverá ser:
+
+* `/dev/sda1` → Partição EFI → Deve ser formatada em **FAT32**
+* `/dev/sda2` → Partição Swap → Deve ser configurada como **Linux Swap**
+* `/dev/sda3` → Partição Raiz (/) → Deve ser formatada em **ext4**
+* `/dev/sda4` → Partição Home (/home) → Deve ser formatada em **ext4**
+
+**Se o seu disco for `/dev/nvme0n1`, os nomes serão `/dev/nvme0n1p1`, `/dev/nvme0n1p2`, e assim por diante.**
+
+### **4. REGRA DE OURO**
+
+**SEMPRE execute `lsblk` e `fdisk -l` ANTES de formatar qualquer partição para confirmar que você está trabalhando com o dispositivo correto!**
+
+---
+
 ### 3.1 Identificar Discos Disponíveis
 
 ```bash
@@ -117,7 +162,8 @@ fdisk -l
 
 **O que faz**: Lista todos os discos e partições disponíveis no sistema para identificar onde instalar.
 
-<!-- COMANDO ADICIONADO: Sincronizar relógio do sistema antes de instalar -->
+**ATENÇÃO**: Anote cuidadosamente o nome do seu disco (ex: `/dev/sda`, `/dev/nvme0n1`) e seu tamanho. Você usará essas informações nos próximos passos.
+
 ### 3.2 Sincronizar Horário (IMPORTANTE)
 
 ```bash
@@ -151,7 +197,7 @@ fdisk -l /dev/sda
 ### 4.1 Iniciar Particionamento
 
 ```bash
-fdisk /dev/sda
+fdisk /dev/sda    # Substitua pelo nome do SEU disco
 ```
 
 **O que faz**: Abre o utilitário de particionamento para o disco especificado.
@@ -233,44 +279,17 @@ Command (m for help): w          # Escrever mudanças no disco e sair
 
 ---
 
-## **ALERTA MÁXIMO: Verifique Seus Dispositivos Antes de Formatar**
-
-Esta é a etapa mais crítica de toda a instalação. Erros aqui podem levar à **perda total de dados** ou a um sistema que não funciona. Leia com atenção!
-
-### **1. O Nome do Disco** (`/dev/sda`) **NÃO é Fixo!**
-
-O nome `/dev/sda` usado neste guia é apenas um **exemplo** comum para um primeiro disco SATA (HD ou SSD). O seu pode ser diferente:
-
-* `/dev/sdb`, `/dev/sdc`, etc.: Se for um segundo ou terceiro disco.
-* `/dev/nvme0n1`: Se for um SSD do tipo NVMe (muito comum em notebooks modernos).
-* `/dev/vda`, `/dev/xvda`: Em ambientes de virtualização.
-
-**Como verificar o nome correto?** Abra um novo terminal e use o comando `lsblk` ou `fdisk -l`. Identifique na lista o disco com o tamanho correspondente ao que você quer instalar o sistema.
-
-### **2. A Numeração das Partições** (`1`, `2`, `3`) **DEPENDE DE VOCÊ!**
-
-A numeração `/dev/sda1`, `/dev/sda2`, etc., depende **exatamente** da ordem e das escolhas que você fez no `fdisk` na etapa anterior. Se você criou as partições em ordem diferente, a numeração será diferente.
-
-**Antes de executar qualquer comando** `mkfs` **(formatação), você DEVE verificar sua estrutura.**
-
-### **Exemplo de Verificação para o disco** `/dev/sda`
-
-Se o seu disco realmente for `/dev/sda` e você seguiu os passos de particionamento anteriores **exatamente**, sua estrutura final deverá ser esta. Use `fdisk -l /dev/sda` para confirmar:
-
-* `/dev/sda1` → Partição EFI → Deve ser formatada em **FAT32**.
-* `/dev/sda2` → Partição Swap → Deve ser configurada como **Linux Swap**.
-* `/dev/sda3` → Partição Raiz (/) → Deve ser formatada em **ext4**.
-* `/dev/sda4` → Partição Home (/home) → Deve ser formatada em **ext4**.
-
-Se o seu disco for `/dev/nvme0n1`, os nomes serão `/dev/nvme0n1p1`, `/dev/nvme0n1p2`, e assim por diante. **Adapte os comandos a seguir para a SUA realidade.**
-
-O mesmo cuidado extremo se aplica à etapa de **montagem** das partições.
-
----
-
 ## 5. Formatação das Partições
 
+**ANTES DE FORMATAR**: Execute `lsblk` novamente para confirmar a estrutura das partições criadas!
+
 ```bash
+# Verificar estrutura atual (OBRIGATÓRIO!)
+lsblk
+
+# ADAPTE os nomes das partições para o SEU sistema:
+# Se seu disco é /dev/nvme0n1, use /dev/nvme0n1p1, /dev/nvme0n1p2, etc.
+
 # Formatar partição EFI com FAT32
 mkfs.fat -F32 /dev/sda1
 
@@ -301,6 +320,8 @@ lsblk -f
 **O que faz**: Lista todas as partições mostrando o tipo de sistema de arquivos, útil para confirmar que a formatação foi bem-sucedida.
 
 ## 6. Montagem das Partições
+
+**ATENÇÃO**: Use os nomes corretos das suas partições!
 
 ```bash
 # Montar partição raiz no ponto de montagem principal
