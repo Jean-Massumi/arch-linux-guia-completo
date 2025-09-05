@@ -658,7 +658,7 @@ pacman -S amd-ucode
 pacman -S e2fsprogs dosfstools
 
 # Utilitários básicos
-pacman -S git wget curl unzip zip
+pacman -S git wget curl unzip zip unrar p7zip tar
 
 # Documentação e manuais
 pacman -S man-db man-pages texinfo
