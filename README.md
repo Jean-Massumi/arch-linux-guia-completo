@@ -1,24 +1,12 @@
 # Manual Completo de Instalação do Arch Linux
 
 ![Arch Linux](https://img.shields.io/badge/Arch_Linux-1793D1?style=for-the-badge&logo=arch-linux&logoColor=white)
-![Status](https://img.shields.io/badge/Status-Atualizado_2025-green?style=for-the-badge)
-![Versão](https://img.shields.io/badge/Versão-2025.08-orange?style=for-the-badge)
+![Status](https://img.shields.io/badge/Status-Atualizado_2026-green?style=for-the-badge)
+![Versão](https://img.shields.io/badge/Versão-2026.01-orange?style=for-the-badge)
 
 > **LEIA PRIMEIRO**: [**AVISO DE RESPONSABILIDADE IMPORTANTE**](./DISCLAIMER.md) - Leia antes de prosseguir!
 
 > **IMPORTANTE**: Este manual está em **constante evolução** e é atualizado regularmente por mim (e futuramente pela comunidade). Os procedimentos descritos foram testados e funcionam perfeitamente para **2025**. No entanto, devido à natureza rolling release do Arch Linux, **alguns comandos podem se tornar obsoletos em anos futuros**. Sempre consulte a [documentação oficial](https://wiki.archlinux.org/) para verificar mudanças recentes.
-
----
-
-## **Sobre este Guia**
-
-Este é o **guia definitivo** para instalação do Arch Linux em português brasileiro, mantido e atualizado por mim! Criado com amor para brasileiros que querem dominar o Arch Linux.
-
-### **Status de Atualização:**
-- **Testado em**: Agosto 2025
-- **Última revisão**: Mensal
-- **Compatibilidade**: Arch Linux ISO 2025.01+
-- **Status**: Totalmente funcional
 
 ---
 
