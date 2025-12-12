@@ -1,11 +1,26 @@
 # Manual Completo de Instalação do Arch Linux
 
-![Arch Linux](https://img.shields.io/badge/Arch_Linux-1793D1?style=for-the-badge&logo=arch-linux&logoColor=white)
-![Status](https://img.shields.io/badge/Status-Atualizado_2026-green?style=for-the-badge)
+<div align="center">
+  <img src="https://archlinux.org/static/logos/archlinux-logo-dark-90dpi.ebdee92a15b3.png" alt="Arch Linux" width="300"/>
+  
+  ![Status](https://img.shields.io/badge/Status-Atualizado_2026-green?style=for-the-badge)
+  ![Versão](https://img.shields.io/badge/Versão-2025.08-orange?style=for-the-badge)
+</div>
 
 > **LEIA PRIMEIRO**: [**AVISO DE RESPONSABILIDADE IMPORTANTE**](./DISCLAIMER.md) - Leia antes de prosseguir!
 
 > **IMPORTANTE**: Este manual está em **constante evolução** e é atualizado regularmente por mim (e futuramente pela comunidade). Os procedimentos descritos foram testados e funcionam perfeitamente para **2026**. No entanto, devido à natureza rolling release do Arch Linux, **alguns comandos podem se tornar obsoletos em anos futuros**. Sempre consulte a [documentação oficial](https://wiki.archlinux.org/) para verificar mudanças recentes.
+
+---
+
+## **Quick Start**
+```bash
+# 1. Baixe a ISO do Arch Linux
+# 2. Crie um pendrive bootável (veja BOOTABLE_USB_GUIDE.md)
+# 3. Siga o guia: ARCH_BASE_INSTALL.md
+# 4. Após a instalação base: ARCH_POST_INSTALL.md
+# 5. Escolha seu ambiente desktop
+```
 
 ---
 
@@ -42,17 +57,6 @@
 **[KDE_COMPLETE_SETUP.md](./KDE_COMPLETE_SETUP.md)** - Setup KDE Plasma completo
 
 **[HYPRLAND_COMPLETE_SETUP.md](./HYPRLAND_COMPLETE_SETUP.md)** - Setup Hyprland (Wayland compositor)
-
----
-
-## **Quick Start**
-```bash
-# 1. Baixe a ISO do Arch Linux
-# 2. Crie um pendrive bootável (veja BOOTABLE_USB_GUIDE.md)
-# 3. Siga o guia: ARCH_BASE_INSTALL.md
-# 4. Após a instalação base: ARCH_POST_INSTALL.md
-# 5. Escolha seu ambiente desktop
-```
 
 ---
 
