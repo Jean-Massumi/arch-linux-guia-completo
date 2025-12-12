@@ -2,11 +2,10 @@
 
 ![Arch Linux](https://img.shields.io/badge/Arch_Linux-1793D1?style=for-the-badge&logo=arch-linux&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-Atualizado_2026-green?style=for-the-badge)
-![Versão](https://img.shields.io/badge/Versão-2026.01-orange?style=for-the-badge)
 
 > **LEIA PRIMEIRO**: [**AVISO DE RESPONSABILIDADE IMPORTANTE**](./DISCLAIMER.md) - Leia antes de prosseguir!
 
-> **IMPORTANTE**: Este manual está em **constante evolução** e é atualizado regularmente por mim (e futuramente pela comunidade). Os procedimentos descritos foram testados e funcionam perfeitamente para **2025**. No entanto, devido à natureza rolling release do Arch Linux, **alguns comandos podem se tornar obsoletos em anos futuros**. Sempre consulte a [documentação oficial](https://wiki.archlinux.org/) para verificar mudanças recentes.
+> **IMPORTANTE**: Este manual está em **constante evolução** e é atualizado regularmente por mim (e futuramente pela comunidade). Os procedimentos descritos foram testados e funcionam perfeitamente para **2026**. No entanto, devido à natureza rolling release do Arch Linux, **alguns comandos podem se tornar obsoletos em anos futuros**. Sempre consulte a [documentação oficial](https://wiki.archlinux.org/) para verificar mudanças recentes.
 
 ---
 
