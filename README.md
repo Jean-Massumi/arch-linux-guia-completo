@@ -1,10 +1,9 @@
 # Manual Completo de Instalação do Arch Linux
 
 <div align="center">
-  <img src="https://archlinux.org/static/logos/archlinux-logo-dark-90dpi.ebdee92a15b3.png" alt="Arch Linux" width="300"/>
+  <img src="https://archlinux.org/static/logos/archlinux-logo-dark-90dpi.ebdee92a15b3.png" alt="Arch Linux" width="400"/>
   
   ![Status](https://img.shields.io/badge/Status-Atualizado_2026-green?style=for-the-badge)
-  ![Versão](https://img.shields.io/badge/Versão-2025.08-orange?style=for-the-badge)
 </div>
 
 > **LEIA PRIMEIRO**: [**AVISO DE RESPONSABILIDADE IMPORTANTE**](./DISCLAIMER.md) - Leia antes de prosseguir!
