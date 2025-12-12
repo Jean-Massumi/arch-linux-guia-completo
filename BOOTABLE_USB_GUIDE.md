@@ -177,22 +177,6 @@ Clique em "MOSTRAR OPÇÕES AVANÇADAS" e configure:
 
 ---
 
-### Método 3: balenaEtcher (Simples e Intuitivo)
-
-#### 3.8 Download do Etcher
-
-1. Acesse: [https://www.balena.io/etcher/](https://www.balena.io/etcher/)
-2. Baixe e instale o balenaEtcher
-
-#### 3.9 Criar o Pendrive
-
-1. Abra o balenaEtcher
-2. Clique em "Flash from file" e selecione a ISO do Arch Linux
-3. Clique em "Select target" e escolha seu pendrive
-4. Clique em "Flash!" e aguarde finalizar
-
----
-
 ## 4. Criando Pendrive Bootável no Linux
 
 ### Método 1: Comando dd (Linha de Comando)
@@ -303,29 +287,6 @@ sudo ./Ventoy2Disk.sh -i /dev/sdb
 # Copiar a ISO para o pendrive
 cp ~/Downloads/archlinux-2025.XX.XX-x86_64.iso /media/Ventoy/
 ```
-
----
-
-### Método 3: GNOME Disks (Interface Gráfica)
-
-Para usuários que preferem interface gráfica no Linux:
-
-#### 4.9 Abrir GNOME Disks
-
-```bash
-gnome-disks
-```
-
-Ou procure por "Discos" no menu de aplicativos.
-
-#### 4.10 Restaurar Imagem
-
-1. Selecione seu pendrive na lista à esquerda
-2. Clique no menu (três pontos) no canto superior direito
-3. Selecione "Restaurar imagem de disco..."
-4. Escolha a ISO do Arch Linux
-5. Clique em "Iniciar restauração..."
-6. Confirme e aguarde finalizar
 
 ---
 
