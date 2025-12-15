@@ -368,7 +368,7 @@ reflector --country Brazil --latest 10 --sort rate --verbose --save /etc/pacman.
 
 ```bash
 # Instalar pacotes essenciais do sistema
-pacstrap -K /mnt base base-devel linux linux-firmware linux-headers nano vim
+pacstrap -K /mnt base base-devel linux linux-firmware linux-headers nano neovim
 ```
 
 **O que faz**:
