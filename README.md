@@ -152,5 +152,3 @@ Contribuições são bem-vindas! Sinta-se livre para:
 ## Licença
 
 Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](./LICENSE) para mais detalhes.
-
-*Mantido com dedicação para a comunidade brasileira*
