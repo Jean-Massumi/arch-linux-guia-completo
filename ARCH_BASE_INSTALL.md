@@ -1,8 +1,19 @@
+# Guia Completo de Instalação do Arch Linux
+
+![Arch Linux](https://img.shields.io/badge/Arch_Linux-1793D1?style=for-the-badge&logo=arch-linux&logoColor=white)
+
+> **Instalação Base do Sistema**
+
+> **Tempo estimado**: 1-2 horas  
+> **Nível de dificuldade**: Intermediário a Avançado
+
+---
+
 ## Índice
 
 - [Pré-requisitos](#pré-requisitos)
 - [1. Configuração Inicial do Sistema](#1-configuração-inicial-do-sistema)
-- [2. Configuração de Rede](#2-configuração-de-rede)
+- [2. Conexão com Internet](#2-conexão-com-internet)
 - [3. Preparação do Disco](#3-preparação-do-disco)
 - [4. Particionamento do Disco](#4-particionamento-do-disco)
 - [5. Formatação das Partições](#5-formatação-das-partições)
@@ -10,17 +21,17 @@
 - [7. Configuração de Mirrors](#7-configuração-de-mirrors-servidores-de-download)
 - [8. Instalação do Sistema Base](#8-instalação-do-sistema-base)
 - [9. Configuração do Sistema](#9-configuração-do-sistema)
-- [10. Configuração do Pacman](#10-configuração-do-pacman)
-- [11. Configuração de Data e Hora](#11-configuração-de-data-e-hora)
-- [12. Configuração de Rede](#12-configuração-de-rede)
-- [13. Configuração de Usuários](#13-configuração-de-usuários)
-- [14. Instalação e Configuração do Bootloader](#14-instalação-e-configuração-do-bootloader)
-- [15. Configuração de Rede Final](#15-configuração-de-rede-final)
-- [16. Instalação de Pacotes Essenciais](#16-instalação-de-pacotes-essenciais)
-- [17. Finalização da Instalação](#17-finalização-da-instalação)
+- [10. Configuração de Data e Hora](#10-configuração-de-data-e-hora)
+- [11. Configuração de Hostname](#11-configuração-de-hostname)
+- [12. Configuração de Usuários](#12-configuração-de-usuários)
+- [13. Instalação e Configuração do Bootloader](#13-instalação-e-configuração-do-bootloader)
+- [14. Instalação do NetworkManager](#14-instalação-do-networkmanager)
+- [15. Instalação de Microcódigo da CPU](#15-instalação-de-microcódigo-da-cpu)
+- [16. Finalização da Instalação](#16-finalização-da-instalação)
+- [17. Primeiro Boot](#17-primeiro-boot)
 - [18. Solução de Problemas Comuns](#18-solução-de-problemas-comuns)
-- [19. Próximos Passos - Pós-Instalação](#19-próximos-passos---pós-instalação)
-- [Dicas Importantes](#dicas-importantes)
+- [19. Próximos Passos](#19-próximos-passos)
+- [Apêndices](#apêndices)
 
 ---
 
@@ -56,7 +67,7 @@ ls /sys/firmware/efi/efivars
 
 ---
 
-## 2. Configuração de Rede
+## 2. Conexão com Internet
 
 ### 2.1 Configurar Wi-Fi (se necessário)
 
@@ -86,19 +97,19 @@ ping -c 3 archlinux.org
 
 ## 3. Preparação do Disco
 
-> **⚠️ PONTO CRÍTICO DA INSTALAÇÃO CHEGANDO!**
+> **PONTO DE NÃO RETORNO**
 > 
-> **A partir deste momento, você começará a trabalhar diretamente com seus discos rígidos.** Os próximos passos podem **APAGAR TODOS OS DADOS** de discos inteiros se executados incorretamente.
-> 
-> **LEIA COM ATENÇÃO O ALERTA A SEGUIR ANTES DE CONTINUAR!**
+> Os próximos comandos trabalharão diretamente com seus discos.
+> **Execute `lsblk` antes de CADA comando de formatação.**
+> **Um erro aqui pode causar perda total de dados.**
 
 ---
 
-## ⚠️ **ALERTA MÁXIMO: Verifique Seus Dispositivos Antes de Formatar**
+## ALERTA CRÍTICO: Verifique Seus Dispositivos Antes de Formatar
 
 Esta é a etapa mais crítica de toda a instalação. Erros aqui podem levar à **perda total de dados** ou a um sistema que não funciona. Leia com atenção!
 
-### **1. O Nome do Disco (`/dev/sda`) NÃO é Fixo!**
+### 1. O Nome do Disco (`/dev/sda`) NÃO é Fixo
 
 O nome `/dev/sda` usado neste guia é apenas um **exemplo** comum para um primeiro disco SATA (HD ou SSD). O seu pode ser diferente:
 
@@ -108,24 +119,24 @@ O nome `/dev/sda` usado neste guia é apenas um **exemplo** comum para um primei
 
 **Como verificar o nome correto?** Use os comandos da seção 3.1 a seguir. Identifique na lista o disco com o tamanho correspondente ao que você quer instalar o sistema.
 
-### **2. A Numeração das Partições (`1`, `2`, `3`) DEPENDE DE VOCÊ!**
+### 2. A Numeração das Partições (`1`, `2`, `3`) DEPENDE DE VOCÊ
 
 A numeração `/dev/sda1`, `/dev/sda2`, etc., depende **exatamente** da ordem e das escolhas que você fez no `fdisk` na etapa de particionamento. Se você criar as partições em ordem diferente, a numeração será diferente.
 
 **Antes de executar qualquer comando `mkfs` (formatação), você DEVE verificar sua estrutura.**
 
-### **3. Exemplo de Verificação para o disco `/dev/sda`**
+### 3. Exemplo de Verificação para o disco `/dev/sda`
 
 Se o seu disco realmente for `/dev/sda` e você seguir os passos de particionamento **exatamente** como descritos neste guia, sua estrutura final deverá ser:
 
-* `/dev/sda1` → Partição EFI → Deve ser formatada em **FAT32**
-* `/dev/sda2` → Partição Swap → Deve ser configurada como **Linux Swap**
-* `/dev/sda3` → Partição Raiz (/) → Deve ser formatada em **ext4**
-* `/dev/sda4` → Partição Home (/home) → Deve ser formatada em **ext4**
+* `/dev/sda1` - Partição EFI - Deve ser formatada em **FAT32**
+* `/dev/sda2` - Partição Swap - Deve ser configurada como **Linux Swap**
+* `/dev/sda3` - Partição Raiz (/) - Deve ser formatada em **ext4**
+* `/dev/sda4` - Partição Home (/home) - Deve ser formatada em **ext4**
 
 **Se o seu disco for `/dev/nvme0n1`, os nomes serão `/dev/nvme0n1p1`, `/dev/nvme0n1p2`, e assim por diante.**
 
-### **4. REGRA DE OURO**
+### 4. REGRA DE OURO
 
 **SEMPRE execute `lsblk` e `fdisk -l` ANTES de formatar qualquer partição para confirmar que você está trabalhando com o dispositivo correto!**
 
@@ -172,7 +183,23 @@ fdisk -l /dev/sda
 
 ## 4. Particionamento do Disco
 
-### 4.1 Iniciar Particionamento
+### 4.1 Escolha Seu Tipo de Instalação
+
+Este guia cobre dois cenários:
+
+**A. Instalação Única (Disco Completo)**
+- O Arch Linux será o único sistema operacional
+- Todo o disco será usado para o Linux
+- Processo mais simples e direto
+
+**B. Dual-Boot com Windows**
+- Arch Linux convivendo com Windows
+- Requer cuidados especiais com partições
+- **Consulte o guia**: [ARCH_DUALBOOT_GUIDE.md](./ARCH_DUALBOOT_GUIDE.md)
+
+> **Para Dual-Boot**: Pule para o guia específico de dual-boot. O processo de particionamento é diferente e requer atenção especial para não danificar o Windows.
+
+### 4.2 Instalação Única - Iniciar Particionamento
 
 ```bash
 fdisk /dev/sda    # Substitua pelo nome do SEU disco
@@ -180,7 +207,7 @@ fdisk /dev/sda    # Substitua pelo nome do SEU disco
 
 **O que faz**: Abre o utilitário de particionamento para o disco especificado.
 
-### 4.2 Criar Tabela de Partição GPT
+### 4.3 Criar Tabela de Partição GPT
 
 ```bash
 # Dentro do fdisk:
@@ -189,8 +216,7 @@ Command (m for help): g
 
 **O que faz**: Cria uma nova tabela de partição GPT (GUID Partition Table), necessária para UEFI.
 
-<!-- COMANDO ADICIONADO: Verificação importante das partições antes de continuar -->
-### 4.3 Verificar Espaço Disponível
+### 4.4 Verificar Espaço Disponível
 
 ```bash
 # Dentro do fdisk, antes de criar partições:
@@ -199,9 +225,26 @@ Command (m for help): p
 
 **O que faz**: Mostra o espaço total disponível no disco para você calcular melhor o tamanho das partições.
 
-### 4.4 Criar Partições
+### 4.5 Recomendações de Tamanho de Partições
 
-O usuário decide o tamanho de cada particionamento do armazenamento.
+| Partição | Tamanho Mínimo | Recomendado | Uso |
+|----------|----------------|-------------|-----|
+| EFI | 512MB | 1GB | Boot UEFI |
+| Swap | Varia | Veja tabela abaixo | Memória virtual |
+| Root (/) | 20GB | 40-60GB | Sistema operacional |
+| Home | 20GB | Resto do disco | Dados pessoais |
+
+**Recomendações de Swap por Quantidade de RAM:**
+
+| RAM Instalada | Tamanho de Swap Recomendado |
+|---------------|----------------------------|
+| Menos de 8GB | 2x a quantidade de RAM |
+| 8GB a 16GB | Igual à quantidade de RAM |
+| Mais de 16GB | RAM/2 (ou 8GB fixo) |
+
+### 4.6 Criar Partições
+
+O usuário decide o tamanho de cada partição do armazenamento.
 
 #### Partição 1 - EFI System (1GB)
 
@@ -248,7 +291,7 @@ First sector: [Enter]            # Aceitar início padrão
 Last sector: [Enter]             # Usar todo espaço restante
 ```
 
-### 4.5 Verificar e Salvar Partições
+### 4.7 Verificar e Salvar Partições
 
 ```bash
 Command (m for help): p          # Visualizar tabela de partições criada
@@ -287,7 +330,6 @@ mkfs.ext4 /dev/sda4
 - `mkswap/swapon`: Cria e ativa a área de memória virtual (swap)
 - `mkfs.ext4`: Formata partições com sistema de arquivos ext4 (padrão Linux)
 
-<!-- COMANDO ADICIONADO: Verificação das partições formatadas -->
 ### 5.1 Verificar Formatação
 
 ```bash
@@ -296,6 +338,8 @@ lsblk -f
 ```
 
 **O que faz**: Lista todas as partições mostrando o tipo de sistema de arquivos, útil para confirmar que a formatação foi bem-sucedida.
+
+---
 
 ## 6. Montagem das Partições
 
@@ -318,7 +362,6 @@ mount /dev/sda4 /mnt/home
 
 **O que faz**: Monta as partições nos diretórios corretos para que o sistema possa acessá-las durante a instalação.
 
-<!-- COMANDO ADICIONADO: Verificação das montagens -->
 ### 6.1 Verificar Montagens
 
 ```bash
@@ -362,7 +405,7 @@ reflector --country Brazil --latest 10 --sort rate --verbose --save /etc/pacman.
 
 ```bash
 # Instalar pacotes essenciais do sistema
-pacstrap -K /mnt base base-devel linux linux-firmware linux-headers nano neovim
+pacstrap -K /mnt base base-devel linux linux-firmware linux-headers nano vim
 ```
 
 **O que faz**:
@@ -371,7 +414,7 @@ pacstrap -K /mnt base base-devel linux linux-firmware linux-headers nano neovim
 - `linux`: Kernel do Linux
 - `linux-firmware`: Firmware para hardware
 - `linux-headers`: Cabeçalhos do kernel (para módulos)
-- `nano/neovim`: Editores de texto
+- `nano/vim`: Editores de texto
 
 > **Dica**: Para maior estabilidade, você pode usar `linux-lts` (Long Term Support) no lugar de `linux`.
 
@@ -417,7 +460,6 @@ echo "KEYMAP=br-abnt2" > /etc/vconsole.conf
 - Configura o teclado ABNT2 permanentemente
 - Gera as configurações de localização
 
-<!-- COMANDO ADICIONADO: Verificação das configurações de locale -->
 ### 9.4 Verificar Configurações de Localização
 
 ```bash
@@ -432,25 +474,7 @@ locale
 
 ---
 
-## 10. Configuração do Pacman
-
-```bash
-nano /etc/pacman.conf
-
-# Descomente e configure as seguintes linhas:
-Color                    # Habilita cores na saída
-ParallelDownloads = 15   # Permite 15 downloads simultâneos
-
-# Para suporte a programas 32-bits (se necessário):
-[multilib]
-Include = /etc/pacman.d/mirrorlist
-```
-
-**O que faz**: Otimiza o gerenciador de pacotes com cores e downloads paralelos, e habilita repositório de 32-bits se necessário.
-
----
-
-## 11. Configuração de Data e Hora
+## 10. Configuração de Data e Hora
 
 ```bash
 # Definir fuso horário (altere conforme sua região)
@@ -474,16 +498,16 @@ timedatectl
 
 ---
 
-## 12. Configuração de Rede
+## 11. Configuração de Hostname
 
-### 12.1 Definir Nome do Computador
+### 11.1 Definir Nome do Computador
 
 ```bash
 # Substitua "meu-arch" pelo nome desejado
 echo "meu-arch" > /etc/hostname
 ```
 
-### 12.2 Configurar Arquivo Hosts
+### 11.2 Configurar Arquivo Hosts
 
 ```bash
 nano /etc/hosts
@@ -500,17 +524,27 @@ nano /etc/hosts
 
 ---
 
-## 13. Configuração de Usuários
+## 12. Configuração de Usuários
 
-### 13.1 Definir Senha do Root
+> **IMPORTANTE**: Você criará DOIS usuários com senhas diferentes:
+> 1. **Root** - Administrador do sistema (emergências apenas)
+> 2. **Seu usuário** - Conta pessoal para uso diário
+
+### 12.1 Definir Senha do Root
 
 ```bash
 passwd
 ```
 
-**O que faz**: Define a senha do usuário administrador (root).
+**O que faz**: Define a senha do usuário **root** (administrador). Esta senha será usada apenas em emergências ou manutenção crítica do sistema.
 
-### 13.2 Instalar e Configurar Sudo
+**Exemplo de uso:**
+```
+New password: [digite uma senha forte]
+Retype new password: [digite novamente]
+```
+
+### 12.2 Instalar e Configurar Sudo
 
 ```bash
 # Instalar sudo
@@ -521,10 +555,13 @@ EDITOR=nano visudo
 # Descomente a linha: %wheel ALL=(ALL) ALL
 ```
 
-### 13.3 Criar Usuário Regular
+**O que faz**: Instala o `sudo` que permite que usuários comuns executem comandos administrativos. O `sudo` é mais seguro que usar root diretamente.
+
+### 12.3 Criar Usuário Regular
 
 ```bash
 # Criar usuário (substitua "seu_usuario" pelo nome desejado)
+# Exemplo: useradd -m -g users -G wheel... -s /bin/bash joao
 useradd -m -g users -G wheel,storage,power,audio,video,input,render -s /bin/bash seu_usuario
 
 # Definir senha do usuário
@@ -533,14 +570,32 @@ passwd seu_usuario
 
 **O que fazem**:
 - Cria um usuário regular com diretório home
-- Adiciona o usuário aos grupos necessários (wheel para sudo)
+- Adiciona o usuário ao grupo `wheel` (permite usar `sudo`)
+- Adiciona a outros grupos necessários (áudio, vídeo, etc.)
 - Define bash como shell padrão
+
+**Exemplo de definição de senha:**
+```
+New password: [digite a senha do SEU usuário]
+Retype new password: [digite novamente]
+```
+
+### 12.4 Resumo - Duas Senhas Criadas
+
+Ao final desta seção, você terá:
+
+| Usuário | Senha | Quando Usar |
+|---------|-------|-------------|
+| **root** | Senha 1 (forte) | Emergências, recuperação do sistema |
+| **seu_usuario** | Senha 2 (sua escolha) | Uso diário, login normal |
+
+**No dia a dia**: Você fará login com **seu_usuario** e usará `sudo` quando precisar fazer algo administrativo (instalar programas, editar arquivos do sistema, etc.)
 
 ---
 
-## 14. Instalação e Configuração do Bootloader
+## 13. Instalação e Configuração do Bootloader
 
-### 14.1 Instalar GRUB
+### 13.1 Instalar GRUB
 
 ```bash
 # Instalar pacotes necessários
@@ -550,7 +605,9 @@ pacman -S grub efibootmgr
 grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB --recheck
 ```
 
-### 14.2 Configurar Dual-Boot (se necessário)
+### 13.2 Configurar Dual-Boot (se necessário)
+
+**Se você está instalando em dual-boot com Windows**, instale os pacotes adicionais:
 
 ```bash
 # Se você tem Windows ou outro SO instalado:
@@ -560,7 +617,9 @@ nano /etc/default/grub
 # Descomente: GRUB_DISABLE_OS_PROBER=false
 ```
 
-### 14.3 Gerar Configuração do GRUB
+**Para instruções completas de dual-boot**, consulte: [ARCH_DUALBOOT_GUIDE.md](./ARCH_DUALBOOT_GUIDE.md)
+
+### 13.3 Gerar Configuração do GRUB
 
 ```bash
 grub-mkconfig -o /boot/grub/grub.cfg
@@ -571,8 +630,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 - Detectam outros sistemas operacionais (dual-boot)
 - Geram o menu de inicialização
 
-<!-- COMANDO ADICIONADO: Verificação da instalação do GRUB -->
-### 14.4 Verificar Instalação do GRUB
+### 13.4 Verificar Instalação do GRUB
 
 ```bash
 # Verificar se o GRUB foi instalado na partição EFI
@@ -586,7 +644,7 @@ ls -la /boot/grub/grub.cfg
 
 ---
 
-## 15. Configuração de Rede Final
+## 14. Instalação do NetworkManager
 
 ```bash
 # Instalar NetworkManager
@@ -604,8 +662,7 @@ systemctl enable fstrim.timer
 - Habilitam os serviços para iniciar automaticamente
 - Otimizam SSDs com TRIM automático
 
-<!-- COMANDO ADICIONADO: Verificação dos serviços habilitados -->
-### 15.1 Verificar Serviços Habilitados
+### 14.1 Verificar Serviços Habilitados
 
 ```bash
 # Verificar se os serviços foram habilitados corretamente
@@ -617,9 +674,7 @@ systemctl is-enabled fstrim.timer
 
 ---
 
-## 16. Instalação de Pacotes Essenciais
-
-### 16.1 Microcódigo da CPU
+## 15. Instalação de Microcódigo da CPU
 
 ```bash
 # Para processadores Intel:
@@ -629,27 +684,17 @@ pacman -S intel-ucode
 pacman -S amd-ucode
 ```
 
-### 16.2 Utilitários do Sistema
+**O que fazem**: Instalam microcódigo específico da CPU para correções e otimizações de segurança e performance.
+
+**Após instalar o microcódigo, regenere a configuração do GRUB:**
 
 ```bash
-# Ferramentas de sistema de arquivos
-pacman -S e2fsprogs dosfstools
-
-# Utilitários básicos
-pacman -S git wget curl unzip zip unrar p7zip tar
-
-# Documentação e manuais
-pacman -S man-db man-pages texinfo
+grub-mkconfig -o /boot/grub/grub.cfg
 ```
-
-**O que fazem**:
-- Instalam microcódigo específico da CPU para correções e otimizações
-- Adicionam ferramentas essenciais para gerenciar arquivos e rede
-- Instalam documentação e manuais do sistema
 
 ---
 
-## 17. Finalização da Instalação
+## 16. Finalização da Instalação
 
 ```bash
 # Sair do ambiente chroot
@@ -667,7 +712,41 @@ reboot
 - Desmontam as partições com segurança
 - Reiniciam para iniciar o sistema instalado
 
-<!-- SEÇÃO ADICIONADA: Troubleshooting básico -->
+---
+
+## 17. Primeiro Boot
+
+### O Que Esperar no Primeiro Boot
+
+Após reiniciar, você verá:
+
+1. **Menu do GRUB** - Selecione "Arch Linux"
+2. **Tela preta com texto** - Sistema está iniciando
+3. **Prompt de login** - Digite seu nome de usuário
+4. **Senha** - Digite a senha que você criou
+5. **Terminal** - Você está no seu novo Arch Linux!
+
+### Comandos Úteis no Primeiro Boot
+
+```bash
+# Testar internet
+ping -c 3 archlinux.org
+
+# Conectar WiFi (se necessário)
+nmtui
+
+# Atualizar sistema
+sudo pacman -Syu
+
+# Verificar espaço em disco
+df -h
+
+# Verificar memória
+free -h
+```
+
+---
+
 ## 18. Solução de Problemas Comuns
 
 ### 18.1 Se o sistema não inicializar
@@ -693,61 +772,119 @@ sudo systemctl start NetworkManager
 sudo nmtui  # Interface gráfica para configurar rede
 ```
 
+### 18.3 Sistema Inicia Mas Não Tem Internet
+
+```bash
+# Verificar status do NetworkManager
+sudo systemctl status NetworkManager
+
+# Se não estiver rodando, iniciar
+sudo systemctl start NetworkManager
+
+# Habilitar para iniciar automaticamente
+sudo systemctl enable NetworkManager
+
+# Configurar conexão
+nmtui
+```
+
+### 18.4 Esqueci a Senha do Root ou Usuário
+
+```bash
+# Boot pelo pendrive de instalação
+mount /dev/sda3 /mnt
+arch-chroot /mnt
+
+# Redefinir senha do root
+passwd
+
+# Redefinir senha do usuário
+passwd seu_usuario
+```
+
 ---
 
-## 19. Próximos Passos - Pós-Instalação
+## 19. Próximos Passos
 
-Com seu sistema base funcionando, você pode instalar:
-- **Ambientes Desktop** (GNOME, KDE, XFCE, etc.)
-- **Drivers de vídeo** e otimizações
-- **AUR Helpers** para expandir seu repertório de software
-- **Temas e personalizações** visuais
-- **Ferramentas de desenvolvimento** específicas
-- **Configurações avançadas** de segurança e performance
-- **E muito mais!**
+Com seu sistema base funcionando, você pode:
 
-### **Guia Completo de Pós-Instalação**
+- Instalar ambiente desktop (GNOME, KDE, XFCE, etc.)
+- Configurar drivers de vídeo
+- Instalar programas essenciais
+- Personalizar o sistema
+- Configurar segurança adicional
 
-Para um guia detalhado sobre como configurar seu sistema Arch Linux do zero até um ambiente completo, consulte nosso guia especializado:
+### Guia Completo de Pós-Instalação
+
+Para um guia detalhado sobre como configurar seu sistema Arch Linux do zero até um ambiente completo e personalizado, consulte:
 
 **[ARCH_POST_INSTALL.md](./ARCH_POST_INSTALL.md)**
 
----
-
-## Dicas Importantes
-
-1. **Backup**: Sempre faça backup de dados importantes antes da instalação
-2. **Documentação**: Mantenha o [Arch Wiki](https://wiki.archlinux.org/) sempre à mão
-3. **Paciência**: A instalação manual requer atenção e tempo
-4. **Prática**: Considere praticar em uma máquina virtual primeiro
-5. **AUR**: Após a instalação, considere instalar um AUR helper como `yay` ou `paru`
-6. **Firewall**: Configure um firewall (ex: `ufw`) para segurança adicional
+Este guia inclui:
+- Otimizações do sistema
+- Instalação de utilitários essenciais
+- Configuração de AUR helpers
+- Instalação de drivers
+- Temas e personalizações
+- E muito mais!
 
 ---
 
-## Suporte e Recursos
+## Apêndices
 
-- **Documentação Oficial**: [Arch Wiki](https://wiki.archlinux.org/)
-- **Fórum**: [Arch Linux Forums](https://bbs.archlinux.org/)
-- **Reddit**: [r/archlinux](https://www.reddit.com/r/archlinux/)
-  
----
+### Apêndice A: Comandos Rápidos de Referência
 
-## Contribuições
+#### Durante Instalação Live USB
+```bash
+loadkeys br-abnt2              # Teclado brasileiro
+iwctl                          # Configurar WiFi
+lsblk                          # Ver discos
+fdisk /dev/sda                 # Particionar
+```
 
-Contribuições são bem-vindas! Sinta-se livre para:
+#### Após Instalação
+```bash
+sudo pacman -Syu               # Atualizar sistema
+sudo nmtui                     # Configurar rede
+sudo systemctl status <serviço> # Ver status de serviço
+journalctl -xe                 # Ver logs do sistema
+```
 
-- Reportar erros ou problemas
-- Sugerir melhorias
-- Adicionar traduções
-- Criar pull requests
+### Apêndice B: Instalação Expressa (Usuários Avançados)
 
----
+**ATENÇÃO**: Esta é uma versão condensada. Use apenas se souber o que está fazendo.
 
-**Parabéns! Você instalou o básico do Arch Linux manualmente!**
-
-*Última atualização: Agosto 2025*
-
----
-
-> **Nota**: Este manual foi criado para fins educacionais. Sempre consulte a documentação oficial do Arch Linux para informações mais atualizadas.
+```bash
+loadkeys br-abnt2
+iwctl  # configurar wifi se necessário
+timedatectl set-ntp true
+wipefs -a /dev/sda
+fdisk /dev/sda  # criar partições (g, n, t, w)
+mkfs.fat -F32 /dev/sda1
+mkswap /dev/sda2 && swapon /dev/sda2
+mkfs.ext4 /dev/sda3
+mkfs.ext4 /dev/sda4
+mount /dev/sda3 /mnt
+mkdir -p /mnt/boot/efi /mnt/home
+mount /dev/sda1 /mnt/boot/efi
+mount /dev/sda4 /mnt/home
+pacman -Sy reflector
+reflector --country Brazil --latest 10 --sort rate --save /etc/pacman.d/mirrorlist
+pacstrap -K /mnt base base-devel linux linux-firmware linux-headers nano vim
+genfstab -U /mnt >> /mnt/etc/fstab
+arch-chroot /mnt
+nano /etc/locale.gen  # descomentar pt_BR.UTF-8
+locale-gen
+echo "LANG=pt_BR.UTF-8" > /etc/locale.conf
+echo "KEYMAP=br-abnt2" > /etc/vconsole.conf
+ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
+hwclock --systohc
+echo "meu-arch" > /etc/hostname
+nano /etc/hosts  # configurar hosts
+passwd  # senha root
+pacman -S sudo
+EDITOR=nano visudo  # descomentar %wheel
+useradd -m -g users -G wheel,storage,power,audio,video,input,render -s /bin/bash usuario
+passwd usuario
+pacman -S grub efibootmgr networkmanager nm-connection-editor intel-ucode
+grub-install --target=x86_64-efi --efi-directory=/
