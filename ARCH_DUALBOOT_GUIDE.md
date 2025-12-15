@@ -450,14 +450,6 @@ Complete as seguintes seções do guia base:
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
-### 9.6 Sobre Secure Boot
-
-**Durante a instalação**: Mantenha o Secure Boot DESABILITADO.
-
-**Após a instalação**: Para reabilitar o Secure Boot, você precisará assinar o bootloader com suas próprias chaves (processo avançado). Consulte: [Arch Wiki - Secure Boot](https://wiki.archlinux.org/title/Secure_Boot)
-
-**Recomendação para iniciantes**: Mantenha o Secure Boot desabilitado. O sistema funciona perfeitamente sem ele.
-
 ---
 
 ## 10. Finalização
@@ -600,13 +592,7 @@ efibootmgr -v
 sudo efibootmgr -o XXXX,YYYY
 ```
 
-### 12.3 Sistema Boota Direto no Arch (Windows Sumiu)
-
-**Causa**: GRUB não detectou o Windows.
-
-**Solução**: Veja seção 12.1 acima.
-
-### 12.4 Erro "No Bootable Device" ou Windows Sobrescreveu GRUB
+### 12.3 Erro "No Bootable Device" ou Windows Sobrescreveu GRUB
 
 **Solução:**
 
@@ -626,7 +612,7 @@ umount -R /mnt
 reboot
 ```
 
-### 12.5 Horário Diferente entre Windows e Linux
+### 12.4 Horário Diferente entre Windows e Linux
 
 **Causa**: Windows usa horário local (RTC), Linux usa UTC.
 
@@ -643,7 +629,7 @@ No Windows, como Administrador:
 reg add "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\TimeZoneInformation" /v RealTimeIsUniversal /d 1 /t REG_DWORD /f
 ```
 
-### 12.6 Não Consigo Acessar Partições do Windows no Arch
+### 12.5 Não Consigo Acessar Partições do Windows no Arch
 
 **Solução**: Veja seção 11.3 sobre como montar partições Windows.
 
@@ -657,7 +643,7 @@ sudo pacman -S ntfs-3g
 sudo mount -t ntfs-3g -o rw,uid=1000,gid=1000 /dev/sda3 /mnt/windows
 ```
 
-### 12.7 Partição EFI Muito Pequena (100MB)
+### 12.6 Partição EFI Muito Pequena (100MB)
 
 **Problema**: Windows criou partição EFI de apenas 100MB, que pode encher rapidamente.
 
@@ -691,32 +677,6 @@ ls /boot
 **Solução 3 - Aumentar partição EFI (Avançado):**
 
 Consulte: [Arch Wiki - EFI System Partition](https://wiki.archlinux.org/title/EFI_system_partition#Enlarge_the_EFI_system_partition)
-
-### 12.8 Erro ao Montar Partição NTFS
-
-**Sintoma**: Erro "The disk contains an unclean file system" ou "Windows is hibernated"
-
-**Causa**: Windows não foi desligado corretamente (Fast Boot ou Hibernação).
-
-**Solução:**
-
-```bash
-# Boot pelo Windows
-# Desabilitar Fast Boot (veja seção 3.1)
-# Desabilitar Hibernação:
-powercfg /h off
-
-# Desligar Windows completamente
-shutdown /s /t 0
-
-# Agora boot pelo Arch e monte normalmente
-```
-
-**Alternativa - Forçar montagem (use com cuidado):**
-
-```bash
-sudo ntfs-3g -o remove_hiberfile /dev/sda3 /mnt/windows
-```
 
 ---
 
