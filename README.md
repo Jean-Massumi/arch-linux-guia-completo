@@ -25,6 +25,7 @@
   - [Preparação](#preparação)
   - [Instalação Base](#instalação-base)
   - [Pós-Instalação](#pós-instalação)
+  - [Configurações Avançadas](#configurações-avançadas)
   - [Ambientes Desktop](#ambientes-desktop-completos)
 - [FAQ Rápido](#faq-rápido)
 - [Contribuições](#contribuições)
@@ -43,7 +44,7 @@
 
 ### **Para Dual-Boot com Windows:**
 1. **ATENÇÃO**: Faça backup completo dos seus dados
-2. Siga o guia base que inclui seção de dual-boot: [ARCH_BASE_INSTALL.md](./ARCH_BASE_INSTALL.md)
+2. Siga o guia de dual-boot: [ARCH_DUALBOOT_GUIDE.md](./ARCH_DUALBOOT_GUIDE.md)
 3. Configure o sistema: [ARCH_POST_INSTALL.md](./ARCH_POST_INSTALL.md)
 
 ---
@@ -92,15 +93,26 @@ Antes de começar, certifique-se de ter:
 ---
 
 ### **Instalação Base**
-**[ARCH_BASE_INSTALL.md](./ARCH_BASE_INSTALL.md)** - Guia completo de instalação do sistema base
+
+**[ARCH_BASE_INSTALL.md](./ARCH_BASE_INSTALL.md)** - Instalação única do Arch Linux
 
 **Conteúdo:**
 - Preparação e particionamento do disco
 - Instalação do sistema base
 - Configuração de bootloader (GRUB)
 - Configuração inicial do sistema (idioma, fuso horário, usuários)
-- **Seção especial de Dual-Boot com Windows**
 - Solução de problemas comuns
+
+---
+
+**[ARCH_DUALBOOT_GUIDE.md](./ARCH_DUALBOOT_GUIDE.md)** - Dual-Boot com Windows
+
+**Conteúdo:**
+- Preparação do Windows
+- Redimensionamento de partições
+- Particionamento para dual-boot
+- Configuração do GRUB para detectar Windows
+- Troubleshooting específico de dual-boot
 
 ---
 
@@ -112,6 +124,20 @@ Antes de começar, certifique-se de ter:
 - Ferramentas essenciais do sistema
 - Otimizações e configurações de performance
 - Preparação para ambiente desktop
+
+---
+
+### **Configurações Avançadas**
+
+**[ARCH_SECURE_BOOT_GUIDE.md](./ARCH_SECURE_BOOT_GUIDE.md)** ⚙️ **Avançado** - Configurar Secure Boot
+
+**Conteúdo:**
+- Método recomendado: Shim + PreLoader
+- Método avançado: Assinar com próprias chaves
+- Funciona para instalação única ou dual-boot
+- Troubleshooting completo
+
+**Quando usar**: Após o sistema estar completamente funcional e estável.
 
 ---
 
@@ -145,7 +171,7 @@ Entre 2 a 4 horas no total, dependendo da sua experiência, velocidade da intern
 <details>
 <summary><b>Posso instalar junto com Windows (dual-boot)?</b></summary>
 
-Sim! O guia [ARCH_BASE_INSTALL.md](./ARCH_BASE_INSTALL.md) possui uma seção completa dedicada ao dual-boot. **Pontos críticos:**
+Sim! O guia [ARCH_DUALBOOT_GUIDE.md](./ARCH_DUALBOOT_GUIDE.md) é dedicado especificamente ao dual-boot. **Pontos críticos:**
 - Faça backup completo antes de começar
 - Desabilite Fast Boot e Secure Boot na BIOS
 - Desabilite BitLocker se estiver ativo
@@ -170,6 +196,17 @@ Sim, a instalação baixa pacotes diretamente dos repositórios oficiais. Certif
 <summary><b>Posso mudar de ambiente desktop depois?</b></summary>
 
 Sim! Você pode instalar múltiplos ambientes e alternar entre eles no login.
+</details>
+
+<details>
+<summary><b>Preciso configurar Secure Boot?</b></summary>
+
+Não é obrigatório. O sistema funciona perfeitamente sem Secure Boot. Configure apenas se:
+- Você tem necessidade específica de segurança
+- Quer manter a mesma configuração de segurança do Windows
+- Está confortável com procedimentos avançados
+
+Consulte: [ARCH_SECURE_BOOT_GUIDE.md](./ARCH_SECURE_BOOT_GUIDE.md)
 </details>
 
 <details>
