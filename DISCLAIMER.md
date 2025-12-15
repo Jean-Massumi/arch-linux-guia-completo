@@ -30,7 +30,7 @@ Certifique-se de que você:
 
 - [ ] Fez **backup completo** de todos os dados importantes
 - [ ] Possui conhecimento básico de linha de comando Linux
-- [ ] Tem tempo disponível (1-2 horas) para concluir a instalação
+- [ ] Tem tempo disponível (1-3 horas) para concluir a instalação
 - [ ] Verificou a compatibilidade do seu hardware
 - [ ] Possui conexão de internet estável e confiável
 
