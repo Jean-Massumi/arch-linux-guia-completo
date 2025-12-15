@@ -4,24 +4,30 @@
 
 > **ATENÇÃO**: Este processo irá **APAGAR TODOS OS DADOS** do pendrive selecionado. Faça backup de arquivos importantes antes de continuar!
 
+> **Tempo estimado**: 15-30 minutos (dependendo da velocidade de download e gravação)
+
 ---
 
 ## Índice
 
+- [Requisitos](#requisitos)
 - [1. Download da ISO do Arch Linux](#1-download-da-iso-do-arch-linux)
-- [2. Verificação de Integridade da ISO](#2-verificação-de-integridade-da-iso-recomendado)
-- [3. Criando Pendrive Bootável no Windows](#3-criando-pendrive-bootável-no-windows)
-- [4. Criando Pendrive Bootável no Linux](#4-criando-pendrive-bootável-no-linux)
-- [5. Configurando a BIOS/UEFI para Boot](#5-configurando-a-biosuefi-para-boot)
-- [6. Solução de Problemas](#6-solução-de-problemas)
+- [2. Verificação de Integridade](#2-verificação-de-integridade-da-iso-recomendado)
+- [3. Windows - Método Rufus](#3-criando-pendrive-bootável-no-windows)
+- [4. Windows - Método Ventoy](#método-2-ventoy-alternativa-versátil)
+- [5. Linux - Método dd](#4-criando-pendrive-bootável-no-linux)
+- [6. Linux - Método Ventoy](#método-2-ventoy-no-linux)
+- [7. Configurando BIOS/UEFI](#5-configurando-a-biosuefi-para-boot)
+- [8. Solução de Problemas](#6-solução-de-problemas)
 
 ---
 
 ## Requisitos
 
-- Pendrive com **no mínimo 4GB** de espaço (recomendado 8GB ou mais)
+- Pendrive com **no mínimo 4GB** de espaço (recomendado 8GB)
 - Conexão com internet estável
-- **Backup** de dados importantes do pendrive (serão apagados!)
+- **Backup** de dados importantes do pendrive
+- Verificar se o computador suporta boot via USB
 
 ---
 
@@ -29,146 +35,144 @@
 
 ### 1.1 Download Oficial
 
-Acesse o site oficial do Arch Linux:
+**Link direto**: https://archlinux.org/download/
 
-**Link direto**: [https://archlinux.org/download/](https://archlinux.org/download/)
+### 1.2 Escolhendo o Mirror (Brasil)
 
-### 1.2 Escolhendo o Mirror
+**Mirrors recomendados para usuários brasileiros:**
 
-Na página de download, você verá uma lista de mirrors (servidores espelho) organizados por país.
-
-**Para usuários brasileiros**, recomendamos usar um dos seguintes mirrors:
-
-- **c3sl.ufpr.br** - Universidade Federal do Paraná (UFPR) - Curitiba
-- **ufscar.br** - Universidade Federal de São Carlos (UFSCar)
-- **unicamp.br** - Universidade Estadual de Campinas (UNICAMP)
-- **cicku.me** - Mirror independente brasileiro
+| Mirror | Instituição | Localização |
+|--------|-------------|-------------|
+| **c3sl.ufpr.br** | Universidade Federal do Paraná | Curitiba, PR |
+| **ufscar.br** | Universidade Federal de São Carlos | São Carlos, SP |
+| **unicamp.br** | Universidade Estadual de Campinas | Campinas, SP |
+| **cicku.me** | Mirror independente | Brasil |
 
 **Como baixar:**
 
-1. Localize a seção "Brazil" na lista de mirrors
-2. Clique no link do mirror de sua preferência
-3. Baixe o arquivo com nome similar a: `archlinux-2026.XX.XX-x86_64.iso`
+1. Acesse a página de downloads
+2. Role até a seção **"Brazil"** na lista de mirrors
+3. Clique no link do mirror mais próximo
+4. Baixe o arquivo: `archlinux-YYYY.MM.DD-x86_64.iso`
 
-### 1.3 Download via Torrent (Alternativa)
+### 1.3 Download via Torrent (Opcional)
 
-Se preferir, você pode usar o **BitTorrent** para baixar a ISO:
-
-1. Baixe o arquivo `.torrent` no site oficial
-2. Abra com seu cliente BitTorrent favorito (qBittorrent, Transmission, etc.)
-3. Aguarde o download completar
-
-**Vantagens do Torrent:**
-- Download mais rápido em conexões lentas
+**Vantagens:**
+- Download mais rápido em conexões instáveis
 - Retomada automática em caso de interrupção
-- Verificação automática de integridade
+- Verificação de integridade embutida
+
+**Como fazer:**
+1. Baixe o arquivo `.torrent` no site oficial
+2. Abra com qBittorrent, Transmission, ou outro cliente
+3. Aguarde o download completar
 
 ---
 
 ## 2. Verificação de Integridade da ISO (Recomendado)
 
-É **altamente recomendado** verificar se a ISO foi baixada corretamente para evitar problemas durante a instalação.
+É altamente recomendado verificar se a ISO foi baixada corretamente para evitar problemas durante a instalação.
 
-### 2.1 No Windows
+### 2.1 No Windows (PowerShell)
 
 ```powershell
-# Abra o PowerShell e navegue até a pasta onde baixou a ISO
+# Navegue até a pasta de downloads
 cd C:\Users\SeuUsuario\Downloads
 
 # Calcule o hash SHA256
 certutil -hashfile archlinux-2025.XX.XX-x86_64.iso SHA256
 ```
 
-### 2.2 No Linux
+### 2.2 No Linux (Terminal)
 
 ```bash
-# Navegue até a pasta onde baixou a ISO
+# Navegue até a pasta de downloads
 cd ~/Downloads
 
 # Calcule o hash SHA256
 sha256sum archlinux-2025.XX.XX-x86_64.iso
 ```
 
-### 2.3 Comparar o Hash
+### 2.3 Verificar o Hash
 
 1. Copie o hash gerado pelo comando
-2. Acesse: [https://archlinux.org/download/](https://archlinux.org/download/)
-3. Procure pela seção "Checksums"
-4. Compare o hash SHA256 da página com o que você gerou
-
-**Se os hashes forem idênticos**: A ISO está íntegra e pode ser usada com segurança.
-
-**Se os hashes forem diferentes**: Baixe a ISO novamente, pois o arquivo pode estar corrompido.
+2. Acesse: https://archlinux.org/download/
+3. Localize a seção **"Checksums"**
+4. Compare os valores:
+   - **Idênticos**: ISO íntegra, pode usar com segurança
+   - **Diferentes**: Baixe novamente (arquivo corrompido)
 
 ---
 
 ## 3. Criando Pendrive Bootável no Windows
 
-### Método 1: Rufus (Recomendado)
+### Método 1: Rufus (Recomendado para Iniciantes)
 
 **Rufus** é a ferramenta mais popular e confiável para criar pendrives bootáveis no Windows.
 
 #### 3.1 Download do Rufus
 
-1. Acesse: [https://rufus.ie/](https://rufus.ie/)
-2. Baixe a versão **portable** (não requer instalação)
-3. Execute o arquivo `rufus-x.xx.exe`
+**Link**: https://rufus.ie/
 
-#### 3.2 Configuração no Rufus
+- Baixe a versão **portable** (não requer instalação)
+- Execute `rufus-x.xx.exe`
 
-1. **Dispositivo**: Selecione seu pendrive
-2. **Seleção de boot**: Clique em "SELECIONAR" e escolha a ISO do Arch Linux
-3. **Esquema de partição**: 
-   - Para UEFI: Selecione **GPT**
-   - Para BIOS Legacy: Selecione **MBR**
-4. **Sistema de destino**: 
-   - Para UEFI: Selecione **UEFI (non CSM)**
-   - Para BIOS Legacy: Selecione **BIOS (ou UEFI-CSM)**
-5. **Sistema de arquivos**: **FAT32** (padrão)
-6. **Tamanho do cluster**: **4096 bytes** (padrão)
+#### 3.2 Configuração
 
-#### 3.3 Configurações Avançadas
+| Opção | Valor | Quando Usar |
+|-------|-------|-------------|
+| **Dispositivo** | Seu pendrive | - |
+| **Seleção de boot** | Imagem ISO do Arch | Clique em "SELECIONAR" |
+| **Esquema de partição** | GPT | Computadores modernos (UEFI) |
+| **Esquema de partição** | MBR | Computadores antigos (BIOS Legacy) |
+| **Sistema de destino** | UEFI (non CSM) | Para GPT |
+| **Sistema de destino** | BIOS (ou UEFI-CSM) | Para MBR |
+| **Sistema de arquivos** | FAT32 | Padrão (deixar assim) |
 
-Clique em "MOSTRAR OPÇÕES AVANÇADAS" e configure:
+**Dica**: Se não sabe qual usar, escolha **GPT + UEFI** (mais comum em PCs de 2012 em diante)
 
+#### 3.3 Opções Avançadas (Opcional)
+
+Clique em "MOSTRAR OPÇÕES AVANÇADAS":
 - **Nome do volume**: Arch Linux (opcional)
-- **Opções de formatação rápida**: **Marcado**
-- **Criar disco bootável usando**: **Imagem ISO**
-- **Criar partição estendida**: **Desmarcado**
+- **Formatação rápida**: Marcado
+- **Criar disco bootável usando**: Imagem ISO
+- **Criar partição estendida**: Desmarcado
 
-#### 3.4 Criar o Pendrive
+#### 3.4 Gravar
 
-1. Clique em "INICIAR"
-2. Se aparecer aviso sobre modo de gravação, escolha: **Gravar em modo de Imagem DD**
-3. Confirme que deseja apagar todos os dados do pendrive
-4. Aguarde o processo completar (2-5 minutos)
-5. Clique em "FECHAR" quando finalizar
+1. Clique em **"INICIAR"**
+2. Se perguntar sobre modo de gravação, escolha: **"Gravar em modo de Imagem DD"**
+3. Confirme que deseja apagar os dados do pendrive
+4. Aguarde 2-5 minutos
+5. Clique em **"FECHAR"** quando finalizar
 
 ---
 
 ### Método 2: Ventoy (Alternativa Versátil)
 
-**Ventoy** permite criar um pendrive multiboot, onde você pode ter várias ISOs diferentes.
+**Ventoy** permite criar um pendrive multiboot, onde você pode ter várias ISOs diferentes no mesmo pendrive.
 
-#### 3.5 Download do Ventoy
+#### 3.5 Download
 
-1. Acesse: [https://www.ventoy.net/](https://www.ventoy.net/)
-2. Baixe a versão para Windows
-3. Extraia o arquivo ZIP
+**Link**: https://www.ventoy.net/
 
-#### 3.6 Instalação do Ventoy
+1. Baixe a versão para Windows
+2. Extraia o arquivo ZIP
 
-1. Execute `Ventoy2Disk.exe` como administrador
-2. Selecione seu pendrive
-3. Clique em "Install"
+#### 3.6 Instalação
+
+1. Execute `Ventoy2Disk.exe` como **administrador**
+2. Selecione seu pendrive na lista
+3. Clique em **"Install"**
 4. Confirme a instalação
 5. Aguarde finalizar
 
-#### 3.7 Copiar a ISO
+#### 3.7 Adicionar ISO
 
-1. Após a instalação, o pendrive terá uma partição visível
-2. **Simplesmente copie** o arquivo `.iso` do Arch Linux para o pendrive
-3. Pronto! O Ventoy detectará automaticamente a ISO
+Após a instalação, o pendrive terá uma partição visível. **Simplesmente copie** o arquivo `.iso` do Arch Linux para o pendrive.
+
+Pronto! O Ventoy detectará automaticamente a ISO no boot.
 
 **Vantagens do Ventoy:**
 - Suporta múltiplas ISOs no mesmo pendrive
@@ -179,7 +183,7 @@ Clique em "MOSTRAR OPÇÕES AVANÇADAS" e configure:
 
 ## 4. Criando Pendrive Bootável no Linux
 
-### Método 1: Comando dd (Linha de Comando)
+### Método 1: Comando dd (Tradicional)
 
 **ATENÇÃO**: O comando `dd` é muito poderoso. Um erro pode apagar dados do disco rígido!
 
@@ -209,10 +213,7 @@ sdb      8:16   1  14.9G  0 disk          <- SEU PENDRIVE
 #### 4.2 Desmontar o Pendrive (se montado)
 
 ```bash
-# Substitua 'sdb1' pela partição do SEU pendrive
-sudo umount /dev/sdb1
-
-# Se houver múltiplas partições, desmonte todas:
+# Substitua 'sdb' pelo dispositivo do SEU pendrive
 sudo umount /dev/sdb*
 ```
 
@@ -223,7 +224,11 @@ sudo umount /dev/sdb*
 # Substitua 'sdb' pelo dispositivo correto
 # Substitua o nome da ISO pelo arquivo que você baixou
 
-sudo dd bs=4M if=/caminho/para/archlinux-2025.XX.XX-x86_64.iso of=/dev/sdb status=progress oflag=sync
+sudo dd bs=4M \
+  if=~/Downloads/archlinux-2025.XX.XX-x86_64.iso \
+  of=/dev/sdb \
+  status=progress \
+  oflag=sync
 ```
 
 **Explicação dos parâmetros:**
@@ -283,9 +288,9 @@ sudo ./Ventoy2Disk.sh -i /dev/sdb
 #### 4.8 Copiar a ISO
 
 ```bash
-# Montar a partição Ventoy (se não montou automaticamente)
+# O pendrive será montado automaticamente
 # Copiar a ISO para o pendrive
-cp ~/Downloads/archlinux-2025.XX.XX-x86_64.iso /media/Ventoy/
+cp ~/Downloads/archlinux-2025.XX.XX-x86_64.iso /media/$USER/Ventoy/
 ```
 
 ---
@@ -297,11 +302,14 @@ Após criar o pendrive bootável, você precisa configurar seu computador para i
 ### 5.1 Acessar a BIOS/UEFI
 
 **Teclas comuns para acessar:**
-- **F2** - Dell, Acer, Lenovo, ASUS
-- **F10** - HP
-- **F12** - Dell, Lenovo (Boot Menu direto)
-- **DEL** - ASUS, MSI, Gigabyte
-- **ESC** - HP, Compaq
+
+| Fabricante | Tecla |
+|------------|-------|
+| Dell, Acer, Lenovo, ASUS | F2 |
+| HP | F10 |
+| Dell, Lenovo (Boot Menu) | F12 |
+| ASUS, MSI, Gigabyte | DEL |
+| HP, Compaq | ESC |
 
 **Como fazer:**
 1. Reinicie o computador
@@ -323,9 +331,9 @@ Em alguns computadores modernos, pode ser necessário:
 2. Mude para **"Disabled"** ou **"Other OS"**
 3. Salve e reinicie
 
-### 5.4 Boot Menu Rápido
+### 5.4 Boot Menu Rápido (Alternativa)
 
-Alternativa mais rápida:
+Método mais rápido sem entrar na BIOS:
 
 1. Reinicie com o pendrive conectado
 2. Pressione a tecla de Boot Menu (geralmente **F12** ou **F8**)
@@ -340,24 +348,27 @@ Alternativa mais rápida:
 
 **Soluções:**
 - Verifique se o pendrive está corretamente conectado
-- Tente outra porta USB (prefira USB 2.0 para compatibilidade)
-- Recrie o pendrive usando outro método
-- Verifique se o Secure Boot está desabilitado
+- Tente outra porta USB (prefira USB 2.0 para maior compatibilidade)
+- Recrie o pendrive usando outro método (Rufus modo DD ou Ventoy)
+- Verifique se o Secure Boot está desabilitado na BIOS
 
 ### 6.2 Erro "Boot device not found"
 
 **Soluções:**
-- Verifique se escolheu a opção correta no Rufus (GPT para UEFI, MBR para BIOS)
+- Verifique se escolheu a opção correta no Rufus:
+  - GPT para UEFI
+  - MBR para BIOS Legacy
 - Recrie o pendrive usando "modo DD" no Rufus
 - Tente usar outro pendrive
+- Verifique se a ISO está íntegra (SHA256)
 
 ### 6.3 Sistema não inicializa após criar o pendrive
 
 **Soluções:**
-- Verifique a integridade da ISO (SHA256)
-- Baixe a ISO novamente
-- Formate completamente o pendrive antes de criar
-- Teste em outro computador
+- Verifique a integridade da ISO baixada
+- Baixe a ISO novamente de outro mirror
+- Formate completamente o pendrive antes de recriar
+- Teste o pendrive em outro computador
 
 ### 6.4 Erro no dd: "Permission denied"
 
@@ -365,6 +376,9 @@ Alternativa mais rápida:
 ```bash
 # Certifique-se de usar sudo
 sudo dd bs=4M if=arquivo.iso of=/dev/sdb status=progress oflag=sync
+
+# Verifique se o pendrive não está montado
+sudo umount /dev/sdb*
 ```
 
 ### 6.5 Pendrive fica inutilizável após criar boot
@@ -372,15 +386,15 @@ sudo dd bs=4M if=arquivo.iso of=/dev/sdb status=progress oflag=sync
 **Como restaurar o pendrive para uso normal:**
 
 **No Windows:**
-1. Abra o "Gerenciamento de Disco"
+1. Abra o "Gerenciamento de Disco" (diskmgmt.msc)
 2. Localize o pendrive
 3. Delete todas as partições
-4. Crie uma nova partição FAT32
-5. Formate
+4. Crie uma nova partição
+5. Formate como FAT32 ou NTFS
 
 **No Linux:**
 ```bash
-# Listar partições
+# Listar dispositivos
 sudo fdisk -l
 
 # Abrir fdisk no dispositivo (ex: /dev/sdb)
@@ -389,6 +403,7 @@ sudo fdisk /dev/sdb
 # Dentro do fdisk:
 # d - deletar todas as partições
 # n - criar nova partição (aceite os padrões)
+# t - mudar tipo para 0c (FAT32 LBA)
 # w - salvar e sair
 
 # Formatar
@@ -414,4 +429,4 @@ Após criar o pendrive bootável com sucesso, siga o guia de instalação:
 
 **Boa sorte com sua instalação do Arch Linux!**
 
-*Última atualização: Janeiro 2025*
+*Última atualização: Janeiro 2026*
