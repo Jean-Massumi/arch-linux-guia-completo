@@ -348,13 +348,13 @@ pacman -Sy
 pacman -S reflector
 
 # Configurar mirrors brasileiros mais rápidos
-reflector --country Brazil --latest 20 --sort rate --verbose --save /etc/pacman.d/mirrorlist
+reflector --country Brazil --latest 10 --sort rate --verbose --save /etc/pacman.d/mirrorlist
 ```
 
 **O que faz**: 
 - Atualiza a base de dados de pacotes
 - Instala o reflector (ferramenta para otimizar mirrors)
-- Seleciona os 20 mirrors brasileiros mais rápidos e os salva na configuração
+- Seleciona os 10 mirrors brasileiros mais rápidos e os salva na configuração
 
 ---
 
