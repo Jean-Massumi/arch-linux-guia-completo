@@ -794,14 +794,6 @@ passwd seu_usuario
 
 ## 19. Próximos Passos
 
-Com seu sistema base funcionando, você pode:
-
-- Instalar ambiente desktop (GNOME, KDE, XFCE, etc.)
-- Configurar drivers de vídeo
-- Instalar programas essenciais
-- Personalizar o sistema
-- Configurar segurança adicional
-
 ### Guia Completo de Pós-Instalação
 
 Para um guia detalhado sobre como configurar seu sistema Arch Linux do zero até um ambiente completo e personalizado, consulte:
