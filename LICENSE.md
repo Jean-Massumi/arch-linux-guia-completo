@@ -27,7 +27,7 @@ Esta obra está licenciada sob a **Creative Commons Atribuição-CompartilhaIgua
 
 * **Atribuição (BY)** — Você deve dar o crédito apropriado, prover um link para a licença e indicar se foram feitas alterações. Você deve fazê-lo sob qualquer circunstância razoável, mas de maneira alguma que sugira que o licenciante apoia você ou o seu uso.
 
-* **CompartilhaIgual (SA)** — Se você remixar, transformar ou criar a partir do material, deverá distribuir suas contribuições sob a mesma licença que a original.
+* **Compartilha Igual (SA)** — Se você remixar, transformar ou criar a partir do material, deverá distribuir suas contribuições sob a mesma licença que a original.
 
 * **Sem Restrições Adicionais** — Você não pode aplicar termos jurídicos ou medidas de caráter tecnológico que restrinjam legalmente outros de fazerem algo que a licença permita.
 
@@ -91,6 +91,6 @@ Se você fez melhorias ou adaptações deste material, considere compartilhar de
 
 <div align="center">
 
-**Mantido com para a comunidade de software livre**
+**Mantido para a comunidade de software livre**
 
 </div>
