@@ -764,6 +764,4 @@ sudo grub-mkconfig -o /boot/grub/grub.cfg
 
 ---
 
-**Parabéns! Você configurou com sucesso um dual-boot Arch Linux + Windows.**
-
 *Última atualização: Dezembro 2025*
