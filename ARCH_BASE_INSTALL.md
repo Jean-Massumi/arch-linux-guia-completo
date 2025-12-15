@@ -40,14 +40,6 @@ O processo de dual-boot difere da instalação padrão nos seguintes pontos:
 3. **GRUB**: Precisa detectar e adicionar o Windows ao menu de boot
 4. **Cuidados especiais**: Fast Boot, Secure Boot e BitLocker precisam ser desabilitados
 
-**O que é IGUAL à instalação padrão:**
-
-- Configuração de teclado e internet
-- Instalação do sistema base
-- Configuração de idioma, fuso horário e usuários
-- Instalação de drivers e NetworkManager
-- Todo o processo pós-instalação
-
 **Para tudo que não está listado neste guia de dual-boot, siga o [Guia de Instalação Base](./ARCH_BASE_INSTALL.md) normalmente.**
 
 ---
