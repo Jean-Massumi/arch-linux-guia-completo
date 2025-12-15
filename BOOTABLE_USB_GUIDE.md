@@ -425,8 +425,3 @@ Após criar o pendrive bootável com sucesso, siga o guia de instalação:
 - **Documentação oficial**: [Arch Linux Installation Guide](https://wiki.archlinux.org/title/Installation_guide)
 - **USB Flash Installation**: [USB flash installation medium](https://wiki.archlinux.org/title/USB_flash_installation_medium)
 
----
-
-**Boa sorte com sua instalação do Arch Linux!**
-
-*Última atualização: Janeiro 2026*
