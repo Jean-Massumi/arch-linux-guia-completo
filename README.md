@@ -129,7 +129,7 @@ Antes de começar, certifique-se de ter:
 
 ### **Configurações Avançadas**
 
-**[ARCH_SECURE_BOOT_GUIDE.md](./ARCH_SECURE_BOOT_GUIDE.md)** ⚙️ **Avançado** - Configurar Secure Boot
+**[ARCH_SECURE_BOOT_GUIDE.md](./ARCH_SECURE_BOOT_GUIDE.md)** - **Avançado** - Configurar Secure Boot
 
 **Conteúdo:**
 - Método recomendado: Shim + PreLoader
