@@ -160,27 +160,6 @@ gparted
 4. Selecione o pendrive
 5. Escolha "Arch Linux install medium" no menu do GRUB
 
-### 4.1 Configuração Inicial
-
-```bash
-# Configurar teclado brasileiro
-loadkeys br-abnt2
-
-# Conectar WiFi se necessário
-iwctl
-# device list
-# station wlan0 scan
-# station wlan0 get-networks
-# station wlan0 connect "nome_da_rede"
-# exit
-
-# Testar internet
-ping -c 3 archlinux.org
-
-# Sincronizar horário
-timedatectl set-ntp true
-```
-
 ---
 
 ## 5. Identificar Partições Existentes
@@ -354,72 +333,18 @@ ls /mnt/boot/efi/EFI
 
 ---
 
-## 8. Instalação do Sistema Base
-
-### 8.1 Configurar Mirrors
-
-```bash
-pacman -Sy
-pacman -S reflector
-reflector --country Brazil --latest 10 --sort rate --save /etc/pacman.d/mirrorlist
-```
-
-### 8.2 Instalar Sistema Base
-
-```bash
-pacstrap -K /mnt base base-devel linux linux-firmware linux-headers nano vim
-```
-
-### 8.3 Gerar fstab e Entrar no Sistema
-
-```bash
-genfstab -U /mnt >> /mnt/etc/fstab
-arch-chroot /mnt
-```
-
-### 8.4 Configurações Básicas
-
-```bash
-# Locale
-nano /etc/locale.gen  # Descomentar pt_BR.UTF-8
-locale-gen
-echo "LANG=pt_BR.UTF-8" > /etc/locale.conf
-echo "KEYMAP=br-abnt2" > /etc/vconsole.conf
-
-# Fuso horário
-ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
-hwclock --systohc
-
-# Hostname
-echo "meu-arch" > /etc/hostname
-nano /etc/hosts
-# Adicionar:
-# 127.0.0.1   localhost
-# ::1         localhost
-# 127.0.1.1   meu-arch.localdomain meu-arch
-
-# Usuários
-passwd  # Senha do root
-pacman -S sudo
-EDITOR=nano visudo  # Descomentar %wheel ALL=(ALL) ALL
-useradd -m -g users -G wheel,storage,power,audio,video,input,render -s /bin/bash seu_usuario
-passwd seu_usuario
-```
-
----
-
-## 9. Configuração do GRUB para Dual-Boot
+## 8. Configuração do GRUB para Dual-Boot
 
 Esta é a parte mais importante para dual-boot!
 
-### 9.1 Instalar Pacotes Necessários
+### 8.1 Instalar Pacotes Necessários
 
 ```bash
 # Instalar GRUB e ferramentas para detectar Windows
 pacman -S grub efibootmgr os-prober ntfs-3g
 ```
 
-### 9.2 Instalar GRUB na Partição EFI Compartilhada
+### 8.2 Instalar GRUB na Partição EFI Compartilhada
 
 ```bash
 # Instalar GRUB
