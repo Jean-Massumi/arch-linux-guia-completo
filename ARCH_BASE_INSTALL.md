@@ -159,19 +159,24 @@ fdisk -l /dev/sda
 
 ### 4.1 Escolha Seu Tipo de Instalação
 
-Este guia cobre dois cenários:
+#### **Instalação Única (Disco Completo)**
 
-**A. Instalação Única (Disco Completo)**
-- O Arch Linux será o único sistema operacional
-- Todo o disco será usado para o Linux
-- Processo mais simples e direto
+Se você quer apenas o Arch Linux no computador, siga este guia normalmente.
 
-**B. Dual-Boot com Windows**
-- Arch Linux convivendo com Windows
-- Requer cuidados especiais com partições
-- **Consulte o guia**: [ARCH_DUALBOOT_GUIDE.md](./ARCH_DUALBOOT_GUIDE.md)
+#### **Dual-Boot com Windows**
 
-> **Para Dual-Boot**: Pule para o guia específico de dual-boot. O processo de particionamento é diferente e requer atenção especial para não danificar o Windows.
+Se você já tem Windows instalado e quer manter os dois sistemas:
+
+1. **Não siga as seções 4 a 6** deste guia
+2. **Consulte**: [ARCH_DUALBOOT_GUIDE.md](./ARCH_DUALBOOT_GUIDE.md)
+3. O guia de dual-boot explica:
+   - Como redimensionar a partição do Windows
+   - Como reutilizar a partição EFI existente
+   - Particionamento, formatação e montagem específicos
+   - Configuração do GRUB para detectar o Windows
+4. Após completar o dual-boot, volte para a **seção 7** deste guia
+
+> **Continue lendo se você está fazendo instalação única.**
 
 ### 4.2 Instalação Única - Iniciar Particionamento
 
@@ -282,9 +287,6 @@ Command (m for help): w          # Escrever mudanças no disco e sair
 # Verificar estrutura atual (OBRIGATÓRIO!)
 lsblk
 
-# ADAPTE os nomes das partições para o SEU sistema:
-# Se seu disco é /dev/nvme0n1, use /dev/nvme0n1p1, /dev/nvme0n1p2, etc.
-
 # Formatar partição EFI com FAT32
 mkfs.fat -F32 /dev/sda1
 
@@ -304,10 +306,9 @@ mkfs.ext4 /dev/sda4
 - `mkswap/swapon`: Cria e ativa a área de memória virtual (swap)
 - `mkfs.ext4`: Formata partições com sistema de arquivos ext4 (padrão Linux)
 
-### 5.1 Verificar Formatação
+### 5.1 (Opcional) Verificar Formatação
 
 ```bash
-# Verificar se todas as partições foram formatadas corretamente
 lsblk -f
 ```
 
@@ -316,8 +317,6 @@ lsblk -f
 ---
 
 ## 6. Montagem das Partições
-
-**ATENÇÃO**: Use os nomes corretos das suas partições!
 
 ```bash
 # Montar partição raiz no ponto de montagem principal
@@ -349,16 +348,7 @@ mount | grep /mnt
 
 ## 7. Configuração de Mirrors (Servidores de Download)
 
-### 7.1 Atualizar Base de Dados de Pacotes
-
-```bash
-# Atualizar lista de pacotes disponíveis
-pacman -Sy
-```
-
-**O que faz**: Sincroniza a base de dados de pacotes com os repositórios remotos.
-
-### 7.2 Configurar Mirrors Otimizados
+### 7.1 Configurar Mirrors Otimizados
 
 ```bash
 # Instalar reflector para otimizar mirrors
@@ -369,7 +359,6 @@ reflector --country Brazil --latest 10 --sort rate --verbose --save /etc/pacman.
 ```
 
 **O que faz**: 
-- Atualiza a base de dados de pacotes
 - Instala o reflector (ferramenta para otimizar mirrors)
 - Seleciona os 10 mirrors brasileiros mais rápidos e os salva na configuração
 
@@ -500,70 +489,36 @@ nano /etc/hosts
 
 ## 12. Configuração de Usuários
 
-> **IMPORTANTE**: Você criará DOIS usuários com senhas diferentes:
-> 1. **Root** - Administrador do sistema (emergências apenas)
-> 2. **Seu usuário** - Conta pessoal para uso diário
+Você criará dois usuários:
+- **root**: Administrador do sistema (apenas para emergências)
+- **seu_usuario**: Sua conta pessoal (uso diário)
 
 ### 12.1 Definir Senha do Root
-
-```bash
+````bash
 passwd
-```
-
-**O que faz**: Define a senha do usuário **root** (administrador). Esta senha será usada apenas em emergências ou manutenção crítica do sistema.
-
-**Exemplo de uso:**
-```
-New password: [digite uma senha forte]
-Retype new password: [digite novamente]
-```
+# Digite uma senha forte quando solicitado
+````
 
 ### 12.2 Instalar e Configurar Sudo
-
-```bash
+````bash
 # Instalar sudo
 pacman -S sudo
 
-# Configurar permissões do sudo
+# Configurar permissões
 EDITOR=nano visudo
 # Descomente a linha: %wheel ALL=(ALL) ALL
-```
-
-**O que faz**: Instala o `sudo` que permite que usuários comuns executem comandos administrativos. O `sudo` é mais seguro que usar root diretamente.
+````
 
 ### 12.3 Criar Usuário Regular
-
-```bash
-# Criar usuário (substitua "seu_usuario" pelo nome desejado)
-# Exemplo: useradd -m -g users -G wheel... -s /bin/bash joao
+````bash
+# Substitua "seu_usuario" pelo nome desejado
 useradd -m -g users -G wheel,storage,power,audio,video,input,render -s /bin/bash seu_usuario
 
 # Definir senha do usuário
 passwd seu_usuario
-```
+````
 
-**O que fazem**:
-- Cria um usuário regular com diretório home
-- Adiciona o usuário ao grupo `wheel` (permite usar `sudo`)
-- Adiciona a outros grupos necessários (áudio, vídeo, etc.)
-- Define bash como shell padrão
-
-**Exemplo de definição de senha:**
-```
-New password: [digite a senha do SEU usuário]
-Retype new password: [digite novamente]
-```
-
-### 12.4 Resumo - Duas Senhas Criadas
-
-Ao final desta seção, você terá:
-
-| Usuário | Senha | Quando Usar |
-|---------|-------|-------------|
-| **root** | Senha 1 (forte) | Emergências, recuperação do sistema |
-| **seu_usuario** | Senha 2 (sua escolha) | Uso diário, login normal |
-
-**No dia a dia**: Você fará login com **seu_usuario** e usará `sudo` quando precisar fazer algo administrativo (instalar programas, editar arquivos do sistema, etc.)
+**No uso diário**: Faça login com seu usuário e use `sudo` para tarefas administrativas.
 
 ---
 
