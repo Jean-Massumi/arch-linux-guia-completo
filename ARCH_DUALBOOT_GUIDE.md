@@ -5,13 +5,13 @@
 
 > **Dual-Boot**: Tenha Windows e Arch Linux no mesmo computador
 
-> **Tempo estimado**: 2-3 horas  
-> **Nível de dificuldade**: Avançado
+> **IMPORTANTE**: Este guia assume que você JÁ tem Windows instalado e quer adicionar o Arch Linux. Se você não tem nenhum sistema instalado, siga primeiro o [Guia de Instalação Base do Arch Linux](./ARCH_BASE_INSTALL.md).
 
 ---
 
 ## Índice
 
+- [Diferenças do Dual-Boot](#diferenças-do-dual-boot)
 - [Pré-requisitos](#pré-requisitos)
 - [1. Preparação do Windows](#1-preparação-do-windows)
 - [2. Redimensionar Partição do Windows](#2-redimensionar-partição-do-windows)
@@ -20,11 +20,35 @@
 - [5. Identificar Partições Existentes](#5-identificar-partições-existentes)
 - [6. Particionamento para Dual-Boot](#6-particionamento-para-dual-boot)
 - [7. Formatação e Montagem](#7-formatação-e-montagem)
-- [8. Instalação do Sistema Base](#8-instalação-do-sistema-base)
+- [8. Continuar com Instalação Base](#8-continuar-com-instalação-base)
 - [9. Configuração do GRUB para Dual-Boot](#9-configuração-do-grub-para-dual-boot)
 - [10. Finalização](#10-finalização)
-- [11. Solução de Problemas Dual-Boot](#11-solução-de-problemas-dual-boot)
-- [Dicas Importantes](#dicas-importantes)
+- [11. Dicas Importantes](#11-dicas-importantes)
+- [12. Solução de Problemas Dual-Boot](#12-solução-de-problemas-dual-boot)
+- [Apêndice A: Dual-Boot em Discos Separados](#apêndice-a-dual-boot-em-discos-separados)
+
+---
+
+## Diferenças do Dual-Boot
+
+O processo de dual-boot difere da instalação padrão nos seguintes pontos:
+
+**O que é DIFERENTE no dual-boot:**
+
+1. **Partição EFI**: Você vai REUTILIZAR a partição EFI do Windows (não criar uma nova)
+2. **Particionamento**: Você vai criar partições no espaço livre (não apagar tudo)
+3. **GRUB**: Precisa detectar e adicionar o Windows ao menu de boot
+4. **Cuidados especiais**: Fast Boot, Secure Boot e BitLocker precisam ser desabilitados
+
+**O que é IGUAL à instalação padrão:**
+
+- Configuração de teclado e internet
+- Instalação do sistema base
+- Configuração de idioma, fuso horário e usuários
+- Instalação de drivers e NetworkManager
+- Todo o processo pós-instalação
+
+**Para tudo que não está especificamente listado neste guia de dual-boot, siga o [Guia de Instalação Base](./ARCH_BASE_INSTALL.md) normalmente.**
 
 ---
 
@@ -32,7 +56,7 @@
 
 - **Windows 10 ou 11** já instalado e funcionando
 - **Backup completo** de todos os dados importantes
-- **Pendrive bootável** com Arch Linux ISO
+- **Pendrive bootável** com Arch Linux ISO ([veja como criar](./BOOTABLE_USB_GUIDE.md))
 - **Mínimo 60GB livres** no disco para o Arch Linux
 - **Conexão com internet** durante a instalação
 - **Desabilitar BitLocker** se estiver ativo no Windows
@@ -79,22 +103,18 @@ manage-bde -off C:
 3. Clique em "Otimizar"
 4. Aguarde completar
 
-**IMPORTANTE**: Não desfragmente SSDs! Isso reduz sua vida útil.
+**IMPORTANTE**: Não desfragmente SSDs. Isso reduz sua vida útil.
 
 ---
 
 ## 2. Redimensionar Partição do Windows
 
-Você tem duas opções para redimensionar:
-
-### Opção A: Redimensionar pelo Windows (Recomendado para iniciantes)
-
-#### 2.1 Abrir Gerenciamento de Disco
+### 2.1 Abrir Gerenciamento de Disco
 
 1. Pressione `Win + X`
 2. Selecione "Gerenciamento de Disco"
 
-#### 2.2 Reduzir Volume
+### 2.2 Reduzir Volume do Windows
 
 1. Clique com botão direito na partição **C:** (Windows)
 2. Selecione "Reduzir Volume"
@@ -103,24 +123,9 @@ Você tem duas opções para redimensionar:
    - Para 100GB: digite `102400` MB
 4. Clique em "Reduzir"
 
-**O Windows criará um espaço "Não Alocado" - NÃO formate este espaço agora!**
+**O Windows criará um espaço "Não Alocado" - NÃO formate este espaço agora.**
 
-### Opção B: Redimensionar pelo Live USB do Arch (Avançado)
-
-Se preferir redimensionar pelo Arch Linux:
-
-```bash
-# Boot pelo pendrive do Arch
-# Instalar GParted
-pacman -Sy gparted
-
-# Abrir GParted
-gparted
-
-# Selecione a partição do Windows (geralmente /dev/sda3 ou /dev/nvme0n1p3)
-# Redimensione deixando espaço livre no final
-# Aplique as mudanças
-```
+> **Por que redimensionar pelo Windows?** É mais seguro e o próprio Windows gerencia suas estruturas internas. Redimensionar pelo Linux pode corromper o Windows se feito incorretamente.
 
 ---
 
@@ -135,6 +140,8 @@ gparted
 5. **Desmarque** "Ativar inicialização rápida"
 6. Salve as alterações
 
+> **IMPORTANTE**: Mantenha o Fast Boot permanentemente desabilitado durante o uso do dual-boot.
+
 ### 3.2 Desabilitar Secure Boot na BIOS/UEFI
 
 1. Reinicie o computador
@@ -143,7 +150,7 @@ gparted
 4. Mude para **"Disabled"** ou **"Other OS"**
 5. Salve e saia (F10)
 
-**Por quê?** Secure Boot pode impedir o boot do Arch Linux.
+**Por quê?** Secure Boot pode impedir o boot do Arch Linux. Você pode reabilitá-lo após a instalação (processo avançado).
 
 ---
 
@@ -154,6 +161,17 @@ gparted
 3. Entre no Boot Menu (geralmente F12, F8 ou ESC)
 4. Selecione o pendrive
 5. Escolha "Arch Linux install medium" no menu do GRUB
+
+**A partir daqui, você está no ambiente de instalação do Arch Linux.**
+
+### 4.1 Configurações Iniciais
+
+Siga as seções **1** e **2** do guia base para:
+- Configurar layout do teclado
+- Conectar à internet
+- Sincronizar horário
+
+**Guia**: [ARCH_BASE_INSTALL.md - Seções 1 e 2](./ARCH_BASE_INSTALL.md#1-configuração-inicial-do-sistema)
 
 ---
 
@@ -174,7 +192,7 @@ sda         500G disk
 ├─sda1      100M part    <- Partição de Recuperação do Windows
 ├─sda2      500M part    <- Partição EFI (COMPARTILHADA)
 ├─sda3      350G part    <- Windows C:
-└─sda4      149G part    <- Espaço livre (onde instalaremos o Arch)
+└─(livre)   149G         <- Espaço não alocado (onde instalaremos o Arch)
 ```
 
 **IMPORTANTE**: Identifique estas partições:
@@ -184,36 +202,55 @@ sda         500G disk
 | sda1 | 100-500MB | Recovery | Recuperação do Windows (NÃO MEXA) |
 | sda2 | 100-500MB | EFI System | Partição EFI (USAR, NÃO FORMATAR) |
 | sda3 | Variável | Microsoft basic data | Windows C: (NÃO MEXA) |
-| sda4+ | Não alocado | - | Espaço livre para Arch |
+| (livre) | Não alocado | - | Espaço livre para Arch |
 
 ### 5.2 Verificar Partição EFI
 
 ```bash
-# Montar temporariamente a partição EFI para verificar
-mkdir -p /mnt/efi_test
-mount /dev/sda2 /mnt/efi_test
-ls /mnt/efi_test/EFI
-
-# Você deve ver uma pasta "Microsoft" - isso confirma que é a partição EFI do Windows
-umount /mnt/efi_test
+# Montar temporariamente para verificar conteúdo
+mount /dev/sda2 /mnt
+ls /mnt/EFI/Microsoft && echo "Partição EFI confirmada" || echo "ERRO: Partição incorreta"
+umount /mnt
 ```
+
+> **IMPORTANTE**: Se sua partição EFI for menor que 300MB, consulte a seção de troubleshooting (12.7) para soluções específicas.
 
 ---
 
 ## 6. Particionamento para Dual-Boot
 
-### 6.1 Estrutura de Partições para Dual-Boot
+### 6.1 Compreendendo a Partição EFI
 
-**ATENÇÃO**: Você vai USAR a partição EFI existente do Windows, NÃO criar uma nova!
+**ATENÇÃO CRÍTICA**: 
+
+**No MESMO disco físico:**
+- Você DEVE USAR a partição EFI existente do Windows
+- NÃO criar uma segunda partição EFI
+
+**Por que não criar uma segunda partição EFI?**
+- Viola o padrão UEFI (uma ESP por disco)
+- Causa problemas em muitas BIOS/UEFI
+- Complexidade desnecessária
+- Desperdício de espaço
+
+**Exceção**: Se você tem Windows e Arch em discos físicos separados, veja o [Apêndice A](#apêndice-a-dual-boot-em-discos-separados).
+
+### 6.2 Estrutura de Partições para Dual-Boot
+
+**Partições Existentes do Windows (NÃO MEXA):**
+- sda1: Recuperação do Windows (100-500MB)
+- sda2: EFI (100-500MB) - **SERÁ COMPARTILHADA**
+- sda3: Windows C: (tamanho variável)
+
+**Novas Partições do Arch Linux:**
 
 | Partição | Tamanho | Tipo | Uso |
 |----------|---------|------|-----|
-| **Existente** sda2 | 100-500MB | EFI System | Compartilhada Windows/Arch |
-| **Nova** sda4 | 8GB | Linux Swap | Memória virtual |
-| **Nova** sda5 | 40-60GB | Linux filesystem | Raiz (/) |
-| **Nova** sda6 | Resto | Linux filesystem | Home (/home) |
+| sda4 | 8GB | Linux Swap | Memória virtual |
+| sda5 | 40-60GB | Linux filesystem | Raiz (/) |
+| sda6 | Resto | Linux filesystem | Home (/home) |
 
-### 6.2 Criar Novas Partições
+### 6.3 Criar Novas Partições
 
 ```bash
 # Abrir fdisk no disco (substitua sda pelo seu disco)
@@ -223,8 +260,8 @@ fdisk /dev/sda
 **Dentro do fdisk:**
 
 ```bash
-# NÃO crie nova tabela GPT! Ela já existe!
-# Vá direto para criar as partições
+# NÃO crie nova tabela GPT! Ela já existe do Windows!
+# Vá direto para criar as novas partições
 
 # Verificar partições existentes
 Command (m for help): p
@@ -257,7 +294,7 @@ Command (m for help): p  (verificar)
 Command (m for help): w  (salvar e sair)
 ```
 
-### 6.3 Verificar Nova Estrutura
+### 6.4 Verificar Nova Estrutura
 
 ```bash
 lsblk
@@ -267,9 +304,9 @@ lsblk
 ```
 NAME   SIZE TYPE
 sda    500G disk
-├─sda1 100M part  <- Windows Recovery
+├─sda1 100M part  <- Windows Recovery (NÃO MEXA)
 ├─sda2 500M part  <- EFI (COMPARTILHADA)
-├─sda3 350G part  <- Windows C:
+├─sda3 350G part  <- Windows C: (NÃO MEXA)
 ├─sda4   8G part  <- Swap (NOVA)
 ├─sda5  60G part  <- Root / (NOVA)
 └─sda6  81G part  <- Home /home (NOVA)
@@ -281,10 +318,10 @@ sda    500G disk
 
 ### 7.1 Formatar APENAS as Novas Partições
 
-**ATENÇÃO**: NÃO formate sda1 (Recovery), sda2 (EFI) ou sda3 (Windows)!
+**ATENÇÃO**: NÃO formate sda1 (Recovery), sda2 (EFI) ou sda3 (Windows).
 
 ```bash
-# Verificar novamente antes de formatar
+# Verificar estrutura antes de formatar (OBRIGATÓRIO)
 lsblk
 
 # Formatar Swap
@@ -316,30 +353,54 @@ mount /dev/sda6 /mnt/home
 
 # Verificar montagens
 lsblk
-mount | grep /mnt
-```
-
-**Verificação final antes de continuar:**
-```bash
-ls /mnt/boot/efi/EFI
-# Você DEVE ver uma pasta "Microsoft" aqui
-# Se não ver, você montou a partição errada!
 ```
 
 ---
 
-## 8. Configuração do GRUB para Dual-Boot
+## 8. Continuar com Instalação Base
 
-Esta é a parte mais importante para dual-boot!
+A partir daqui, execute as seguintes seções do guia base:
 
-### 8.1 Instalar Pacotes Necessários
+**[ARCH_BASE_INSTALL.md](./ARCH_BASE_INSTALL.md)**
+
+### 8.1 Seções a Completar
+
+- **Seção 7**: Configuração de Mirrors
+- **Seção 8**: Instalação do Sistema Base  
+- **Seção 9**: Configuração do Sistema (idioma, localização)
+- **Seção 10**: Configuração de Data e Hora
+- **Seção 11**: Configuração de Hostname
+- **Seção 12**: Configuração de Usuários
+
+### 8.2 Quando Parar
+
+**PARE antes da seção 13 (Bootloader)** do guia base e volte aqui para a seção 9.
+
+> **Por quê?** A configuração do bootloader para dual-boot é diferente e será feita na próxima seção.
+
+---
+
+## 9. Configuração do GRUB para Dual-Boot
+
+Esta é a parte mais importante para dual-boot funcionar.
+
+### 9.1 Instalar Pacotes Necessários
 
 ```bash
+# Certifique-se de estar em arch-chroot
+# Se não estiver, execute: arch-chroot /mnt
+
 # Instalar GRUB e ferramentas para detectar Windows
 pacman -S grub efibootmgr os-prober ntfs-3g
 ```
 
-### 8.2 Instalar GRUB na Partição EFI Compartilhada
+**O que cada pacote faz:**
+- `grub`: Bootloader principal
+- `efibootmgr`: Gerencia entradas de boot UEFI
+- `os-prober`: Detecta outros sistemas operacionais (Windows)
+- `ntfs-3g`: Permite ler/escrever em partições NTFS do Windows
+
+### 9.2 Instalar GRUB na Partição EFI Compartilhada
 
 ```bash
 # Instalar GRUB
@@ -359,7 +420,7 @@ nano /etc/default/grub
 # Encontre e DESCOMENTE (remova o #) ou adicione esta linha:
 GRUB_DISABLE_OS_PROBER=false
 
-# Opcional: adicionar timeout maior
+# Opcional: adicionar timeout maior para ter mais tempo de escolher
 GRUB_TIMEOUT=10
 
 # Salvar e sair (Ctrl+O, Enter, Ctrl+X)
@@ -375,45 +436,46 @@ grub-mkconfig -o /boot/grub/grub.cfg
 # "Found Windows Boot Manager on /dev/sda2@/EFI/Microsoft/Boot/bootmgfw.efi"
 ```
 
-**Se o Windows NÃO for detectado**, veja seção de troubleshooting.
+**Se o Windows NÃO for detectado**, veja a seção 12.1 de troubleshooting.
 
-### 9.5 Instalar Microcódigo da CPU
+### 9.5 Serviços Essenciais e Microcódigo
+
+Complete as seguintes seções do guia base:
+- **Seção 14**: Instalação do NetworkManager
+- **Seção 15**: Instalação de Microcódigo da CPU
+
+**Após instalar o microcódigo, regenere o GRUB:**
 
 ```bash
-# Intel
-pacman -S intel-ucode
-
-# AMD
-pacman -S amd-ucode
-
-# Regenerar configuração do GRUB
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
-### 9.6 Instalar NetworkManager
+### 9.6 Sobre Secure Boot
 
-```bash
-pacman -S networkmanager nm-connection-editor
-systemctl enable NetworkManager
-systemctl enable fstrim.timer
-```
+**Durante a instalação**: Mantenha o Secure Boot DESABILITADO.
+
+**Após a instalação**: Para reabilitar o Secure Boot, você precisará assinar o bootloader com suas próprias chaves (processo avançado). Consulte: [Arch Wiki - Secure Boot](https://wiki.archlinux.org/title/Secure_Boot)
+
+**Recomendação para iniciantes**: Mantenha o Secure Boot desabilitado. O sistema funciona perfeitamente sem ele.
 
 ---
 
 ## 10. Finalização
 
+### 10.1 Sair e Reiniciar
+
 ```bash
 # Sair do chroot
 exit
 
-# Desmontar
+# Desmontar todas as partições
 umount -R /mnt
 
 # Reiniciar
 reboot
 ```
 
-### 10.1 Primeiro Boot
+### 10.2 Primeiro Boot Dual-Boot
 
 Ao reiniciar, você verá o **menu do GRUB** com opções:
 
@@ -421,13 +483,76 @@ Ao reiniciar, você verá o **menu do GRUB** com opções:
 2. **Advanced options for Arch Linux**
 3. **Windows Boot Manager**
 
-Teste ambos os sistemas para garantir que funcionam!
+**Teste ambos os sistemas** para garantir que funcionam corretamente.
+
+### 10.3 Configuração Pós-Instalação
+
+Após verificar que o dual-boot funciona, siga o guia de pós-instalação:
+
+**[ARCH_POST_INSTALL.md](./ARCH_POST_INSTALL.md)** - Configuração completa do ambiente
 
 ---
 
-## 11. Solução de Problemas Dual-Boot
+## 11. Dicas Importantes
 
-### 11.1 GRUB Não Detecta o Windows
+### 11.1 Manutenção do Dual-Boot
+
+1. **Sempre atualize o GRUB após mudanças**:
+   ```bash
+   sudo grub-mkconfig -o /boot/grub/grub.cfg
+   ```
+
+2. **Mantenha Fast Boot desabilitado** no Windows (veja seção 3.1)
+
+3. **Não use Hibernação no Windows** quando for alternar para Linux
+
+4. **Faça backup regular** de ambos os sistemas
+
+5. **Não mexa na partição EFI** manualmente
+
+### 11.2 Alternando entre Sistemas
+
+- **Método 1**: Use o menu do GRUB ao ligar o computador
+- **Método 2**: No Linux, reinicie e escolha Windows no GRUB
+- **Método 3**: No Windows, use "Opções de inicialização avançadas"
+
+### 11.3 Acessando Arquivos do Windows no Linux
+
+```bash
+# Criar ponto de montagem
+sudo mkdir -p /mnt/windows
+
+# Montar partição do Windows
+sudo mount -t ntfs-3g /dev/sda3 /mnt/windows
+
+# Acessar arquivos
+ls /mnt/windows
+```
+
+**Para montar automaticamente na inicialização:**
+```bash
+echo "/dev/sda3 /mnt/windows ntfs-3g defaults 0 0" | sudo tee -a /etc/fstab
+```
+
+### 11.4 Desinstalando o Arch (Voltando só para Windows)
+
+Se quiser remover o Arch:
+
+1. Boot pelo Windows
+2. Abra "Gerenciamento de Disco"
+3. Delete as partições do Arch (Swap, Root, Home)
+4. Estenda a partição do Windows de volta
+5. Use `bcdedit` para remover entrada do GRUB (opcional):
+   ```cmd
+   bcdedit /enum firmware
+   bcdedit /delete {identificador-do-grub}
+   ```
+
+---
+
+## 12. Solução de Problemas Dual-Boot
+
+### 12.1 GRUB Não Detecta o Windows
 
 **Solução:**
 
@@ -443,7 +568,7 @@ sudo pacman -S os-prober ntfs-3g
 sudo nano /etc/default/grub
 # Adicionar ou descomentar: GRUB_DISABLE_OS_PROBER=false
 
-# Montar partição EFI
+# Montar partição EFI se não estiver montada
 sudo mount /dev/sda2 /boot/efi
 
 # Regenerar configuração
@@ -453,18 +578,18 @@ sudo grub-mkconfig -o /boot/grub/grub.cfg
 # Deve aparecer: "Found Windows Boot Manager..."
 ```
 
-### 11.2 Sistema Boota Direto no Windows
+### 12.2 Sistema Boota Direto no Windows
 
 **Causa**: BIOS está priorizando Windows Boot Manager.
 
-**Solução:**
+**Solução 1 - Pela BIOS:**
 
 1. Entre na BIOS/UEFI (F2, DEL, F10)
 2. Procure "Boot Order" ou "Boot Priority"
 3. Coloque **GRUB** ou **Arch Linux** como primeira opção
 4. Salve e reinicie
 
-**Alternativa via efibootmgr:**
+**Solução 2 - Via efibootmgr:**
 
 ```bash
 # Verificar ordem de boot atual
@@ -475,7 +600,13 @@ efibootmgr -v
 sudo efibootmgr -o XXXX,YYYY
 ```
 
-### 11.3 Erro "No Bootable Device"
+### 12.3 Sistema Boota Direto no Arch (Windows Sumiu)
+
+**Causa**: GRUB não detectou o Windows.
+
+**Solução**: Veja seção 12.1 acima.
+
+### 12.4 Erro "No Bootable Device" ou Windows Sobrescreveu GRUB
 
 **Solução:**
 
@@ -495,103 +626,184 @@ umount -R /mnt
 reboot
 ```
 
-### 11.4 Horário Diferente entre Windows e Linux
+### 12.5 Horário Diferente entre Windows e Linux
 
-**Causa**: Windows usa horário local, Linux usa UTC.
+**Causa**: Windows usa horário local (RTC), Linux usa UTC.
 
-**Solução - Fazer Linux usar horário local:**
+**Solução 1 - Fazer Linux usar horário local (mais simples):**
 
 ```bash
 sudo timedatectl set-local-rtc 1 --adjust-system-clock
 ```
 
-**OU fazer Windows usar UTC (recomendado):**
+**Solução 2 - Fazer Windows usar UTC (recomendado):**
 
 No Windows, como Administrador:
 ```cmd
 reg add "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\TimeZoneInformation" /v RealTimeIsUniversal /d 1 /t REG_DWORD /f
 ```
 
-### 11.5 Não Consigo Acessar Partições do Windows
+### 12.6 Não Consigo Acessar Partições do Windows no Arch
 
-**Solução:**
+**Solução**: Veja seção 11.3 sobre como montar partições Windows.
+
+Se o problema persistir:
 
 ```bash
-# Instalar ntfs-3g
+# Verificar se ntfs-3g está instalado
 sudo pacman -S ntfs-3g
 
-# Criar ponto de montagem
-sudo mkdir -p /mnt/windows
-
-# Montar partição do Windows
-sudo mount -t ntfs-3g /dev/sda3 /mnt/windows
-
-# Para montar automaticamente, adicionar ao /etc/fstab:
-echo "/dev/sda3 /mnt/windows ntfs-3g defaults 0 0" | sudo tee -a /etc/fstab
+# Tentar montar com mais opções
+sudo mount -t ntfs-3g -o rw,uid=1000,gid=1000 /dev/sda3 /mnt/windows
 ```
 
-### 11.6 Windows Não Inicia Após Atualização
+### 12.7 Partição EFI Muito Pequena (100MB)
 
-**Causa**: Atualização do Windows pode reescrever o bootloader.
+**Problema**: Windows criou partição EFI de apenas 100MB, que pode encher rapidamente.
+
+**Solução 1 - Usar compressão alta no initramfs (Recomendado):**
+
+```bash
+sudo nano /etc/mkinitcpio.conf
+
+# Adicionar estas linhas ao final:
+COMPRESSION="xz"
+COMPRESSION_OPTIONS=(-9e)
+MODULES_DECOMPRESS="yes"
+
+# Salvar e regenerar initramfs
+sudo mkinitcpio -P
+```
+
+**Solução 2 - Manter apenas um kernel:**
+
+```bash
+# Listar kernels instalados
+pacman -Q | grep linux
+
+# Ao atualizar, remover kernels antigos automaticamente
+# O pacman já faz isso, mas você pode verificar com:
+ls /boot
+
+# Manter apenas o kernel atual e remover backups antigos
+```
+
+**Solução 3 - Aumentar partição EFI (Avançado):**
+
+Consulte: [Arch Wiki - EFI System Partition](https://wiki.archlinux.org/title/EFI_system_partition#Enlarge_the_EFI_system_partition)
+
+### 12.8 Erro ao Montar Partição NTFS
+
+**Sintoma**: Erro "The disk contains an unclean file system" ou "Windows is hibernated"
+
+**Causa**: Windows não foi desligado corretamente (Fast Boot ou Hibernação).
 
 **Solução:**
 
 ```bash
-# Boot pelo pendrive do Arch
-mount /dev/sda5 /mnt
-mount /dev/sda2 /mnt/boot/efi
-arch-chroot /mnt
+# Boot pelo Windows
+# Desabilitar Fast Boot (veja seção 3.1)
+# Desabilitar Hibernação:
+powercfg /h off
 
-# Reinstalar GRUB
-grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB --recheck
-grub-mkconfig -o /boot/grub/grub.cfg
+# Desligar Windows completamente
+shutdown /s /t 0
 
-exit
-reboot
+# Agora boot pelo Arch e monte normalmente
+```
+
+**Alternativa - Forçar montagem (use com cuidado):**
+
+```bash
+sudo ntfs-3g -o remove_hiberfile /dev/sda3 /mnt/windows
 ```
 
 ---
 
-## Dicas Importantes
+## Apêndice A: Dual-Boot em Discos Separados
 
-### Manutenção do Dual-Boot
+Se você tem Windows em um disco (ex: sda) e quer instalar Arch em outro disco físico (ex: sdb):
 
-1. **Sempre atualize o GRUB após mudanças**:
-   ```bash
-   sudo grub-mkconfig -o /boot/grub/grub.cfg
-   ```
+### Características deste Cenário
 
-2. **Desabilite Fast Boot no Windows** permanentemente
+**Vantagens:**
+- Isolamento completo entre sistemas
+- Pode criar nova partição EFI no disco do Arch
+- Mais fácil de remover um sistema sem afetar o outro
+- Menor risco de corrupção acidental
 
-3. **Não use Hibernação no Windows** quando for alternar para Linux
+**Desvantagens:**
+- Precisa selecionar o disco no Boot Menu da BIOS a cada boot (opcional)
+- Dois pontos de falha (dois discos)
 
-4. **Backup regular** de ambos os sistemas
+### Processo de Instalação
 
-5. **Não mexa na partição EFI** manualmente
+**Este cenário NÃO requer este guia de dual-boot.**
 
-### Desinstalando o Arch (Voltando só para Windows)
+Siga o **[Guia de Instalação Base](./ARCH_BASE_INSTALL.md)** completo normalmente:
 
-Se quiser remover o Arch:
+1. Instale o Arch Linux no segundo disco como instalação única
+2. Crie uma nova partição EFI no disco do Arch
+3. Instale o GRUB normalmente
+4. O GRUB detectará o Windows automaticamente (mesmo em outro disco)
 
-1. Boot pelo Windows
-2. Abra "Gerenciamento de Disco"
-3. Delete as partições do Arch (Swap, Root, Home)
-4. Estenda a partição do Windows de volta
-5. Use o utilitário `bcdedit` para remover entrada do GRUB:
-   ```cmd
-   bcdedit /delete {identificador-do-grub}
-   ```
+### Configuração da BIOS
+
+**Opção 1 - GRUB como bootloader principal:**
+1. Configure a BIOS para dar prioridade ao disco do Arch
+2. O GRUB carregará automaticamente e mostrará ambos os sistemas
+
+**Opção 2 - Selecionar manualmente:**
+1. Deixe a BIOS com prioridade no disco do Windows
+2. Pressione F12 (ou tecla de boot menu) para escolher o disco do Arch quando quiser
+
+### Estrutura de Partições
+
+**Disco 1 (sda) - Windows:**
+```
+sda
+├─ sda1: EFI (Windows)
+├─ sda2: Windows Recovery
+└─ sda3: Windows C:
+```
+
+**Disco 2 (sdb) - Arch Linux:**
+```
+sdb
+├─ sdb1: EFI (Arch) <- NOVA PARTIÇÃO EFI
+├─ sdb2: Swap
+├─ sdb3: Root /
+└─ sdb4: Home
+```
+
+### Configuração do GRUB
+
+```bash
+# Após instalar normalmente, editar:
+sudo nano /etc/default/grub
+
+# Adicionar:
+GRUB_DISABLE_OS_PROBER=false
+
+# Instalar os-prober
+sudo pacman -S os-prober
+
+# Regenerar configuração
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+
+# O Windows será detectado automaticamente mesmo em outro disco
+```
 
 ---
 
 ## Recursos Adicionais
 
-- [Arch Wiki - Dual Boot with Windows](https://wiki.archlinux.org/title/Dual_boot_with_Windows)
-- [Arch Wiki - GRUB](https://wiki.archlinux.org/title/GRUB)
-- [Arch Wiki - EFI System Partition](https://wiki.archlinux.org/title/EFI_system_partition)
+- **Arch Wiki - Dual Boot with Windows**: [wiki.archlinux.org/title/Dual_boot_with_Windows](https://wiki.archlinux.org/title/Dual_boot_with_Windows)
+- **Arch Wiki - GRUB**: [wiki.archlinux.org/title/GRUB](https://wiki.archlinux.org/title/GRUB)
+- **Arch Wiki - EFI System Partition**: [wiki.archlinux.org/title/EFI_system_partition](https://wiki.archlinux.org/title/EFI_system_partition)
 
 ---
 
-**Parabéns! Você configurou com sucesso um dual-boot Arch Linux + Windows!**
+**Parabéns! Você configurou com sucesso um dual-boot Arch Linux + Windows.**
 
 *Última atualização: Dezembro 2025*
