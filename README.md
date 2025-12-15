@@ -3,22 +3,23 @@
 <div align="center">
   <img src="https://archlinux.org/static/logos/archlinux-logo-dark-90dpi.ebdee92a15b3.png" alt="Arch Linux" width="400"/>
   
-  ![Status](https://img.shields.io/badge/Status-Atualizado_2026-green?style=for-the-badge)
+  ![Status](https://img.shields.io/badge/Status-Atualizado_Dez_2025-green?style=for-the-badge)
   ![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)
   ![Portuguese](https://img.shields.io/badge/Idioma-Português-green?style=for-the-badge)
 </div>
 
 > **LEIA PRIMEIRO**: [**AVISO DE RESPONSABILIDADE IMPORTANTE**](./DISCLAIMER.md) - Leia antes de prosseguir!
 
-> **IMPORTANTE**: Este manual está em **constante evolução** e é atualizado regularmente por mim (e futuramente pela comunidade). Os procedimentos descritos foram testados e funcionam perfeitamente para **2026**. No entanto, devido à natureza rolling release do Arch Linux, **alguns comandos podem se tornar obsoletos em anos futuros**. Sempre consulte a [documentação oficial](https://wiki.archlinux.org/) para verificar mudanças recentes.
+> **IMPORTANTE**: Este manual é atualizado regularmente e testado para 2025. Devido à natureza rolling release do Arch Linux, alguns comandos podem mudar no futuro. Sempre consulte a [documentação oficial](https://wiki.archlinux.org/) para verificar atualizações.
 
 >  **Tempo estimado de leitura**: 5 minutos  
->  **Tempo estimado de instalação completa**: 1-2 horas
+>  **Tempo estimado de instalação completa**: 2-4 horas
 
 ---
 
 ## Índice
 - [Quick Start](#quick-start)
+- [Tempo Estimado](#tempo-estimado)
 - [Pré-requisitos](#pré-requisitos)
 - [Documentação](#documentação)
   - [Preparação](#preparação)
@@ -32,23 +33,48 @@
 ---
 
 ## **Quick Start**
-```bash
-# 1. Baixe a ISO do Arch Linux
-# 2. Crie um pendrive bootável (veja BOOTABLE_USB_GUIDE.md)
-# 3. Siga o guia: ARCH_BASE_INSTALL.md
-# 4. Após a instalação base: ARCH_POST_INSTALL.md
-# 5. Escolha seu ambiente desktop
-```
+
+### **Para Instalação Nova (sem Windows):**
+1. Baixe a ISO oficial: [archlinux.org/download](https://archlinux.org/download/)
+2. Crie o pendrive bootável: [BOOTABLE_USB_GUIDE.md](./BOOTABLE_USB_GUIDE.md)
+3. Siga a instalação base: [ARCH_BASE_INSTALL.md](./ARCH_BASE_INSTALL.md)
+4. Configure o sistema: [ARCH_POST_INSTALL.md](./ARCH_POST_INSTALL.md)
+5. Escolha seu ambiente desktop
+
+### **Para Dual-Boot com Windows:**
+1. **ATENÇÃO**: Faça backup completo dos seus dados
+2. Siga o guia base que inclui seção de dual-boot: [ARCH_BASE_INSTALL.md](./ARCH_BASE_INSTALL.md)
+3. Configure o sistema: [ARCH_POST_INSTALL.md](./ARCH_POST_INSTALL.md)
+
+---
+
+## **Tempo Estimado**
+
+| Etapa | Tempo | Observação |
+|-------|-------|------------|
+| **Preparação** | 30 min | Download da ISO e criação do pendrive |
+| **Instalação Base** | 30-60 min | Particionamento, instalação do sistema |
+| **Pós-Instalação** | 30-60 min | Drivers, ferramentas essenciais |
+| **Ambiente Desktop** | 30-90 min | GNOME/KDE/Hyprland + customização |
+| **TOTAL** | **2-4 horas** | Varia conforme experiência e ambiente |
 
 ---
 
 ## Pré-requisitos
+
+### **Nível de Conhecimento:**
+- **Iniciante**: Pode seguir o guia, mas requer atenção aos detalhes
+- **Intermediário**: Ideal para quem já usou Linux antes
+- **Avançado**: Terá facilidade com os procedimentos
+
+### **Requisitos Técnicos:**
 Antes de começar, certifique-se de ter:
 
 - **Conhecimento básico** de terminal Linux
 - **Conexão à internet** durante a instalação
-- **Backup** de dados importantes
+- **Backup completo** de dados importantes (especialmente para dual-boot)
 - **Pendrive** de no mínimo 4GB
+- **Espaço em disco**: Mínimo 20GB (recomendado 60GB+)
 - **Paciência** e disposição para aprender
 
 ---
@@ -57,8 +83,11 @@ Antes de começar, certifique-se de ter:
 
 ### **Preparação**
 **[BOOTABLE_USB_GUIDE.md](./BOOTABLE_USB_GUIDE.md)** - Como criar pendrive bootável
-- Guia para Windows
-- Guia para Linux
+
+**Conteúdo:**
+- Guia para Windows (Rufus, Balena Etcher)
+- Guia para Linux (dd, Ventoy)
+- Verificação de integridade da ISO
 
 ---
 
@@ -69,23 +98,43 @@ Antes de começar, certifique-se de ter:
 - Preparação e particionamento do disco
 - Instalação do sistema base
 - Configuração de bootloader (GRUB)
-- Configuração inicial do sistema
+- Configuração inicial do sistema (idioma, fuso horário, usuários)
+- **Seção especial de Dual-Boot com Windows**
 - Solução de problemas comuns
+
+**Tempo estimado:** 1-2 horas
 
 ---
 
 ### **Pós-Instalação**
 **[ARCH_POST_INSTALL.md](./ARCH_POST_INSTALL.md)** - Configuração completa do ambiente
 
+**Conteúdo:**
+- Instalação de drivers (GPU, áudio, impressoras)
+- Ferramentas essenciais do sistema
+- Otimizações e configurações de performance
+- Preparação para ambiente desktop
+
+**Tempo estimado:** 1-2 horas
+
 ---
 
 ### **Ambientes Desktop Completos**
 
 **[GNOME_COMPLETE_SETUP.md](./GNOME_COMPLETE_SETUP.md)** - Setup GNOME otimizado e completo
+- Interface moderna e intuitiva
+- Melhor para iniciantes
+- Integração completa com Wayland
 
 **[KDE_COMPLETE_SETUP.md](./KDE_COMPLETE_SETUP.md)** - Setup KDE Plasma completo
+- Altamente customizável
+- Visual moderno e polido
+- Rico em recursos e configurações
 
 **[HYPRLAND_COMPLETE_SETUP.md](./HYPRLAND_COMPLETE_SETUP.md)** - Setup Hyprland (Wayland compositor)
+- Gerenciador de janelas tiling
+- Extremamente leve e rápido
+- Requer conhecimento intermediário
 
 ---
 
@@ -94,13 +143,17 @@ Antes de começar, certifique-se de ter:
 <details>
 <summary><b>Quanto tempo leva a instalação?</b></summary>
 
-Entre 30 minutos a 2 horas, dependendo da sua experiência, velocidade da internet e ambiente desktop escolhido.
+Entre 2 a 4 horas no total, dependendo da sua experiência, velocidade da internet e ambiente desktop escolhido.
 </details>
 
 <details>
 <summary><b>Posso instalar junto com Windows (dual-boot)?</b></summary>
 
-Sim! Veja a seção específica de dual-boot em [ARCH_BASE_INSTALL.md](./ARCH_BASE_INSTALL.md).
+Sim! O guia [ARCH_BASE_INSTALL.md](./ARCH_BASE_INSTALL.md) possui uma seção completa dedicada ao dual-boot. **Pontos críticos:**
+- Faça backup completo antes de começar
+- Desabilite Fast Boot e Secure Boot na BIOS
+- Desabilite BitLocker se estiver ativo
+- Reserve no mínimo 60GB para o Arch Linux
 </details>
 
 <details>
@@ -113,7 +166,7 @@ Sim, a instalação baixa pacotes diretamente dos repositórios oficiais. Certif
 <summary><b>Qual ambiente desktop devo escolher?</b></summary>
 
 - **Iniciantes**: GNOME (mais simples e intuitivo)
-- **Customização**: KDE Plasma (infinitas opções)
+- **Customização**: KDE Plasma (infinitas opções de personalização)
 - **Performance**: Hyprland (leve e moderno, mas requer mais conhecimento)
 </details>
 
@@ -123,17 +176,33 @@ Sim, a instalação baixa pacotes diretamente dos repositórios oficiais. Certif
 Sim! Você pode instalar múltiplos ambientes e alternar entre eles no login.
 </details>
 
+<details>
+<summary><b>O Arch Linux é difícil?</b></summary>
+
+O Arch tem a reputação de ser difícil, mas com este guia passo a passo, qualquer pessoa com conhecimento básico de Linux pode instalá-lo. A dificuldade está mais na quantidade de decisões a tomar do que na complexidade técnica em si.
+</details>
+
+<details>
+<summary><b>Por que escolher Arch Linux?</b></summary>
+
+- **Controle total**: Você decide o que instalar
+- **Sempre atualizado**: Rolling release com últimas versões
+- **Documentação excelente**: Arch Wiki é a melhor referência
+- **Aprendizado**: Você entende como o sistema funciona
+- **Performance**: Sistema leve sem bloatware
+</details>
+
 ---
 
 ## **Contribuições**
 
 Contribuições são bem-vindas! Sinta-se livre para:
 
--  **Reportar erros** ou problemas encontrados
--  **Sugerir melhorias** nos guias
--  **Adicionar traduções** para outros idiomas
--  **Criar pull requests** com correções ou novos conteúdos
--  **Dar uma estrela** no projeto se ele foi útil para você
+- **Reportar erros** ou problemas encontrados
+- **Sugerir melhorias** nos guias
+- **Adicionar traduções** para outros idiomas
+- **Criar pull requests** com correções ou novos conteúdos
+- **Dar uma estrela** no projeto se ele foi útil para você
 
 ---
 
@@ -146,9 +215,20 @@ Contribuições são bem-vindas! Sinta-se livre para:
 ### Comunidades
 - **Fórum Oficial**: [Arch Linux Forums](https://bbs.archlinux.org/)
 - **Reddit**: [r/archlinux](https://www.reddit.com/r/archlinux/)
+- **Telegram**: Grupos brasileiros de Linux e Arch Linux
+
+### Ajuda Adicional
+Este manual **não inclui suporte técnico oficial**. Para problemas específicos:
+1. Consulte a **Arch Wiki** (90% dos problemas estão documentados lá)
+2. Use o **fórum oficial** para perguntas complexas
+3. Pesquise no **Reddit** para experiências de outros usuários
 
 ---
 
 ## Licença
 
 Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](./LICENSE) para mais detalhes.
+
+---
+
+**Última atualização**: Dezembro 2025
