@@ -414,7 +414,7 @@ pacstrap -K /mnt base base-devel linux linux-firmware linux-headers nano vim
 - `linux`: Kernel do Linux
 - `linux-firmware`: Firmware para hardware
 - `linux-headers`: Cabeçalhos do kernel (para módulos)
-- `nano/vim`: Editores de texto
+- `nano/neovim`: Editores de texto
 
 > **Dica**: Para maior estabilidade, você pode usar `linux-lts` (Long Term Support) no lugar de `linux`.
 
@@ -605,21 +605,9 @@ pacman -S grub efibootmgr
 grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB --recheck
 ```
 
-### 13.2 Configurar Dual-Boot (se necessário)
-
-**Se você está instalando em dual-boot com Windows**, instale os pacotes adicionais:
-
-```bash
-# Se você tem Windows ou outro SO instalado:
-pacman -S os-prober ntfs-3g
-
-nano /etc/default/grub
-# Descomente: GRUB_DISABLE_OS_PROBER=false
-```
-
 **Para instruções completas de dual-boot**, consulte: [ARCH_DUALBOOT_GUIDE.md](./ARCH_DUALBOOT_GUIDE.md)
 
-### 13.3 Gerar Configuração do GRUB
+### 13.2 Gerar Configuração do GRUB
 
 ```bash
 grub-mkconfig -o /boot/grub/grub.cfg
@@ -630,7 +618,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 - Detectam outros sistemas operacionais (dual-boot)
 - Geram o menu de inicialização
 
-### 13.4 Verificar Instalação do GRUB
+### 13.3 Verificar Instalação do GRUB
 
 ```bash
 # Verificar se o GRUB foi instalado na partição EFI
@@ -827,64 +815,3 @@ Este guia inclui:
 - Instalação de drivers
 - Temas e personalizações
 - E muito mais!
-
----
-
-## Apêndices
-
-### Apêndice A: Comandos Rápidos de Referência
-
-#### Durante Instalação Live USB
-```bash
-loadkeys br-abnt2              # Teclado brasileiro
-iwctl                          # Configurar WiFi
-lsblk                          # Ver discos
-fdisk /dev/sda                 # Particionar
-```
-
-#### Após Instalação
-```bash
-sudo pacman -Syu               # Atualizar sistema
-sudo nmtui                     # Configurar rede
-sudo systemctl status <serviço> # Ver status de serviço
-journalctl -xe                 # Ver logs do sistema
-```
-
-### Apêndice B: Instalação Expressa (Usuários Avançados)
-
-**ATENÇÃO**: Esta é uma versão condensada. Use apenas se souber o que está fazendo.
-
-```bash
-loadkeys br-abnt2
-iwctl  # configurar wifi se necessário
-timedatectl set-ntp true
-wipefs -a /dev/sda
-fdisk /dev/sda  # criar partições (g, n, t, w)
-mkfs.fat -F32 /dev/sda1
-mkswap /dev/sda2 && swapon /dev/sda2
-mkfs.ext4 /dev/sda3
-mkfs.ext4 /dev/sda4
-mount /dev/sda3 /mnt
-mkdir -p /mnt/boot/efi /mnt/home
-mount /dev/sda1 /mnt/boot/efi
-mount /dev/sda4 /mnt/home
-pacman -Sy reflector
-reflector --country Brazil --latest 10 --sort rate --save /etc/pacman.d/mirrorlist
-pacstrap -K /mnt base base-devel linux linux-firmware linux-headers nano vim
-genfstab -U /mnt >> /mnt/etc/fstab
-arch-chroot /mnt
-nano /etc/locale.gen  # descomentar pt_BR.UTF-8
-locale-gen
-echo "LANG=pt_BR.UTF-8" > /etc/locale.conf
-echo "KEYMAP=br-abnt2" > /etc/vconsole.conf
-ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
-hwclock --systohc
-echo "meu-arch" > /etc/hostname
-nano /etc/hosts  # configurar hosts
-passwd  # senha root
-pacman -S sudo
-EDITOR=nano visudo  # descomentar %wheel
-useradd -m -g users -G wheel,storage,power,audio,video,input,render -s /bin/bash usuario
-passwd usuario
-pacman -S grub efibootmgr networkmanager nm-connection-editor intel-ucode
-grub-install --target=x86_64-efi --efi-directory=/
