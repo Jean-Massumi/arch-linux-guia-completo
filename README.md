@@ -102,8 +102,6 @@ Antes de começar, certifique-se de ter:
 - **Seção especial de Dual-Boot com Windows**
 - Solução de problemas comuns
 
-**Tempo estimado:** 1-2 horas
-
 ---
 
 ### **Pós-Instalação**
@@ -114,8 +112,6 @@ Antes de começar, certifique-se de ter:
 - Ferramentas essenciais do sistema
 - Otimizações e configurações de performance
 - Preparação para ambiente desktop
-
-**Tempo estimado:** 1-2 horas
 
 ---
 
