@@ -534,8 +534,6 @@ pacman -S grub efibootmgr
 grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB --recheck
 ```
 
-**Para instruções completas de dual-boot**, consulte: [ARCH_DUALBOOT_GUIDE.md](./ARCH_DUALBOOT_GUIDE.md)
-
 ### 13.2 Gerar Configuração do GRUB
 
 ```bash
@@ -547,7 +545,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 - Detectam outros sistemas operacionais (dual-boot)
 - Geram o menu de inicialização
 
-### 13.3 Verificar Instalação do GRUB
+### 13.3 (Opcional) Verificar Instalação do GRUB
 
 ```bash
 # Verificar se o GRUB foi instalado na partição EFI
@@ -579,7 +577,7 @@ systemctl enable fstrim.timer
 - Habilitam os serviços para iniciar automaticamente
 - Otimizam SSDs com TRIM automático
 
-### 14.1 Verificar Serviços Habilitados
+### 14.1 (Opcional) Verificar Serviços Habilitados
 
 ```bash
 # Verificar se os serviços foram habilitados corretamente
@@ -637,11 +635,10 @@ reboot
 
 Após reiniciar, você verá:
 
-1. **Menu do GRUB** - Selecione "Arch Linux"
-2. **Tela preta com texto** - Sistema está iniciando
-3. **Prompt de login** - Digite seu nome de usuário
-4. **Senha** - Digite a senha que você criou
-5. **Terminal** - Você está no seu novo Arch Linux!
+1. **Menu do GRUB**: Selecione "Arch Linux"
+2. **Prompt de login**: Digite seu nome de usuário
+3. **Senha**: Digite sua senha
+4. **Terminal**: Você está no Arch Linux!
 
 ### Comandos Úteis no Primeiro Boot
 
@@ -654,12 +651,6 @@ nmtui
 
 # Atualizar sistema
 sudo pacman -Syu
-
-# Verificar espaço em disco
-df -h
-
-# Verificar memória
-free -h
 ```
 
 ---
@@ -735,4 +726,3 @@ Este guia inclui:
 - Configuração de AUR helpers
 - Instalação de drivers
 - Temas e personalizações
-- E muito mais!
