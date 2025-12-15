@@ -30,7 +30,7 @@ Certifique-se de que você:
 
 - [ ] Fez **backup completo** de todos os dados importantes
 - [ ] Possui conhecimento básico de linha de comando Linux
-- [ ] Tem tempo disponível (1-3 horas) para concluir a instalação
+- [ ] Tem tempo disponível (1-4 horas) para concluir a instalação
 - [ ] Verificou a compatibilidade do seu hardware
 - [ ] Possui conexão de internet estável e confiável
 
@@ -103,15 +103,10 @@ Este manual **não inclui suporte técnico oficial**. Para ajuda:
 - **Arch Wiki**: Documentação completa e detalhada
 - **Fórum Oficial**: [bbs.archlinux.org](https://bbs.archlinux.org/)
 - **Reddit**: [r/archlinux](https://www.reddit.com/r/archlinux/)
-- **Telegram**: Grupos brasileiros de Linux
 
 ---
 
 > **IMPORTANTE**: A instalação do Arch Linux é um processo educativo. Se encontrar dificuldades, use isso como oportunidade de aprendizado consultando a documentação oficial.
-
----
-
-**Última atualização**: Dezembro 2025
 
 ---
 
