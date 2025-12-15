@@ -525,7 +525,7 @@ EDITOR=nano visudo
 
 ```bash
 # Criar usuário (substitua "seu_usuario" pelo nome desejado)
-useradd -m -g users -G wheel,storage,power -s /bin/bash seu_usuario
+useradd -m -g users -G wheel,storage,power,audio,video,input,render -s /bin/bash seu_usuario
 
 # Definir senha do usuário
 passwd seu_usuario
@@ -554,7 +554,7 @@ grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB 
 
 ```bash
 # Se você tem Windows ou outro SO instalado:
-pacman -S os-prober
+pacman -S os-prober ntfs-3g
 
 nano /etc/default/grub
 # Descomente: GRUB_DISABLE_OS_PROBER=false
@@ -590,7 +590,7 @@ ls -la /boot/grub/grub.cfg
 
 ```bash
 # Instalar NetworkManager
-pacman -S networkmanager
+pacman -S networkmanager nm-connection-editor
 
 # Habilitar NetworkManager na inicialização
 systemctl enable NetworkManager
