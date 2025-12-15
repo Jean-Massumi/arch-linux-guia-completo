@@ -96,7 +96,7 @@ Para informações mais atualizadas e oficiais, sempre consulte:
 
 ---
 
-**Última atualização deste aviso**: Agosto 2025
+**Última atualização deste aviso**: Dezembro 2025
 
 ---
 
