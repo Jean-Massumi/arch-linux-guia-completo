@@ -51,11 +51,6 @@ Antes de começar, faça backup de:
 - Configurações e programas
 - Chaves de licença de software
 
-**Ferramentas recomendadas**:
-- Windows Backup interno
-- Clonezilla (para imagem completa do disco)
-- Backup manual para HD externo
-
 ### 1.2 Desabilitar BitLocker (se ativo)
 
 ```powershell
