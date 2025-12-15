@@ -18,16 +18,16 @@
 ---
 
 ## Índice
-- [Quick Start](#-quick-start)
-- [Pré-requisitos](#-pré-requisitos)
-- [Documentação](#-documentação)
+- [Quick Start](#quick-start)
+- [Pré-requisitos](#pré-requisitos)
+- [Documentação](#documentação)
   - [Preparação](#preparação)
   - [Instalação Base](#instalação-base)
   - [Pós-Instalação](#pós-instalação)
   - [Ambientes Desktop](#ambientes-desktop-completos)
-- [FAQ Rápido](#-faq-rápido)
-- [Contribuições](#-contribuições)
-- [Suporte e Recursos](#-suporte-e-recursos)
+- [FAQ Rápido](#faq-rápido)
+- [Contribuições](#contribuições)
+- [Suporte e Recursos](#suporte-e-recursos)
 
 ---
 
@@ -146,7 +146,6 @@ Contribuições são bem-vindas! Sinta-se livre para:
 ### Comunidades
 - **Fórum Oficial**: [Arch Linux Forums](https://bbs.archlinux.org/)
 - **Reddit**: [r/archlinux](https://www.reddit.com/r/archlinux/)
-- **Comunidade BR**: [Arch Linux Brasil](https://archlinux-br.org/)
 
 ---
 
