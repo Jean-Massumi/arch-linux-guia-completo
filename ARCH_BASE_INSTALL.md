@@ -1,610 +1,783 @@
-# Guia de Instalação Dual-Boot: Arch Linux + Windows
+# Guia Completo de Instalação do Arch Linux
 
 ![Arch Linux](https://img.shields.io/badge/Arch_Linux-1793D1?style=for-the-badge&logo=arch-linux&logoColor=white)
-![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)
 
-> **Dual-Boot**: Tenha Windows e Arch Linux no mesmo computador
-
-> **Tempo estimado**: 2-3 horas  
-> **Nível de dificuldade**: Avançado
-
-> **IMPORTANTE**: Este guia assume que você JÁ tem Windows instalado e quer adicionar o Arch Linux. Se você não tem nenhum sistema instalado, siga primeiro o [Guia de Instalação Base do Arch Linux](./ARCH_BASE_INSTALL.md).
+> **Instalação Base do Sistema Arch Linux**
 
 ---
 
 ## Índice
 
-- [Diferenças do Dual-Boot](#diferenças-do-dual-boot)
 - [Pré-requisitos](#pré-requisitos)
-- [1. Preparação do Windows](#1-preparação-do-windows)
-- [2. Criar Espaço para o Arch Linux](#2-criar-espaço-para-o-arch-linux)
-- [3. Desabilitar Fast Boot e Secure Boot](#3-desabilitar-fast-boot-e-secure-boot)
-- [4. Boot pelo Pendrive do Arch Linux](#4-boot-pelo-pendrive-do-arch-linux)
-- [5. Identificar Partições Existentes](#5-identificar-partições-existentes)
-- [6. Particionamento para Dual-Boot](#6-particionamento-para-dual-boot)
-- [7. Formatação e Montagem](#7-formatação-e-montagem)
-- [8. Continuar com Instalação Base](#8-continuar-com-instalação-base)
-- [9. Configuração do GRUB para Dual-Boot](#9-configuração-do-grub-para-dual-boot)
-- [10. Solução de Problemas Dual-Boot](#10-solução-de-problemas-dual-boot)
-
----
-
-## Diferenças do Dual-Boot
-
-O processo de dual-boot difere da instalação padrão nos seguintes pontos:
-
-**O que é DIFERENTE no dual-boot:**
-
-1. **Partição EFI**: Você vai REUTILIZAR a partição EFI do Windows (não criar uma nova)
-2. **Particionamento**: Você vai criar partições no espaço livre (não apagar tudo)
-3. **GRUB**: Precisa detectar e adicionar o Windows ao menu de boot
-4. **Cuidados especiais**: Fast Boot, Secure Boot e BitLocker precisam ser desabilitados
-
-**Para tudo que não está listado neste guia de dual-boot, siga o [Guia de Instalação Base](./ARCH_BASE_INSTALL.md) normalmente.**
+- [1. Configuração Inicial do Sistema](#1-configuração-inicial-do-sistema)
+- [2. Conexão com Internet](#2-conexão-com-internet)
+- [3. Preparação do Disco](#3-preparação-do-disco)
+- [4. Particionamento do Disco](#4-particionamento-do-disco)
+- [5. Formatação das Partições](#5-formatação-das-partições)
+- [6. Montagem das Partições](#6-montagem-das-partições)
+- [7. Configuração de Mirrors](#7-configuração-de-mirrors-servidores-de-download)
+- [8. Instalação do Sistema Base](#8-instalação-do-sistema-base)
+- [9. Configuração do Sistema](#9-configuração-do-sistema)
+- [10. Configuração de Data e Hora](#10-configuração-de-data-e-hora)
+- [11. Configuração de Hostname](#11-configuração-de-hostname)
+- [12. Configuração de Usuários](#12-configuração-de-usuários)
+- [13. Instalação e Configuração do Bootloader](#13-instalação-e-configuração-do-bootloader)
+- [14. Instalação do NetworkManager](#14-instalação-do-networkmanager)
+- [15. Instalação de Microcódigo da CPU](#15-instalação-de-microcódigo-da-cpu)
+- [16. Finalização da Instalação](#16-finalização-da-instalação)
+- [17. Primeiro Boot](#17-primeiro-boot)
+- [18. Solução de Problemas Comuns](#18-solução-de-problemas-comuns)
+- [19. Próximos Passos](#19-próximos-passos)
+- [Apêndices](#apêndices)
 
 ---
 
 ## Pré-requisitos
 
-- **Windows 10 ou 11** já instalado e funcionando
-- **Backup completo** de todos os dados importantes
-- **Pendrive bootável** com Arch Linux ISO ([veja como criar](./BOOTABLE_USB_GUIDE.md))
-- **Mínimo 60GB livres** no disco para o Arch Linux
-- **Conexão com internet** durante a instalação
-- **Desabilitar BitLocker** se estiver ativo no Windows
+- Pendrive bootável com Arch Linux ISO
+- Conexão com internet (cabo ethernet ou Wi-Fi)
+- Computador com UEFI (modo recomendado)
+- Conhecimento básico de linha de comando
+- Tempo: 1-2 horas aproximadamente
 
-> **ATENÇÃO CRÍTICA**: Dual-boot envolve particionar discos. Sempre faça backup antes de começar!
+> **ATENÇÃO**: Este processo apagará todos os dados do disco selecionado. Faça backup de dados importantes!
 
 ---
 
-## 1. Preparação do Windows
+## 1. Configuração Inicial do Sistema
 
-### 1.1 Fazer Backup Completo
+### 1.1 Configurar Layout do Teclado
 
-Antes de começar, faça backup de:
-- Documentos importantes
-- Fotos e vídeos
-- Configurações e programas
-- Chaves de licença de software
-
-**Ferramentas recomendadas**:
-- Windows Backup interno
-- Clonezilla (para imagem completa do disco)
-- Backup manual para HD externo
-
-### 1.2 Desabilitar BitLocker (se ativo)
-
-```powershell
-# Abrir PowerShell como Administrador
-# Verificar se BitLocker está ativo
-manage-bde -status
-
-# Se estiver ativo, desabilitar (substitua C: pela unidade correta)
-manage-bde -off C:
+```bash
+loadkeys br-abnt2
 ```
 
-**Aguarde o processo de descriptografia completar antes de continuar.**
+**O que faz**: Configura o layout do teclado para ABNT2 (padrão brasileiro) durante a instalação.
 
-### 1.3 Desfragmentar o Disco (HDD apenas)
+### 1.2 Verificar Modo de Boot
 
-**Se você usa HDD (não SSD)**:
+```bash
+ls /sys/firmware/efi/efivars
+```
 
-1. Abra "Desfragmentar e Otimizar Unidades"
-2. Selecione a unidade C:
-3. Clique em "Otimizar"
-4. Aguarde completar
-
-**IMPORTANTE**: Não desfragmente SSDs! Isso reduz sua vida útil.
+**O que faz**: Verifica se o sistema iniciou em modo UEFI. Se o diretório existir, você está em UEFI (recomendado). Se não existir, está em modo BIOS legacy.
 
 ---
 
-## 2. Criar Espaço para o Arch Linux
+## 2. Conexão com Internet
 
-### 2.1 Abrir Gerenciamento de Disco
+### 2.1 Configurar Wi-Fi (se necessário)
 
-1. Pressione `Win + X`
-2. Selecione "Gerenciamento de Disco"
+```bash
+# Entrar no utilitário de configuração Wi-Fi
+iwctl
 
-### 2.2 Reduzir Volume do Windows
+# Dentro do iwctl, execute os comandos:
+device list                           # Lista interfaces de rede disponíveis
+station wlan0 scan                    # Escaneia redes Wi-Fi disponíveis
+station wlan0 get-networks            # Mostra as redes encontradas
+station wlan0 connect "nome_da_rede"  # Conecta à rede (substitua pelo nome real)
+exit                                  # Sai do iwctl
+```
 
-1. Clique com botão direito na partição **C:** (Windows)
-2. Selecione "Reduzir Volume"
-3. Digite a quantidade de espaço a reduzir em MB
-   - Para 60GB: digite `61440` MB
-   - Para 100GB: digite `102400` MB
-4. Clique em "Reduzir"
+**O que faz**: Conecta o sistema à rede Wi-Fi. O `wlan0` pode variar (use o nome mostrado em `device list`).
 
-**O Windows criará um espaço "Não Alocado" - NÃO formate este espaço agora!**
+### 2.2 Testar Conexão
 
----
+```bash
+ping -c 3 archlinux.org
+```
 
-## 3. Desabilitar Fast Boot e Secure Boot
-
-### 3.1 Desabilitar Fast Boot no Windows
-
-1. Abra "Painel de Controle"
-2. Vá em "Opções de Energia"
-3. Clique em "Escolher a função dos botões de energia"
-4. Clique em "Alterar configurações não disponíveis no momento"
-5. **Desmarque** "Ativar inicialização rápida"
-6. Salve as alterações
-
-### 3.2 Desabilitar Secure Boot na BIOS/UEFI
-
-1. Reinicie o computador
-2. Entre na BIOS/UEFI (geralmente F2, F10, DEL ou ESC)
-3. Procure por "Secure Boot"
-4. Mude para **"Disabled"** ou **"Other OS"**
-5. Salve e saia (F10)
-
-**Por quê?** Secure Boot pode impedir o boot do Arch Linux.
+**O que faz**: Testa se a conexão com internet está funcionando enviando 3 pacotes para o site do Arch Linux.
 
 ---
 
-## 4. Boot pelo Pendrive do Arch Linux
+## 3. Preparação do Disco
 
-1. Insira o pendrive bootável
-2. Reinicie o computador
-3. Entre no Boot Menu (geralmente F12, F8 ou ESC)
-4. Selecione o pendrive
-5. Escolha "Arch Linux install medium" no menu do GRUB
+### Antes de Formatar - REGRAS CRÍTICAS:
 
-**A partir daqui, você está no ambiente de instalação do Arch Linux.**
+1. **O nome do disco varia**: Pode ser `/dev/sda`, `/dev/nvme0n1`, `/dev/vda`, etc.
+2. **A numeração das partições depende da sua criação**: `/dev/sda1`, `/dev/sda2`...
+3. **SEMPRE execute `lsblk` antes de formatar** para confirmar o dispositivo correto
 
-Para configurar teclado e internet, siga as seções **1. Configuração Inicial** e **2. Conexão com Internet** do [Guia de Instalação Base](./ARCH_BASE_INSTALL.md).
+### Exemplo de Estrutura Final (se seguir este guia):
+
+**Para disco SATA (/dev/sda):**
+- `/dev/sda1` - EFI (FAT32)
+- `/dev/sda2` - Swap 
+- `/dev/sda3` - Root / (ext4)
+- `/dev/sda4` - Home (ext4)
+
+**Para disco NVMe (/dev/nvme0n1):**
+- `/dev/nvme0n1p1` - EFI (FAT32)
+- `/dev/nvme0n1p2` - Swap
+- `/dev/nvme0n1p3` - Root / (ext4)
+- `/dev/nvme0n1p4` - Home (ext4)
+
+> **REGRA DE OURO**: Execute `lsblk` antes de cada formatação!
 
 ---
 
-## 5. Identificar Partições Existentes
-
-### 5.1 Listar Discos e Partições
+### 3.1 Identificar Discos Disponíveis
 
 ```bash
 lsblk
 fdisk -l
 ```
 
-**Exemplo de saída típica de dual-boot:**
+**O que faz**: Lista todos os discos e partições disponíveis no sistema para identificar onde instalar.
 
-```
-NAME        SIZE TYPE MOUNTPOINT
-sda         500G disk
-├─sda1      100M part    <- Partição de Recuperação do Windows
-├─sda2      500M part    <- Partição EFI (COMPARTILHADA)
-├─sda3      350G part    <- Windows C:
-└─sda4      149G part    <- Espaço livre (onde instalaremos o Arch)
-```
-
-**IMPORTANTE**: Identifique estas partições:
-
-| Partição | Tamanho Típico | Tipo | O Que É |
-|----------|----------------|------|---------|
-| sda1 | 100-500MB | Recovery | Recuperação do Windows (NÃO MEXA) |
-| sda2 | 100-500MB | EFI System | Partição EFI (USAR, NÃO FORMATAR) |
-| sda3 | Variável | Microsoft basic data | Windows C: (NÃO MEXA) |
-| sda4+ | Não alocado | - | Espaço livre para Arch |
-
-### 5.2 Verificar Partição EFI e Seu Tamanho
+### 3.2 Sincronizar Horário (IMPORTANTE)
 
 ```bash
-# Verificar tamanho da partição EFI
-lsblk /dev/sda2
-
-# Montar temporariamente a partição EFI para verificar
-mkdir -p /mnt/efi_test
-mount /dev/sda2 /mnt/efi_test
-ls /mnt/efi_test/EFI
-
-# Você deve ver uma pasta "Microsoft" - isso confirma que é a partição EFI do Windows
-umount /mnt/efi_test
+timedatectl set-ntp true
 ```
 
-**IMPORTANTE - Partição EFI pequena (100MB):**
+**O que faz**: Sincroniza o relógio do sistema via NTP. **Importante**: Alguns certificados SSL podem falhar se a data/hora estiverem incorretas, causando problemas no download de pacotes.
 
-O Windows frequentemente cria uma partição EFI de apenas 100MB, que é insuficiente para múltiplos kernels do Linux. Se sua partição EFI for menor que 500MB, você tem algumas opções:
+### 3.3 Limpar Disco (CUIDADO - APAGA TUDO!)
 
-1. **Aumentar a partição EFI** (avançado, requer redimensionar partições do Windows)
-2. **Montar EFI em /efi** ao invés de /boot/efi e usar bootloader com drivers de sistema de arquivos
-3. **Usar compressão alta** nos initramfs (mais lento, mas economiza espaço)
-4. **Manter apenas um kernel** (remover kernels antigos regularmente)
+```bash
+# Substitua 'sda' pelo seu disco (ex: nvme0n1, sdb, etc.)
+wipefs -a /dev/sda
+```
 
-Para a maioria dos usuários, a opção 3 (compressão alta) é a mais simples. Veja a seção de solução de problemas para detalhes.
+**O que faz**: Remove todas as assinaturas de sistema de arquivos e estruturas de partição do disco. **ATENÇÃO**: Isso apaga TODOS os dados!
+
+### 3.4 Verificar Limpeza
+
+```bash
+lsblk
+fdisk -l /dev/sda
+```
+
+**O que faz**: Confirma que o disco foi limpo e não possui partições.
 
 ---
 
-## 6. Particionamento para Dual-Boot
+## 4. Particionamento do Disco
 
-### 6.1 Estrutura de Partições para Dual-Boot
+### 4.1 Escolha Seu Tipo de Instalação
 
-**ATENÇÃO**: Você vai USAR a partição EFI existente do Windows, NÃO criar uma nova!
+Este guia cobre dois cenários:
 
-| Partição | Tamanho | Tipo | Uso |
-|----------|---------|------|-----|
-| **Existente** sda2 | 100-500MB | EFI System | Compartilhada Windows/Arch |
-| **Nova** sda4 | 8GB | Linux Swap | Memória virtual |
-| **Nova** sda5 | 40-60GB | Linux filesystem | Raiz (/) |
-| **Nova** sda6 | Resto | Linux filesystem | Home (/home) |
+**A. Instalação Única (Disco Completo)**
+- O Arch Linux será o único sistema operacional
+- Todo o disco será usado para o Linux
+- Processo mais simples e direto
 
-### 6.2 Criar Novas Partições
+**B. Dual-Boot com Windows**
+- Arch Linux convivendo com Windows
+- Requer cuidados especiais com partições
+- **Consulte o guia**: [ARCH_DUALBOOT_GUIDE.md](./ARCH_DUALBOOT_GUIDE.md)
+
+> **Para Dual-Boot**: Pule para o guia específico de dual-boot. O processo de particionamento é diferente e requer atenção especial para não danificar o Windows.
+
+### 4.2 Instalação Única - Iniciar Particionamento
 
 ```bash
-# Abrir fdisk no disco (substitua sda pelo seu disco)
-fdisk /dev/sda
+fdisk /dev/sda    # Substitua pelo nome do SEU disco
 ```
 
-**Dentro do fdisk:**
+**O que faz**: Abre o utilitário de particionamento para o disco especificado.
+
+### 4.3 Criar Tabela de Partição GPT
 
 ```bash
-# NÃO crie nova tabela GPT! Ela já existe!
-# Vá direto para criar as partições
+# Dentro do fdisk:
+Command (m for help): g
+```
 
-# Verificar partições existentes
+**O que faz**: Cria uma nova tabela de partição GPT (GUID Partition Table), necessária para UEFI.
+
+### 4.4 Verificar Espaço Disponível
+
+```bash
+# Dentro do fdisk, antes de criar partições:
 Command (m for help): p
-
-# Criar Partição Swap (8GB)
-Command (m for help): n
-Partition number: 4 (ou próximo número disponível)
-First sector: [Enter] (aceitar padrão)
-Last sector: +8G
-
-Command (m for help): t
-Partition number: 4
-Hex code or alias: 19  (Linux swap)
-
-# Criar Partição Root (60GB)
-Command (m for help): n
-Partition number: 5
-First sector: [Enter]
-Last sector: +60G
-# Tipo já é Linux filesystem (padrão)
-
-# Criar Partição Home (resto do espaço)
-Command (m for help): n
-Partition number: 6
-First sector: [Enter]
-Last sector: [Enter] (usar todo espaço restante)
-
-# Verificar e salvar
-Command (m for help): p  (verificar)
-Command (m for help): w  (salvar e sair)
 ```
 
-### 6.3 Verificar Nova Estrutura
+**O que faz**: Mostra o espaço total disponível no disco para você calcular melhor o tamanho das partições.
+
+### 4.5 Recomendações de Tamanho de Partições
+
+| Partição | Tamanho Mínimo | Recomendado | Uso |
+|----------|----------------|-------------|-----|
+| EFI | 512MB | 1GB | Boot UEFI |
+| Swap | Varia | Veja tabela abaixo | Memória virtual |
+| Root (/) | 20GB | 40-60GB | Sistema operacional |
+| Home | 20GB | Resto do disco | Dados pessoais |
+
+**Recomendações de Swap por Quantidade de RAM:**
+
+| RAM Instalada | Tamanho de Swap Recomendado |
+|---------------|----------------------------|
+| Menos de 8GB | 2x a quantidade de RAM |
+| 8GB a 16GB | Igual à quantidade de RAM |
+| Mais de 16GB | RAM/2 (ou 8GB fixo) |
+
+### 4.6 Criar Partições
+
+O usuário decide o tamanho de cada partição do armazenamento.
+
+#### Partição 1 - EFI System (1GB)
 
 ```bash
-lsblk
+Command (m for help): n           # Criar nova partição
+Partition number (1-128): [Enter] # Aceitar padrão (1)
+First sector: [Enter]             # Aceitar início padrão
+Last sector: +1G                  # Definir tamanho de 1GB 
+
+Command (m for help): t           # Alterar tipo da partição
+Partition number: 1               # Selecionar partição 1
+Hex code or alias: 1              # Tipo: EFI System
 ```
 
-**Estrutura esperada:**
+#### Partição 2 - Swap (8GB)
+
+```bash
+Command (m for help): n           # Criar nova partição
+Partition number (2-128): [Enter] # Aceitar padrão (2)
+First sector: [Enter]             # Aceitar início padrão
+Last sector: +8G                  # Definir tamanho de 8GB
+
+Command (m for help): t           # Alterar tipo da partição
+Partition number: 2               # Selecionar partição 2
+Hex code or alias: 19             # Tipo: Linux swap
 ```
-NAME   SIZE TYPE
-sda    500G disk
-├─sda1 100M part  <- Windows Recovery
-├─sda2 500M part  <- EFI (COMPARTILHADA)
-├─sda3 350G part  <- Windows C:
-├─sda4   8G part  <- Swap (NOVA)
-├─sda5  60G part  <- Root / (NOVA)
-└─sda6  81G part  <- Home /home (NOVA)
+
+#### Partição 3 - Raiz / Root (60GB)
+
+```bash
+Command (m for help): n          # Criar nova partição
+Partition number (3-128): [Enter] # Aceitar padrão (3)
+First sector: [Enter]            # Aceitar início padrão
+Last sector: +60G                # Definir tamanho de 60GB
+# Tipo já fica como Linux filesystem (padrão)
+```
+
+#### Partição 4 - Home (Resto do Disco)
+
+```bash
+Command (m for help): n          # Criar nova partição
+Partition number (4-128): [Enter] # Aceitar padrão (4)
+First sector: [Enter]            # Aceitar início padrão
+Last sector: [Enter]             # Usar todo espaço restante
+```
+
+### 4.7 Verificar e Salvar Partições
+
+```bash
+Command (m for help): p          # Visualizar tabela de partições criada
+Command (m for help): w          # Escrever mudanças no disco e sair
 ```
 
 ---
 
-## 7. Formatação e Montagem
+## 5. Formatação das Partições
 
-### 7.1 Formatar APENAS as Novas Partições
-
-**ATENÇÃO**: NÃO formate sda1 (Recovery), sda2 (EFI) ou sda3 (Windows)!
+**ANTES DE FORMATAR**: Execute `lsblk` novamente para confirmar a estrutura das partições criadas!
 
 ```bash
-# Verificar novamente antes de formatar
+# Verificar estrutura atual (OBRIGATÓRIO!)
 lsblk
 
-# Formatar Swap
-mkswap /dev/sda4
-swapon /dev/sda4
+# ADAPTE os nomes das partições para o SEU sistema:
+# Se seu disco é /dev/nvme0n1, use /dev/nvme0n1p1, /dev/nvme0n1p2, etc.
 
-# Formatar Root
-mkfs.ext4 /dev/sda5
+# Formatar partição EFI com FAT32
+mkfs.fat -F32 /dev/sda1
 
-# Formatar Home
-mkfs.ext4 /dev/sda6
+# Configurar e ativar swap
+mkswap /dev/sda2      # Criar área de swap
+swapon /dev/sda2      # Ativar swap
+
+# Formatar partição raiz com ext4
+mkfs.ext4 /dev/sda3
+
+# Formatar partição home com ext4
+mkfs.ext4 /dev/sda4
 ```
 
-### 7.2 Montar as Partições
+**O que fazem**:
+- `mkfs.fat -F32`: Formata a partição EFI com sistema FAT32
+- `mkswap/swapon`: Cria e ativa a área de memória virtual (swap)
+- `mkfs.ext4`: Formata partições com sistema de arquivos ext4 (padrão Linux)
+
+### 5.1 Verificar Formatação
 
 ```bash
-# Montar Root
-mount /dev/sda5 /mnt
+# Verificar se todas as partições foram formatadas corretamente
+lsblk -f
+```
 
-# Criar diretórios
-mkdir -p /mnt/boot/efi
-mkdir /mnt/home
+**O que faz**: Lista todas as partições mostrando o tipo de sistema de arquivos, útil para confirmar que a formatação foi bem-sucedida.
 
-# Montar EFI EXISTENTE (do Windows)
-mount /dev/sda2 /mnt/boot/efi
+---
 
-# Montar Home
-mount /dev/sda6 /mnt/home
+## 6. Montagem das Partições
 
-# Verificar montagens
+**ATENÇÃO**: Use os nomes corretos das suas partições!
+
+```bash
+# Montar partição raiz no ponto de montagem principal
+mount /dev/sda3 /mnt
+
+# Criar diretórios para os outros pontos de montagem
+mkdir -p /mnt/boot/efi    # Diretório para partição EFI
+mkdir /mnt/home           # Diretório para partição home
+
+# Montar partição EFI
+mount /dev/sda1 /mnt/boot/efi
+
+# Montar partição home
+mount /dev/sda4 /mnt/home
+```
+
+**O que faz**: Monta as partições nos diretórios corretos para que o sistema possa acessá-las durante a instalação.
+
+### 6.1 Verificar Montagens
+
+```bash
 lsblk
 mount | grep /mnt
 ```
 
-**Verificação final antes de continuar:**
-```bash
-ls /mnt/boot/efi/EFI
-# Você DEVE ver uma pasta "Microsoft" aqui
-# Se não ver, você montou a partição errada!
-```
+**O que fazem**: Verificam se todas as partições foram montadas corretamente nos pontos de montagem esperados.
 
 ---
 
-## 8. Continuar com Instalação Base
+## 7. Configuração de Mirrors (Servidores de Download)
 
-**A partir daqui, o processo é IDÊNTICO à instalação padrão.**
+### 7.1 Atualizar Base de Dados de Pacotes
 
-Siga o [Guia de Instalação Base do Arch Linux](./ARCH_BASE_INSTALL.md) a partir da seção **7. Configuração de Mirrors**.
+```bash
+# Atualizar lista de pacotes disponíveis
+pacman -Sy
+```
 
-Complete todas as seções até a **12. Configuração de Usuários** (inclusive). **Pare antes da seção 13** (Bootloader). Depois volte aqui para a configuração específica de dual-boot do GRUB.
+**O que faz**: Sincroniza a base de dados de pacotes com os repositórios remotos.
+
+### 7.2 Configurar Mirrors Otimizados
+
+```bash
+# Instalar reflector para otimizar mirrors
+pacman -S reflector
+
+# Configurar mirrors brasileiros mais rápidos
+reflector --country Brazil --latest 10 --sort rate --verbose --save /etc/pacman.d/mirrorlist
+```
+
+**O que faz**: 
+- Atualiza a base de dados de pacotes
+- Instala o reflector (ferramenta para otimizar mirrors)
+- Seleciona os 10 mirrors brasileiros mais rápidos e os salva na configuração
 
 ---
 
-## 9. Configuração do GRUB para Dual-Boot
-
-Esta é a parte mais importante para dual-boot!
-
-### 9.1 Instalar Pacotes Necessários
+## 8. Instalação do Sistema Base
 
 ```bash
-# Certifique-se de estar em arch-chroot
-# Se não estiver, execute: arch-chroot /mnt
-
-# Instalar GRUB e ferramentas para detectar Windows
-pacman -S grub efibootmgr os-prober ntfs-3g
+# Instalar pacotes essenciais do sistema
+pacstrap -K /mnt base base-devel linux linux-firmware linux-headers nano vim
 ```
 
-### 9.2 Instalar GRUB na Partição EFI Compartilhada
+**O que faz**:
+- `base`: Pacotes fundamentais do sistema
+- `base-devel`: Ferramentas de desenvolvimento (compiladores, etc.)
+- `linux`: Kernel do Linux
+- `linux-firmware`: Firmware para hardware
+- `linux-headers`: Cabeçalhos do kernel (para módulos)
+- `nano/neovim`: Editores de texto
 
-```bash
-# Instalar GRUB
-grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB --recheck
-
-# Verificar instalação
-efibootmgr -v
-# Você deve ver entradas para "Windows Boot Manager" E "GRUB"
-```
-
-### 9.3 Configurar os-prober
-
-```bash
-# Editar configuração do GRUB
-nano /etc/default/grub
-
-# Encontre e DESCOMENTE (remova o #) ou adicione esta linha:
-GRUB_DISABLE_OS_PROBER=false
-
-# Opcional: adicionar timeout maior
-GRUB_TIMEOUT=10
-
-# Salvar e sair (Ctrl+O, Enter, Ctrl+X)
-```
-
-### 9.4 Gerar Configuração do GRUB
-
-```bash
-# Gerar configuração detectando o Windows
-grub-mkconfig -o /boot/grub/grub.cfg
-
-# Você DEVE ver uma linha similar a:
-# "Found Windows Boot Manager on /dev/sda2@/EFI/Microsoft/Boot/bootmgfw.efi"
-```
-
-**Se o Windows NÃO for detectado**, veja a seção de solução de problemas abaixo.
-
-### 9.5 Regenerar Configuração do GRUB Após Instalar Microcódigo
-
-Após instalar o microcódigo da CPU (seção 15 do guia base), você deve regenerar a configuração do GRUB:
-
-```bash
-# Ainda em arch-chroot
-grub-mkconfig -o /boot/grub/grub.cfg
-```
-
-### 9.6 Sobre Secure Boot
-
-**Durante a instalação**: Secure Boot deve estar DESABILITADO para instalar o Arch Linux.
-
-**Após a instalação**: Se você quiser reabilitar Secure Boot, precisará:
-1. Configurar Secure Boot para Linux (processo avançado)
-2. Assinar o bootloader e kernel com suas próprias chaves
-3. Consulte o [Guia de Secure Boot do Arch Wiki](https://wiki.archlinux.org/title/Secure_Boot)
-
-Para a maioria dos usuários iniciantes, é recomendado **manter o Secure Boot desabilitado**.
-
-### 9.7 Continuar com Instalação Base
-
-Agora volte ao [Guia de Instalação Base](./ARCH_BASE_INSTALL.md) e complete as seções a partir da **14. Instalação do NetworkManager** até o final:
-
-- **14. Instalação do NetworkManager**
-- **15. Instalação de Microcódigo da CPU**
-- **16. Finalização da Instalação**
+> **Dica**: Para maior estabilidade, você pode usar `linux-lts` (Long Term Support) no lugar de `linux`.
 
 ---
 
-## 10. Solução de Problemas Dual-Boot
+## 9. Configuração do Sistema
 
-### 10.1 GRUB Não Detecta o Windows
-
-**Solução:**
+### 9.1 Gerar Tabela de Sistemas de Arquivos
 
 ```bash
-# Boot pelo Arch Linux
-# Verificar se os-prober está instalado
-pacman -Q os-prober
-
-# Se não estiver, instalar
-sudo pacman -S os-prober ntfs-3g
-
-# Editar configuração do GRUB
-sudo nano /etc/default/grub
-# Adicionar ou descomentar: GRUB_DISABLE_OS_PROBER=false
-
-# Montar partição EFI
-sudo mount /dev/sda2 /boot/efi
-
-# Regenerar configuração
-sudo grub-mkconfig -o /boot/grub/grub.cfg
-
-# Verificar se detectou
-# Deve aparecer: "Found Windows Boot Manager..."
+genfstab -U /mnt >> /mnt/etc/fstab
 ```
 
-### 10.2 Sistema Boota Direto no Windows
+**O que faz**: Gera automaticamente o arquivo `/etc/fstab` que define quais partições são montadas na inicialização.
 
-**Causa**: BIOS está priorizando Windows Boot Manager.
-
-**Solução:**
-
-1. Entre na BIOS/UEFI (F2, DEL, F10)
-2. Procure "Boot Order" ou "Boot Priority"
-3. Coloque **GRUB** ou **Arch Linux** como primeira opção
-4. Salve e reinicie
-
-**Alternativa via efibootmgr:**
+### 9.2 Entrar no Sistema Instalado
 
 ```bash
-# Verificar ordem de boot atual
-efibootmgr -v
-
-# Mudar ordem (coloque GRUB primeiro)
-# Substitua XXXX pelo número do GRUB
-sudo efibootmgr -o XXXX,YYYY
-```
-
-### 10.3 Erro "No Bootable Device"
-
-**Solução:**
-
-```bash
-# Boot pelo pendrive do Arch
-mount /dev/sda5 /mnt
-mount /dev/sda2 /mnt/boot/efi
-mount /dev/sda6 /mnt/home
 arch-chroot /mnt
+```
 
-# Reinstalar GRUB
+**O que faz**: Muda para o ambiente do sistema recém-instalado (chroot = change root).
+
+### 9.3 Configurar Localização e Idioma
+
+```bash
+# Editar arquivo de locales
+nano /etc/locale.gen
+# Descomente a linha: pt_BR.UTF-8 UTF-8
+
+# Gerar os locales
+locale-gen
+
+# Definir idioma padrão do sistema
+echo "LANG=pt_BR.UTF-8" > /etc/locale.conf
+
+# Configurar layout do teclado permanentemente
+echo "KEYMAP=br-abnt2" > /etc/vconsole.conf
+```
+
+**O que fazem**:
+- Define português brasileiro como idioma do sistema
+- Configura o teclado ABNT2 permanentemente
+- Gera as configurações de localização
+
+### 9.4 Verificar Configurações de Localização
+
+```bash
+# Verificar se os locales foram gerados corretamente
+locale -a | grep pt_BR
+
+# Verificar variáveis de ambiente de idioma
+locale
+```
+
+**O que fazem**: Confirmam se as configurações de idioma e localização foram aplicadas corretamente.
+
+---
+
+## 10. Configuração de Data e Hora
+
+```bash
+# Definir fuso horário (altere conforme sua região)
+ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
+
+# Sincronizar relógio do hardware
+hwclock --systohc
+
+# Habilitar sincronização automática de horário
+timedatectl set-ntp true
+
+# Verificar configuração
+timedatectl
+```
+
+**O que fazem**:
+- Define o fuso horário do sistema
+- Sincroniza o relógio do hardware com o do sistema
+- Habilita sincronização automática via NTP
+- Mostra o status atual da configuração de tempo
+
+---
+
+## 11. Configuração de Hostname
+
+### 11.1 Definir Nome do Computador
+
+```bash
+# Substitua "meu-arch" pelo nome desejado
+echo "meu-arch" > /etc/hostname
+```
+
+### 11.2 Configurar Arquivo Hosts
+
+```bash
+nano /etc/hosts
+
+# Adicione as seguintes linhas:
+127.0.0.1   localhost
+::1         localhost
+127.0.1.1   meu-arch.localdomain   meu-arch
+```
+
+**O que fazem**:
+- Define o nome da máquina na rede
+- Configura resolução de nomes locais
+
+---
+
+## 12. Configuração de Usuários
+
+> **IMPORTANTE**: Você criará DOIS usuários com senhas diferentes:
+> 1. **Root** - Administrador do sistema (emergências apenas)
+> 2. **Seu usuário** - Conta pessoal para uso diário
+
+### 12.1 Definir Senha do Root
+
+```bash
+passwd
+```
+
+**O que faz**: Define a senha do usuário **root** (administrador). Esta senha será usada apenas em emergências ou manutenção crítica do sistema.
+
+**Exemplo de uso:**
+```
+New password: [digite uma senha forte]
+Retype new password: [digite novamente]
+```
+
+### 12.2 Instalar e Configurar Sudo
+
+```bash
+# Instalar sudo
+pacman -S sudo
+
+# Configurar permissões do sudo
+EDITOR=nano visudo
+# Descomente a linha: %wheel ALL=(ALL) ALL
+```
+
+**O que faz**: Instala o `sudo` que permite que usuários comuns executem comandos administrativos. O `sudo` é mais seguro que usar root diretamente.
+
+### 12.3 Criar Usuário Regular
+
+```bash
+# Criar usuário (substitua "seu_usuario" pelo nome desejado)
+# Exemplo: useradd -m -g users -G wheel... -s /bin/bash joao
+useradd -m -g users -G wheel,storage,power,audio,video,input,render -s /bin/bash seu_usuario
+
+# Definir senha do usuário
+passwd seu_usuario
+```
+
+**O que fazem**:
+- Cria um usuário regular com diretório home
+- Adiciona o usuário ao grupo `wheel` (permite usar `sudo`)
+- Adiciona a outros grupos necessários (áudio, vídeo, etc.)
+- Define bash como shell padrão
+
+**Exemplo de definição de senha:**
+```
+New password: [digite a senha do SEU usuário]
+Retype new password: [digite novamente]
+```
+
+### 12.4 Resumo - Duas Senhas Criadas
+
+Ao final desta seção, você terá:
+
+| Usuário | Senha | Quando Usar |
+|---------|-------|-------------|
+| **root** | Senha 1 (forte) | Emergências, recuperação do sistema |
+| **seu_usuario** | Senha 2 (sua escolha) | Uso diário, login normal |
+
+**No dia a dia**: Você fará login com **seu_usuario** e usará `sudo` quando precisar fazer algo administrativo (instalar programas, editar arquivos do sistema, etc.)
+
+---
+
+## 13. Instalação e Configuração do Bootloader
+
+### 13.1 Instalar GRUB
+
+```bash
+# Instalar pacotes necessários
+pacman -S grub efibootmgr
+
+# Instalar GRUB na partição EFI
 grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB --recheck
-grub-mkconfig -o /boot/grub/grub.cfg
+```
 
+**Para instruções completas de dual-boot**, consulte: [ARCH_DUALBOOT_GUIDE.md](./ARCH_DUALBOOT_GUIDE.md)
+
+### 13.2 Gerar Configuração do GRUB
+
+```bash
+grub-mkconfig -o /boot/grub/grub.cfg
+```
+
+**O que fazem**:
+- Instalam e configuram o carregador de boot GRUB
+- Detectam outros sistemas operacionais (dual-boot)
+- Geram o menu de inicialização
+
+### 13.3 Verificar Instalação do GRUB
+
+```bash
+# Verificar se o GRUB foi instalado na partição EFI
+efibootmgr -v
+
+# Verificar se o arquivo de configuração foi gerado
+ls -la /boot/grub/grub.cfg
+```
+
+**O que fazem**: Confirmam se o GRUB foi instalado corretamente e se o arquivo de configuração foi criado.
+
+---
+
+## 14. Instalação do NetworkManager
+
+```bash
+# Instalar NetworkManager
+pacman -S networkmanager nm-connection-editor
+
+# Habilitar NetworkManager na inicialização
+systemctl enable NetworkManager
+
+# Habilitar serviço de otimização para SSDs (se aplicável)
+systemctl enable fstrim.timer
+```
+
+**O que fazem**:
+- Instalam o gerenciador de rede gráfico
+- Habilitam os serviços para iniciar automaticamente
+- Otimizam SSDs com TRIM automático
+
+### 14.1 Verificar Serviços Habilitados
+
+```bash
+# Verificar se os serviços foram habilitados corretamente
+systemctl is-enabled NetworkManager
+systemctl is-enabled fstrim.timer
+```
+
+**O que fazem**: Confirmam se os serviços essenciais foram habilitados para inicialização automática.
+
+---
+
+## 15. Instalação de Microcódigo da CPU
+
+```bash
+# Para processadores Intel:
+pacman -S intel-ucode
+
+# Para processadores AMD:
+pacman -S amd-ucode
+```
+
+**O que fazem**: Instalam microcódigo específico da CPU para correções e otimizações de segurança e performance.
+
+**Após instalar o microcódigo, regenere a configuração do GRUB:**
+
+```bash
+grub-mkconfig -o /boot/grub/grub.cfg
+```
+
+---
+
+## 16. Finalização da Instalação
+
+```bash
+# Sair do ambiente chroot
 exit
+
+# Desmontar todas as partições
 umount -R /mnt
+
+# Reiniciar o sistema
 reboot
 ```
 
-### 10.4 Horário Diferente entre Windows e Linux
+**O que fazem**:
+- Saem do ambiente de instalação
+- Desmontam as partições com segurança
+- Reiniciam para iniciar o sistema instalado
 
-**Causa**: Windows usa horário local, Linux usa UTC.
+---
 
-**Solução - Fazer Linux usar horário local:**
+## 17. Primeiro Boot
 
-```bash
-sudo timedatectl set-local-rtc 1 --adjust-system-clock
-```
+### O Que Esperar no Primeiro Boot
 
-**OU fazer Windows usar UTC (recomendado):**
+Após reiniciar, você verá:
 
-No Windows, como Administrador:
-```cmd
-reg add "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\TimeZoneInformation" /v RealTimeIsUniversal /d 1 /t REG_DWORD /f
-```
+1. **Menu do GRUB** - Selecione "Arch Linux"
+2. **Tela preta com texto** - Sistema está iniciando
+3. **Prompt de login** - Digite seu nome de usuário
+4. **Senha** - Digite a senha que você criou
+5. **Terminal** - Você está no seu novo Arch Linux!
 
-### 10.5 Não Consigo Acessar Partições do Windows
-
-**Solução:**
-
-```bash
-# Instalar ntfs-3g
-sudo pacman -S ntfs-3g
-
-# Criar ponto de montagem
-sudo mkdir -p /mnt/windows
-
-# Montar partição do Windows
-sudo mount -t ntfs-3g /dev/sda3 /mnt/windows
-
-# Para montar automaticamente, adicionar ao /etc/fstab:
-echo "/dev/sda3 /mnt/windows ntfs-3g defaults 0 0" | sudo tee -a /etc/fstab
-```
-
-### 10.7 Partição EFI Muito Pequena (100MB)
-
-**Problema**: Windows criou partição EFI de 100MB, que enche rapidamente com múltiplos kernels.
-
-**Solução 1 - Usar compressão alta no initramfs (Recomendado):**
+### Comandos Úteis no Primeiro Boot
 
 ```bash
-sudo nano /etc/mkinitcpio.conf
+# Testar internet
+ping -c 3 archlinux.org
 
-# Adicionar estas linhas:
-COMPRESSION="xz"
-COMPRESSION_OPTIONS=(-9e)
-MODULES_DECOMPRESS="yes"
+# Conectar WiFi (se necessário)
+nmtui
 
-# Salvar e regenerar initramfs
-sudo mkinitcpio -P
+# Atualizar sistema
+sudo pacman -Syu
+
+# Verificar espaço em disco
+df -h
+
+# Verificar memória
+free -h
 ```
 
-**Solução 2 - Remover kernels antigos regularmente:**
+---
+
+## 18. Solução de Problemas Comuns
+
+### 18.1 Se o sistema não inicializar
 
 ```bash
-# Listar kernels instalados
-ls /boot/efi/EFI/GRUB/
-
-# Remover kernels antigos manualmente quando necessário
-# (Mantenha sempre pelo menos um kernel funcionando!)
-```
-
-**Solução 3 - Aumentar partição EFI (Avançado):**
-
-Consulte: [Arch Wiki - EFI System Partition](https://wiki.archlinux.org/title/EFI_system_partition#Replace_the_partition_with_a_larger_one)
-
-### 10.8 Windows Não Inicia Após Atualização
-
-**Causa**: Atualização do Windows pode reescrever o bootloader.
-
-**Solução:**
-
-```bash
-# Boot pelo pendrive do Arch
-mount /dev/sda5 /mnt
-mount /dev/sda2 /mnt/boot/efi
+# Boot pelo pendrive de instalação e execute:
+mount /dev/sda3 /mnt
+mount /dev/sda1 /mnt/boot/efi
+mount /dev/sda4 /mnt/home
 arch-chroot /mnt
 
-# Reinstalar GRUB
+# Reinstalar GRUB:
 grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB --recheck
 grub-mkconfig -o /boot/grub/grub.cfg
+```
 
-exit
-reboot
+### 18.2 Problemas de Rede
+
+```bash
+# Após fazer login no sistema instalado:
+sudo systemctl status NetworkManager
+sudo systemctl start NetworkManager
+sudo nmtui  # Interface gráfica para configurar rede
+```
+
+### 18.3 Sistema Inicia Mas Não Tem Internet
+
+```bash
+# Verificar status do NetworkManager
+sudo systemctl status NetworkManager
+
+# Se não estiver rodando, iniciar
+sudo systemctl start NetworkManager
+
+# Habilitar para iniciar automaticamente
+sudo systemctl enable NetworkManager
+
+# Configurar conexão
+nmtui
+```
+
+### 18.4 Esqueci a Senha do Root ou Usuário
+
+```bash
+# Boot pelo pendrive de instalação
+mount /dev/sda3 /mnt
+arch-chroot /mnt
+
+# Redefinir senha do root
+passwd
+
+# Redefinir senha do usuário
+passwd seu_usuario
 ```
 
 ---
 
-## Próximos Passos
+## 19. Próximos Passos
 
-Após concluir a instalação dual-boot, siga o [Guia de Pós-Instalação](./ARCH_POST_INSTALL.md) para configurar seu sistema Arch Linux completamente.
+### Guia Completo de Pós-Instalação
 
----
+Para um guia detalhado sobre como configurar seu sistema Arch Linux do zero até um ambiente completo e personalizado, consulte:
 
-## Recursos Adicionais
+**[ARCH_POST_INSTALL.md](./ARCH_POST_INSTALL.md)**
 
-- [Arch Wiki - Dual Boot with Windows](https://wiki.archlinux.org/title/Dual_boot_with_Windows)
-- [Arch Wiki - GRUB](https://wiki.archlinux.org/title/GRUB)
-- [Arch Wiki - EFI System Partition](https://wiki.archlinux.org/title/EFI_system_partition)
-
----
-
-**Parabéns! Você configurou com sucesso um dual-boot Arch Linux + Windows!**
-
-*Última atualização: Dezembro 2025*
+Este guia inclui:
+- Otimizações do sistema
+- Instalação de utilitários essenciais
+- Configuração de AUR helpers
+- Instalação de drivers
+- Temas e personalizações
+- E muito mais!
