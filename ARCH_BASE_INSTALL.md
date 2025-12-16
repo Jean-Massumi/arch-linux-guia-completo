@@ -381,6 +381,17 @@ pacstrap -K /mnt base base-devel linux linux-firmware linux-headers nano neovim
 
 > **Dica**: Para maior estabilidade, você pode usar `linux-lts` (Long Term Support) no lugar de `linux`.
 
+### 8.1 Instalar Documentação do Sistema (Recomendado)
+```bash
+# Instalar páginas de manual e documentação
+pacstrap /mnt man-db man-pages texinfo
+```
+
+**O que fazem:**
+- `man-db`: Sistema de páginas de manual
+- `man-pages`: Documentação de comandos Linux
+- `texinfo`: Documentação adicional do GNU
+
 ---
 
 ## 9. Configuração do Sistema
