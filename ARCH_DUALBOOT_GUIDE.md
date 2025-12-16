@@ -520,20 +520,6 @@ ls /mnt/windows
 echo "/dev/sda3 /mnt/windows ntfs-3g defaults 0 0" | sudo tee -a /etc/fstab
 ```
 
-### 11.4 Desinstalando o Arch (Voltando só para Windows)
-
-Se quiser remover o Arch:
-
-1. Boot pelo Windows
-2. Abra "Gerenciamento de Disco"
-3. Delete as partições do Arch (Swap, Root, Home)
-4. Estenda a partição do Windows de volta
-5. Use `bcdedit` para remover entrada do GRUB (opcional):
-   ```cmd
-   bcdedit /enum firmware
-   bcdedit /delete {identificador-do-grub}
-   ```
-
 ---
 
 ## 12. Solução de Problemas Dual-Boot
@@ -756,6 +742,3 @@ sudo grub-mkconfig -o /boot/grub/grub.cfg
 - **Arch Wiki - GRUB**: [wiki.archlinux.org/title/GRUB](https://wiki.archlinux.org/title/GRUB)
 - **Arch Wiki - EFI System Partition**: [wiki.archlinux.org/title/EFI_system_partition](https://wiki.archlinux.org/title/EFI_system_partition)
 
----
-
-*Última atualização: Dezembro 2025*
