@@ -131,15 +131,7 @@ sha256sum archlinux-2025.XX.XX-x86_64.iso
 
 **Dica**: Se não sabe qual usar, escolha **GPT + UEFI** (mais comum em PCs de 2012 em diante)
 
-#### 3.3 Opções Avançadas (Opcional)
-
-Clique em "MOSTRAR OPÇÕES AVANÇADAS":
-- **Nome do volume**: Arch Linux (opcional)
-- **Formatação rápida**: Marcado
-- **Criar disco bootável usando**: Imagem ISO
-- **Criar partição estendida**: Desmarcado
-
-#### 3.4 Gravar
+#### 3.3 Gravar
 
 1. Clique em **"INICIAR"**
 2. Se perguntar sobre modo de gravação, escolha: **"Gravar em modo de Imagem DD"**
