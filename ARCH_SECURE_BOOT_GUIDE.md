@@ -69,7 +69,7 @@ O sistema é **seguro** sem Secure Boot se você:
 
 ---
 
-## Método 2: Shim + PreLoader (RECOMENDADO)
+## Método 2: Shim + PreLoader
 
 ### O Que é Shim
 
