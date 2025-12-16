@@ -444,12 +444,6 @@ Complete as seguintes seções do guia base:
 - **Seção 14**: Instalação do NetworkManager
 - **Seção 15**: Instalação de Microcódigo da CPU
 
-**Após instalar o microcódigo, regenere o GRUB:**
-
-```bash
-grub-mkconfig -o /boot/grub/grub.cfg
-```
-
 ---
 
 ## 10. Finalização
