@@ -3,430 +3,287 @@
 ![Arch Linux](https://img.shields.io/badge/Arch_Linux-1793D1?style=for-the-badge&logo=arch-linux&logoColor=white)
 ![Security](https://img.shields.io/badge/Security-FF0000?style=for-the-badge&logo=security&logoColor=white)
 
-> **Reabilite o Secure Boot no seu dual-boot Arch + Windows**
+> **Habilite o Secure Boot no Arch Linux de forma simples e automatizada**
 
 ---
 
-## Índice
+## Decisão Rápida
 
-- [O Que é Secure Boot](#o-que-é-secure-boot)
-- [Pré-requisitos](#pré-requisitos)
-- [Método 1: Manter Desabilitado](#método-1-manter-desabilitado)
-- [Método 2: Shim + PreLoader](#método-2-shim--preloader-recomendado)
-- [Método 3: Assinar com Próprias Chaves](#método-3-assinar-com-próprias-chaves-avançado)
-- [Verificação e Testes](#verificação-e-testes)
-- [Solução de Problemas](#solução-de-problemas)
+```
+Quer Secure Boot?
+│
+├─ SIM → Use sbctl
+│  ├─ Só Arch: sudo sbctl enroll-keys
+│  └─ Dual-boot: sudo sbctl enroll-keys -m
+│
+└─ NÃO → Deixe desabilitado
+   └─ Configure depois se quiser
+```
 
 ---
 
 ## O Que é Secure Boot
 
-**Secure Boot** é uma funcionalidade UEFI que verifica assinaturas digitais de bootloaders e kernels antes de executá-los, impedindo malware de infectar o processo de boot.
+Secure Boot verifica assinaturas digitais de bootloaders e kernels antes de executá-los, impedindo malware de infectar o processo de boot.
 
-### Como Funciona
+**Você precisa?**
+- Dual-boot com Windows 11: Provavelmente sim
+- Computador em ambiente inseguro: Recomendado
+- Desktop doméstico com senhas fortes: Opcional
 
-1. UEFI contém chaves públicas confiáveis (geralmente da Microsoft)
-2. Bootloader precisa estar assinado com chave correspondente
-3. Se assinatura não bater, UEFI bloqueia o boot
-
-### No Dual-Boot
-
-- **Windows**: Já vem assinado pela Microsoft
-- **Arch Linux**: GRUB padrão não é assinado
-- **Solução**: Usar shim assinado pela Microsoft ou assinar você mesmo
+**Protege contra:** Malware de bootloader, modificação física do sistema  
+**NÃO protege contra:** Senhas fracas, exploits de rede, dados não criptografados
 
 ---
 
 ## Pré-requisitos
 
-- Arch Linux + Windows dual-boot funcionando
-- Secure Boot atualmente **DESABILITADO**
-- Acesso à BIOS/UEFI
-- Backup da configuração atual
+**IMPORTANTE:** A imagem oficial de instalação do Arch NÃO suporta Secure Boot. Você DEVE instalar o Arch com Secure Boot DESABILITADO e só habilitar após a instalação estar completa e funcionando.
 
-**IMPORTANTE**: Configure o Secure Boot SOMENTE após o dual-boot estar funcionando perfeitamente.
+```bash
+# 1. Verificar se é UEFI (não BIOS)
+[ -d /sys/firmware/efi ] && echo "OK - Sistema UEFI" || echo "ERRO - Sistema BIOS"
+
+# 2. Secure Boot deve estar DESABILITADO (habilita no final)
+bootctl status | grep "Secure Boot"
+# Deve mostrar: disabled
+
+# 3. Backup (importante!)
+# Copia partição EFI (restauração se algo der errado)
+sudo cp -r /boot/efi /boot/efi.backup
+# Salva entradas de boot atuais
+efibootmgr -v > ~/boot-backup.txt
+```
+
+### AVISO: GPU Dedicada e CPUs sem Gráficos Integrados
+
+**CRÍTICO se você tem:**
+- Placa de vídeo dedicada (Nvidia, AMD)
+- CPU sem gráficos integrados (ex: Ryzen sem "G", Intel F-series)
+- Placa de rede para boot PXE
+
+Algumas placas de vídeo têm firmware assinado pelas chaves Microsoft. Se você remover as chaves Microsoft (usar `enroll-keys` sem `-m`), a GPU pode não funcionar ANTES do sistema operacional carregar.
+
+**Sintomas:**
+- Tela preta ao ligar o PC
+- Não consegue acessar BIOS
+- GPU só funciona após sistema iniciar
+
+**Solução:** SEMPRE use a flag `-m` se você tem GPU dedicada ou CPU sem gráficos integrados:
+
+```bash
+sudo sbctl enroll-keys -m  # Mantém chaves Microsoft
+```
 
 ---
 
-## Método 1: Manter Desabilitado
+## Método 1: Deixar Desabilitado
 
-### Quando Usar
+**Quando usar:** Primeira instalação, não precisa de Secure Boot agora, quer simplicidade.
 
-- Primeira instalação do Arch
-- Não há necessidade específica de Secure Boot
-- Quer simplicidade máxima
+**Configuração:** Nenhuma! Sistema já funciona assim por padrão.
 
-### Segurança
-
-O sistema é **seguro** sem Secure Boot se você:
-- Mantém sistema atualizado
-- Usa senhas fortes
-- Não deixa computador desprotegido fisicamente
-
-**Secure Boot protege contra**: Malware que infecta o bootloader (raro em desktop doméstico)
-
-**Secure Boot NÃO protege contra**: Senhas fracas, exploits de software, acesso físico não autorizado
+Seu sistema é seguro sem Secure Boot se você usa senhas fortes, mantém sistema atualizado e tem criptografia LUKS.
 
 ---
 
-## Método 2: Shim + PreLoader
+## Método 2: sbctl (Recomendado)
 
-### O Que é Shim
+Ferramenta oficial do Arch Wiki. Configuração única, assinatura automática de kernels.
 
-**Shim** é um bootloader intermediário assinado pela Microsoft que carrega o GRUB. Como é assinado pela Microsoft, funciona com as chaves já presentes na sua UEFI (do Windows).
-
-### Vantagens
-
-- Usa chaves Microsoft existentes (não precisa criar suas próprias)
-- Compatível com Windows out-of-the-box
-- Processo relativamente simples
-- Suficiente para 95% dos casos
-
-### Instalação Passo a Passo
-
-#### 2.1 Instalar Pacotes Necessários
+### Instalação Completa
 
 ```bash
-sudo pacman -S shim-signed sbsigntools efibootmgr
+# 1. Instalar
+sudo pacman -S sbctl
+
+# 2. Verificar status
+sbctl status
+# Setup Mode deve estar: Enabled
+# Se não estiver, limpe as chaves na BIOS primeiro
+
+# 3. Criar chaves
+sudo sbctl create-keys
+
+# 4. Matricular chaves
+# ESCOLHA UM (leia as explicações abaixo):
+
+# Opção A: Só Arch (mais seguro)
+sudo sbctl enroll-keys
+
+# Opção B: Dual-boot com Windows (mantém chaves Microsoft)
+sudo sbctl enroll-keys --microsoft
+# ou de forma abreviada:
+sudo sbctl enroll-keys -m
+
+# Opção C: Dual-boot + Notebook de marca (Framework, Dell, HP, Lenovo)
+# Mantém chaves Microsoft + certificados OEM (para atualizações de firmware)
+sudo sbctl enroll-keys --microsoft --firmware-builtin
+# ou de forma abreviada:
+sudo sbctl enroll-keys -m -f
+
+# 5. Assinar bootloader e kernel
+# Para GRUB:
+sudo sbctl sign -s /boot/efi/EFI/GRUB/grubx64.efi
+sudo sbctl sign -s /boot/vmlinuz-linux
+
+# Para systemd-boot:
+sudo sbctl sign -s /boot/efi/EFI/systemd/systemd-bootx64.efi
+sudo sbctl sign -s /boot/efi/EFI/BOOT/BOOTX64.EFI
+sudo sbctl sign -s /boot/vmlinuz-linux
+
+# 6. Verificar se tudo está assinado (IMPORTANTE!)
+sbctl verify
+# Saída esperada: Todos os arquivos com ✓ (assinados)
+# Se aparecer ✗ (não assinado), assine antes de continuar:
+# sudo sbctl sign -s /caminho/do/arquivo
+
+# 7. Agora SIM: Reinicie e habilite Secure Boot na BIOS
+
+# 8. Após boot, verificar se Secure Boot está ativo
+sbctl status
+# Deve mostrar: Secure Boot: enabled
+
+# Verificação adicional
+bootctl status | grep "Secure Boot"
+# Deve mostrar: Secure Boot: enabled
+
+# Ou verificar diretamente no kernel
+dmesg | grep -i "secure boot"
+# Deve mostrar: secureboot: Secure boot enabled
 ```
 
-#### 2.2 Backup do EFI Atual
+### Pronto!
 
-```bash
-# Criar backup da configuração atual
-sudo cp -r /boot/efi/EFI/GRUB /boot/efi/EFI/GRUB.backup
-```
-
-#### 2.3 Copiar Shim para Partição EFI
-
-```bash
-# Copiar shim e MokManager
-sudo cp /usr/share/shim-signed/shimx64.efi /boot/efi/EFI/GRUB/
-sudo cp /usr/share/shim-signed/mmx64.efi /boot/efi/EFI/GRUB/
-
-# Copiar GRUB para ser carregado pelo shim
-sudo cp /boot/efi/EFI/GRUB/grubx64.efi /boot/efi/EFI/GRUB/grubx64.efi.original
-```
-
-#### 2.4 Registrar Shim no UEFI
-
-```bash
-# Verificar entradas atuais
-efibootmgr -v
-
-# Criar nova entrada para shim (ajuste /dev/sda e --part 2 conforme seu sistema)
-sudo efibootmgr --create --disk /dev/sda --part 2 \
-  --loader /EFI/GRUB/shimx64.efi \
-  --label "Arch Linux (Secure Boot)" --unicode
-
-# Verificar se foi criada
-efibootmgr -v
-```
-
-#### 2.5 Configurar Ordem de Boot
-
-```bash
-# Listar entradas (anote o número da entrada do Shim, ex: 0000)
-efibootmgr -v
-
-# Colocar Shim como primeira opção (substitua 0000 pelo número correto)
-sudo efibootmgr -o 0000,0001,0002
-```
-
-#### 2.6 Reabilitar Secure Boot na BIOS
-
-1. Reinicie o computador
-2. Entre na BIOS/UEFI (F2, DEL, F10)
-3. Procure "Secure Boot"
-4. Mude para **"Enabled"**
-5. Salve e reinicie (F10)
-
-#### 2.7 Primeiro Boot com Secure Boot
-
-Ao iniciar, você verá o **menu do GRUB normal**. Se funcionar, pronto!
-
-**Se aparecer tela azul do MOK Manager** (Machine Owner Key):
-1. Selecione "Enroll MOK"
-2. Selecione "Continue"
-3. Selecione "Yes"
-4. Sistema reiniciará e bootará normalmente
-
-### Atualizações do Sistema
-
-O shim continua funcionando automaticamente após atualizações do kernel. Não precisa refazer nada.
-
-**Exceção**: Se reinstalar o GRUB, repita os passos 2.3 a 2.5.
+Atualizações de kernel serão assinadas automaticamente. Zero manutenção.
 
 ---
 
-## Método 3: Assinar com Próprias Chaves (AVANÇADO)
+## Dual-Boot: IMPORTANTE
 
-### Quando Usar
-
-- Você precisa de controle total sobre o processo de boot
-- Trabalha com segurança da informação
-- Usa criptografia LUKS
-- Tem experiência com certificados digitais
-
-### Avisos
-
-- Processo complexo e pode travar o sistema se errado
-- Requer manutenção constante (assinar após cada atualização de kernel)
-- Pode causar incompatibilidade com Windows em algumas BIOS
-
-### Instalação Passo a Passo
-
-#### 3.1 Instalar Ferramentas
+**Se você tem Windows, use a flag `-m` (ou `--microsoft`):**
 
 ```bash
-sudo pacman -S sbsigntools efitools
+# Forma abreviada (mais comum)
+sudo sbctl enroll-keys -m
+
+# Forma completa (mesmo efeito)
+sudo sbctl enroll-keys --microsoft
 ```
 
-#### 3.2 Gerar Suas Chaves
+**Se você tem notebook de marca (Framework, Dell, HP, Lenovo):**
 
 ```bash
-# Criar diretório para chaves
-mkdir -p ~/secure-boot-keys
-cd ~/secure-boot-keys
-
-# Gerar chaves (PK, KEK, db)
-# Platform Key (PK)
-openssl req -newkey rsa:4096 -nodes -keyout PK.key -new -x509 -sha256 -days 3650 -subj "/CN=Minha PK/" -out PK.crt
-openssl x509 -outform DER -in PK.crt -out PK.cer
-cert-to-efi-sig-list -g "$(uuidgen)" PK.crt PK.esl
-sign-efi-sig-list -g "$(uuidgen)" -k PK.key -c PK.crt PK PK.esl PK.auth
-
-# Key Exchange Key (KEK)
-openssl req -newkey rsa:4096 -nodes -keyout KEK.key -new -x509 -sha256 -days 3650 -subj "/CN=Minha KEK/" -out KEK.crt
-openssl x509 -outform DER -in KEK.crt -out KEK.cer
-cert-to-efi-sig-list -g "$(uuidgen)" KEK.crt KEK.esl
-sign-efi-sig-list -g "$(uuidgen)" -a -k PK.key -c PK.crt KEK KEK.esl KEK.auth
-
-# Database Key (db)
-openssl req -newkey rsa:4096 -nodes -keyout db.key -new -x509 -sha256 -days 3650 -subj "/CN=Minha db/" -out db.crt
-openssl x509 -outform DER -in db.crt -out db.cer
-cert-to-efi-sig-list -g "$(uuidgen)" db.crt db.esl
-sign-efi-sig-list -g "$(uuidgen)" -a -k KEK.key -c KEK.crt db db.esl db.auth
+# Adicione também -f para manter certificados OEM
+sudo sbctl enroll-keys -m -f
 ```
 
-#### 3.3 Backup das Chaves Microsoft (IMPORTANTE)
+**Explicação das flags:**
 
-```bash
-# Extrair chaves Microsoft atuais (para manter Windows funcionando)
-efi-readvar -v PK -o old_PK.esl
-efi-readvar -v KEK -o old_KEK.esl
-efi-readvar -v db -o old_db.esl
+| Comando | Chaves Matriculadas | Windows funciona? | Updates OEM? |
+|---------|---------------------|-------------------|--------------|
+| `enroll-keys` | Só suas | NÃO | NÃO |
+| `enroll-keys -m` | Suas + Microsoft | SIM | NÃO |
+| `enroll-keys -m -f` | Suas + Microsoft + OEM | SIM | SIM |
 
-# Mesclar suas chaves com as da Microsoft
-cat old_db.esl db.esl > combined_db.esl
-sign-efi-sig-list -g "$(uuidgen)" -k KEK.key -c KEK.crt db combined_db.esl combined_db.auth
-```
-
-#### 3.4 Matricular Chaves na UEFI
-
-**ATENÇÃO**: Este passo é irreversível sem acesso físico à BIOS.
-
-```bash
-# Copiar arquivos .auth para EFI
-sudo cp *.auth /boot/efi/
-
-# Reiniciar no modo Setup da UEFI
-sudo systemctl reboot --firmware-setup
-
-# Na BIOS:
-# 1. Entrar em "Secure Boot"
-# 2. Entrar em "Key Management"
-# 3. Selecionar "Install Custom Keys" ou similar
-# 4. Navegar até /boot/efi/ e instalar:
-#    - PK.auth
-#    - KEK.auth
-#    - combined_db.auth (ou db.auth se não usar Windows)
-```
-
-#### 3.5 Assinar Kernel e Bootloader
-
-```bash
-# Assinar GRUB
-sudo sbsign --key ~/secure-boot-keys/db.key --cert ~/secure-boot-keys/db.crt \
-  --output /boot/efi/EFI/GRUB/grubx64.efi /boot/efi/EFI/GRUB/grubx64.efi
-
-# Assinar kernel
-sudo sbsign --key ~/secure-boot-keys/db.key --cert ~/secure-boot-keys/db.crt \
-  --output /boot/vmlinuz-linux /boot/vmlinuz-linux
-```
-
-#### 3.6 Automatizar Assinatura em Atualizações
-
-Criar hook do pacman:
-
-```bash
-sudo nano /etc/pacman.d/hooks/999-sign_kernel_for_secureboot.hook
-```
-
-Conteúdo:
-
-```ini
-[Trigger]
-Operation = Install
-Operation = Upgrade
-Type = Package
-Target = linux
-Target = linux-lts
-Target = linux-hardened
-
-[Action]
-Description = Signing kernel with Machine Owner Key for Secure Boot
-When = PostTransaction
-Exec = /usr/bin/find /boot -maxdepth 1 -name 'vmlinuz-*' -exec /usr/bin/sh -c 'if ! /usr/bin/sbverify --list {} 2>/dev/null | /usr/bin/grep -q "signature certificates"; then /usr/bin/sbsign --key /root/secure-boot-keys/db.key --cert /root/secure-boot-keys/db.crt --output {} {}; fi' ;
-Depends = sbsigntools
-```
-
-```bash
-# Mover chaves para /root (mais seguro)
-sudo mkdir -p /root/secure-boot-keys
-sudo cp ~/secure-boot-keys/db.key ~/secure-boot-keys/db.crt /root/secure-boot-keys/
-sudo chmod -R 600 /root/secure-boot-keys
-```
-
-#### 3.7 Habilitar Secure Boot
-
-1. Reinicie
-2. Entre na BIOS
-3. Habilite "Secure Boot"
-4. Salve e reinicie
-
----
-
-## Verificação e Testes
-
-### Verificar Status do Secure Boot
-
-```bash
-# Ver se Secure Boot está ativo
-bootctl status
-
-# Alternativa
-mokutil --sb-state
-
-# Verificar assinaturas
-sbverify --list /boot/vmlinuz-linux
-```
-
-**Saída esperada**:
-```
-Secure Boot: enabled
-```
-
-### Testar Ambos os Sistemas
-
-1. **Boot no Arch Linux**: Deve funcionar normalmente
-2. **Boot no Windows**: Deve funcionar normalmente
-3. **Alternar várias vezes**: Garantir estabilidade
-
-Se ambos funcionam, configuração bem-sucedida!
+**As chaves são permanentes:** Atualizações do sistema (pacman -Syu) NÃO afetam as chaves na UEFI. Windows continua funcionando indefinidamente.
 
 ---
 
 ## Solução de Problemas
 
-### Sistema Não Boota Após Habilitar Secure Boot
+### Setup Mode está Disabled
 
-**Causa**: Bootloader não está assinado corretamente.
+Entre na BIOS → Procure "Clear Secure Boot Keys" ou "Reset to Setup Mode" → Execute → Tente novamente
 
-**Solução**:
+### Erro "You need to chattr -i files in efivarfs"
 
-1. Entre na BIOS
-2. Desabilite Secure Boot temporariamente
-3. Boot pelo Arch
-4. Verifique assinaturas:
-   ```bash
-   sbverify --list /boot/efi/EFI/GRUB/shimx64.efi  # Método 2
-   # OU
-   sbverify --list /boot/vmlinuz-linux  # Método 3
-   ```
-5. Se não houver assinatura, refaça o processo
+Se ao tentar `sbctl enroll-keys` aparecer este erro, os arquivos da UEFI estão protegidos:
 
-### Windows Não Aparece no Menu do GRUB
+```bash
+# Remover proteção dos arquivos
+sudo chattr -i /sys/firmware/efi/efivars/{PK,KEK,db}*
 
-**Solução**:
+# Tentar novamente
+sudo sbctl enroll-keys -m
+```
+
+### Sistema não boota após habilitar Secure Boot
+
+1. Entre na BIOS e desabilite Secure Boot temporariamente
+2. Boot no Arch
+3. Verifique: `sbctl verify`
+4. Reassine arquivos faltando: `sudo sbctl sign -s /caminho/arquivo`
+5. Tente habilitar novamente
+
+### Windows não aparece no GRUB
 
 ```bash
 sudo pacman -S os-prober
 sudo nano /etc/default/grub
 # Adicionar: GRUB_DISABLE_OS_PROBER=false
-
 sudo grub-mkconfig -o /boot/grub/grub.cfg
-
-# Se usando Método 3, reassinar GRUB
-sudo sbsign --key /root/secure-boot-keys/db.key \
-  --cert /root/secure-boot-keys/db.crt \
-  --output /boot/efi/EFI/GRUB/grubx64.efi \
-  /boot/efi/EFI/GRUB/grubx64.efi
+sudo sbctl sign -s /boot/efi/EFI/GRUB/grubx64.efi
+reboot
 ```
 
-### Tela Azul "Verification Failed"
+### Windows não boota (dual-boot)
 
-**Causa**: Assinatura não confiada pela UEFI.
-
-**Método 2 (Shim)**:
-- Isso é normal no primeiro boot
-- Siga processo de MOK Manager (seção 2.7)
-
-**Método 3 (Próprias chaves)**:
-- Verifique se chaves foram matriculadas corretamente na UEFI
-- Pode precisar reinstalar chaves pelo modo Setup
-
-### Kernel Não Assina Após Atualização (Método 3)
-
-**Solução**:
+Você esqueceu a flag `-m`. Refaça o processo:
 
 ```bash
-# Verificar se hook está ativo
-ls -la /etc/pacman.d/hooks/
-
-# Assinar manualmente
-sudo sbsign --key /root/secure-boot-keys/db.key \
-  --cert /root/secure-boot-keys/db.crt \
-  --output /boot/vmlinuz-linux /boot/vmlinuz-linux
-
-# Verificar
-sbverify --list /boot/vmlinuz-linux
+sudo rm -rf /usr/share/secureboot/keys
+sudo sbctl create-keys
+sudo sbctl enroll-keys -m  # Desta vez COM -m
+sudo sbctl sign -s /boot/efi/EFI/GRUB/grubx64.efi
+sudo sbctl sign -s /boot/vmlinuz-linux
 ```
 
-### Resetar Secure Boot (Voltar ao Padrão)
+### Resetar tudo
 
-**Se algo der errado e você quiser resetar tudo**:
-
-1. Boot na BIOS/UEFI
-2. Procure "Restore Factory Keys" ou "Reset to Setup Mode"
-3. Confirme
-4. Isso restaura as chaves Microsoft originais
-5. Windows voltará a funcionar
-6. Arch só funcionará com Secure Boot desabilitado (refaça Método 2 se quiser)
+Entre na BIOS → "Restore Factory Keys" → Confirme → Windows volta a funcionar, Arch precisa Secure Boot desabilitado
 
 ---
 
-## Comparação dos Métodos
+## Verificação
 
-| Aspecto | Desabilitado | Shim (Método 2) | Próprias Chaves (Método 3) |
-|---------|--------------|-----------------|---------------------------|
-| **Complexidade** | Nenhuma | Baixa | Alta |
-| **Segurança** | Boa | Muito Boa | Excelente |
-| **Manutenção** | Zero | Mínima | Constante |
-| **Compatibilidade Windows** | 100% | 100% | 95% |
-| **Risco** | Zero | Baixo | Médio |
-| **Recomendado para** | Iniciantes | Maioria dos usuários | Especialistas |
+```bash
+# Verificar status
+sbctl status
+bootctl status | grep "Secure Boot"
 
----
+# Listar arquivos assinados
+sbctl list-files
 
-## Recursos Adicionais
-
-- **Arch Wiki - Secure Boot**: [wiki.archlinux.org/title/Unified_Extensible_Firmware_Interface/Secure_Boot](https://wiki.archlinux.org/title/Unified_Extensible_Firmware_Interface/Secure_Boot)
-- **Rod Smith's Secure Boot Guide**: [rodsbooks.com/efi-bootloaders/secureboot.html](http://www.rodsbooks.com/efi-bootloaders/secureboot.html)
-- **Shim Documentation**: [github.com/rhboot/shim](https://github.com/rhboot/shim)
+# Verificar assinatura específica
+sbctl verify /boot/vmlinuz-linux
+```
 
 ---
 
-**Lembre-se**: Secure Boot é **opcional**. Seu sistema é seguro sem ele se você seguir boas práticas de segurança básicas.
+## FAQ Rápido
 
-*Última atualização: Dezembro 2025*
+**Posso voltar atrás?** Sim, desabilite na BIOS ou restaure chaves de fábrica.
+
+**E se perder as chaves?** Sistema atual funciona, mas não pode assinar novos kernels. Desabilite Secure Boot ou reconfigure.
+
+**Preciso reassinar após atualização?** Não! Hook automático faz isso.
+
+**Múltiplos kernels?** Assine cada um: `sudo sbctl sign -s /boot/vmlinuz-linux-lts`
+
+**Muitos arquivos para assinar?** Use este comando para assinar tudo automaticamente:
+```bash
+# Assina automaticamente todos os arquivos não assinados
+sbctl verify | sed 's/✗ /sbctl sign -s /e'
+```
+
+---
+
+## Recursos
+
+- [Arch Wiki - Secure Boot](https://wiki.archlinux.org/title/Unified_Extensible_Firmware_Interface/Secure_Boot)
+- [sbctl GitHub](https://github.com/Foxboron/sbctl)
+
+---
+
+**Conclusão:** Secure Boot com sbctl é configuração única, manutenção zero. Se não precisa agora, deixe desabilitado e configure quando quiser.
