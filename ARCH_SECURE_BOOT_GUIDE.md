@@ -89,6 +89,8 @@ Seu sistema é seguro sem Secure Boot se você usa senhas fortes, mantém sistem
 
 ## Método 2: sbctl (Recomendado)
 
+**Compatibilidade:** O sbctl funciona na maioria dos PCs modernos, mas alguns fabricantes têm firmwares problemáticos. Se encontrar erros persistentes, pode ser limitação do hardware.
+
 Ferramenta oficial do Arch Wiki. Configuração única, assinatura automática de kernels.
 
 ### Instalação Completa
@@ -123,11 +125,18 @@ sudo sbctl enroll-keys --microsoft --firmware-builtin
 sudo sbctl enroll-keys -m -f
 
 # 5. Assinar bootloader e kernel
-# Para GRUB:
+# IMPORTANTE: Use o caminho correto conforme SUA montagem da partição EFI
+
+# Descobrir onde está montada a partição EFI:
+mount | grep -i efi
+# Se mostrar /boot/efi → use /boot/efi nos comandos abaixo
+# Se mostrar /boot → use /boot nos comandos abaixo
+
+# Para GRUB (ajuste o caminho conforme acima):
 sudo sbctl sign -s /boot/efi/EFI/GRUB/grubx64.efi
 sudo sbctl sign -s /boot/vmlinuz-linux
 
-# Para systemd-boot:
+# Para systemd-boot (ajuste o caminho conforme acima):
 sudo sbctl sign -s /boot/efi/EFI/systemd/systemd-bootx64.efi
 sudo sbctl sign -s /boot/efi/EFI/BOOT/BOOTX64.EFI
 sudo sbctl sign -s /boot/vmlinuz-linux
@@ -274,7 +283,11 @@ sbctl verify /boot/vmlinuz-linux
 **Muitos arquivos para assinar?** Use este comando para assinar tudo automaticamente:
 ```bash
 # Assina automaticamente todos os arquivos não assinados
+# Opção 1 (simples, funciona na maioria dos casos):
 sbctl verify | sed 's/✗ /sbctl sign -s /e'
+
+# Opção 2 (mais robusta, funciona com qualquer caminho):
+sbctl verify | sed -E 's|^.* (/.+) is not signed$|sbctl sign -s "\1"|e'
 ```
 
 ---
