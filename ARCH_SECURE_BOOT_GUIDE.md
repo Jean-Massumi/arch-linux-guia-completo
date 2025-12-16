@@ -125,21 +125,27 @@ sudo sbctl enroll-keys --microsoft --firmware-builtin
 sudo sbctl enroll-keys -m -f
 
 # 5. Assinar bootloader e kernel
-# IMPORTANTE: Use o caminho correto conforme SUA montagem da partição EFI
+# IMPORTANTE: Execute APENAS os comandos do bootloader que VOCÊ instalou
 
-# Descobrir onde está montada a partição EFI:
+# Passo 1: Descobrir onde está montada a partição EFI
 mount | grep -i efi
 # Se mostrar /boot/efi → use /boot/efi nos comandos abaixo
 # Se mostrar /boot → use /boot nos comandos abaixo
 
-# Ver quais bootloaders estão instalados:
+# Passo 2: Ver qual bootloader você instalou
 ls /boot/efi/EFI/
+# Se listar "GRUB/" → use OPÇÃO A
+# Se listar "systemd/" → use OPÇÃO B
 
-# OPÇÃO A: Se você instalou GRUB (ajuste o caminho conforme acima):
+# ══════════════════════════════════════════════════════════
+# OPÇÃO A: Se você instalou GRUB (dual-boot geralmente usa)
+# ══════════════════════════════════════════════════════════
 sudo sbctl sign -s /boot/efi/EFI/GRUB/grubx64.efi
 sudo sbctl sign -s /boot/vmlinuz-linux
 
-# OPÇÃO B: Se você instalou systemd-boot (ajuste o caminho conforme acima):
+# ══════════════════════════════════════════════════════════
+# OPÇÃO B: Se você instalou systemd-boot
+# ══════════════════════════════════════════════════════════
 sudo sbctl sign -s /boot/efi/EFI/systemd/systemd-bootx64.efi
 sudo sbctl sign -s /boot/efi/EFI/BOOT/BOOTX64.EFI
 sudo sbctl sign -s /boot/vmlinuz-linux
