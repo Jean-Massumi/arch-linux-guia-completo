@@ -132,11 +132,11 @@ mount | grep -i efi
 # Se mostrar /boot/efi → use /boot/efi nos comandos abaixo
 # Se mostrar /boot → use /boot nos comandos abaixo
 
-# Para GRUB (ajuste o caminho conforme acima):
+# OPÇÃO A: Se você instalou GRUB (ajuste o caminho conforme acima):
 sudo sbctl sign -s /boot/efi/EFI/GRUB/grubx64.efi
 sudo sbctl sign -s /boot/vmlinuz-linux
 
-# Para systemd-boot (ajuste o caminho conforme acima):
+# OPÇÃO B: Se você instalou systemd-boot (ajuste o caminho conforme acima):
 sudo sbctl sign -s /boot/efi/EFI/systemd/systemd-bootx64.efi
 sudo sbctl sign -s /boot/efi/EFI/BOOT/BOOTX64.EFI
 sudo sbctl sign -s /boot/vmlinuz-linux
