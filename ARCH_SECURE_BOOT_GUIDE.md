@@ -132,6 +132,9 @@ mount | grep -i efi
 # Se mostrar /boot/efi → use /boot/efi nos comandos abaixo
 # Se mostrar /boot → use /boot nos comandos abaixo
 
+# Ver quais bootloaders estão instalados:
+ls /boot/efi/EFI/
+
 # OPÇÃO A: Se você instalou GRUB (ajuste o caminho conforme acima):
 sudo sbctl sign -s /boot/efi/EFI/GRUB/grubx64.efi
 sudo sbctl sign -s /boot/vmlinuz-linux
