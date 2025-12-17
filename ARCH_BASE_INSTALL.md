@@ -159,24 +159,24 @@ fdisk -l /dev/sda
 
 ### 4.1 Escolha Seu Tipo de Instalação
 
-┌──────────────────────────────────────────────┐
-│ Você tem Windows instalado neste computador? │
-└──────────────────────────────────────────────┘
-       │                           │
-       │                           │
-      SIM                         NÃO
-       │                           │
-       ↓                           ↓
-   Dual-Boot                   Instalação
-   (Pule para                    Única
-   seção 7 e                (Continue aqui)
-   veja o guia                  
-   específico)
+#### **Instalação Única (Disco Completo)**
+
+Se você quer apenas o Arch Linux no computador, siga este guia normalmente.
+
+#### **Dual-Boot com Windows**
 
 Se você já tem Windows instalado e quer manter os dois sistemas:
 
 1. **Não siga as seções 4 a 6** deste guia
 2. **Consulte**: [ARCH_DUALBOOT_GUIDE.md](./ARCH_DUALBOOT_GUIDE.md)
+3. O guia de dual-boot explica:
+   - Como redimensionar a partição do Windows
+   - Como reutilizar a partição EFI existente
+   - Particionamento, formatação e montagem específicos
+   - Configuração do GRUB para detectar o Windows
+4. Após completar o dual-boot, volte para a **seção 7** deste guia
+
+> **Continue lendo se você está fazendo instalação única.**
 
 ### 4.2 Instalação Única - Iniciar Particionamento
 
