@@ -171,7 +171,6 @@ Antes de começar, certifique-se de ter:
 - Configure agora e teste o boot antes de prosseguir
 
 **Por que antes da pós-instalação?**
-- Evita conflitos com drivers de GPU
 - Permite testar o boot sem perder tempo com reinstalação
 - Configuração mais limpa e menos propensa a erros
 
