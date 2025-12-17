@@ -352,7 +352,7 @@ mount | grep /mnt
 
 ```bash
 # Instalar reflector para otimizar mirrors
-pacman -S reflector
+pacman -Sy reflector
 
 # Configurar mirrors brasileiros mais rápidos
 reflector --country Brazil --latest 10 --sort rate --verbose --save /etc/pacman.d/mirrorlist
