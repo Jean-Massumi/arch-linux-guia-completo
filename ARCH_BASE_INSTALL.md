@@ -578,9 +578,6 @@ pacman -S networkmanager nm-connection-editor
 
 # Habilitar NetworkManager na inicialização
 systemctl enable NetworkManager
-
-# Habilitar serviço de otimização para SSDs (se aplicável)
-systemctl enable fstrim.timer
 ```
 
 **O que fazem**:
@@ -593,7 +590,6 @@ systemctl enable fstrim.timer
 ```bash
 # Verificar se os serviços foram habilitados corretamente
 systemctl is-enabled NetworkManager
-systemctl is-enabled fstrim.timer
 ```
 
 **O que fazem**: Confirmam se os serviços essenciais foram habilitados para inicialização automática.
