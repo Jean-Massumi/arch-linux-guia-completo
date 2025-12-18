@@ -1,8 +1,8 @@
-# Guia de Pós-Instalação do Arch Linux
+# Guia Essencial de Pós-Instalação do Arch Linux
 
 ![Arch Linux](https://img.shields.io/badge/Arch_Linux-1793D1?style=for-the-badge&logo=arch-linux&logoColor=white)
 
-> **Configuração completa do sistema pós-instalação base**
+> **Configurações essenciais e universais após instalação base**
 
 ---
 
@@ -14,28 +14,23 @@ Este guia assume que você completou a [Instalação Base do Arch Linux](./ARCH_
 
 ## Índice
 
-- [1. Conectando ao Wi-Fi](#1-conectando-ao-wi-fi)
-- [2. Atualizando o Sistema](#2-atualizando-o-sistema)
-- [3. Otimizações Essenciais do Sistema](#3-otimizações-essenciais-do-sistema)
-- [4. Instalação de Pacotes Base Universais](#4-instalação-de-pacotes-base-universais)
-- [5. Instalação do YAY (AUR Helper)](#5-instalação-do-yay-aur-helper)
-- [6. Backup do Sistema (Timeshift)](#6-backup-do-sistema-timeshift)
-- [7. Aplicações Básicas Independentes de DE/WM](#7-aplicações-básicas-independentes-de-dewm)
+- [1. Primeiros Passos](#1-primeiros-passos)
+- [2. Otimizações do Sistema](#2-otimizações-do-sistema)
+- [3. Pacotes Base Universais](#3-pacotes-base-universais)
+- [4. Instalação do YAY (AUR Helper)](#4-instalação-do-yay-aur-helper)
+- [5. Segurança Básica](#5-segurança-básica)
+- [6. Backup do Sistema](#6-backup-do-sistema)
+- [7. Verificação Final](#7-verificação-final)
 - [8. Ambientes Desktop e Window Managers](#8-ambientes-desktop-e-window-managers)
-- [9. Otimizações para Gaming (Opcional)](#9-otimizações-para-gaming-opcional)
-- [10. Ferramentas Avançadas de Rede (Opcional)](#10-ferramentas-avançadas-de-rede-opcional)
-- [11. Verificação Final do Sistema](#11-verificação-final-do-sistema)
-- [12. Problemas Comuns e Soluções](#12-problemas-comuns-e-soluções)
-- [13. Manutenção Regular](#13-manutenção-regular)
-- [14. Comandos Úteis](#14-comandos-úteis)
-- [15. Aliases Úteis](#15-aliases-úteis)
-- [16. Documentação e Ajuda](#16-documentação-e-ajuda)
+- [Comandos Úteis](#comandos-úteis)
+- [Manutenção Regular](#manutenção-regular)
+- [Documentação e Recursos](#documentação-e-recursos)
 
 ---
 
-## 1. Conectando ao Wi-Fi
+## 1. Primeiros Passos
 
-Após finalizar a instalação básica do Arch Linux:
+### 1.1 Conectar ao Wi-Fi (se necessário)
 
 ```bash
 # Verificar se o NetworkManager está instalado e ativo
@@ -51,9 +46,7 @@ nmcli device wifi connect "nome_da_rede" password "sua_senha"
 ping -c 3 archlinux.org
 ```
 
----
-
-## 2. Atualizando o Sistema
+### 1.2 Atualizar Sistema
 
 ```bash
 # Atualizar todos os pacotes do sistema
@@ -62,55 +55,58 @@ sudo pacman -Syu
 
 ---
 
-## 3. Otimizações Essenciais do Sistema
+## 2. Otimizações do Sistema
 
-### 3.1 Configuração do Pacman
+### 2.1 Configuração do Pacman
 
 ```bash
-# Editar configuração do pacman
 sudo nano /etc/pacman.conf
+```
 
-# Descomente e configure as seguintes linhas:
+**Descomente/adicione:**
+```ini
 Color                    # Habilita cores na saída
-ParallelDownloads = 15   # Permite 15 downloads simultâneos
+ParallelDownloads = 10   # Permite 10 downloads simultâneos
 VerbosePkgLists          # Lista detalhada de pacotes
 
-# Para suporte a programas 32-bits (jogos, Wine, Steam):
-# Descomente estas linhas:
+# Para suporte 32-bit (Steam, Wine, jogos)
 [multilib]
 Include = /etc/pacman.d/mirrorlist
+```
 
-# Atualizar base de dados
+**Aplicar:**
+```bash
 sudo pacman -Sy
 ```
 
-### 3.2 Reflector Automático
+### 2.2 Reflector Automático
 
 Mantém os mirrors atualizados automaticamente para velocidades de download otimizadas.
 
 ```bash
-# Instalar reflector
+# Instalar
 sudo pacman -S reflector
 
-# Editar configuração
+# Configurar
 sudo nano /etc/xdg/reflector/reflector.conf
+```
 
-# Configuração recomendada para Brasil:
+**Configuração recomendada:**
+```
 --save /etc/pacman.d/mirrorlist
 --country Brazil
 --protocol https
 --latest 10
 --sort rate
-
-# Configurar atualização automática semanal
-sudo systemctl enable reflector.timer
-sudo systemctl start reflector.timer
-
-# Verificar status
-sudo systemctl status reflector.timer
 ```
 
-### 3.3 Otimização de Memória Virtual (Zswap)
+**Habilitar atualização automática:**
+```bash
+sudo systemctl enable reflector.timer
+sudo systemctl start reflector.timer
+```
+
+### 2.3 Otimização de Memória Virtual (Zswap)
 O Zswap é uma tecnologia que comprime dados na RAM antes de enviá-los ao disco, combinando velocidade com suporte à hibernação.
 
 #### Passo 1: Verificar/Criar Swap
@@ -177,323 +173,114 @@ swapon --show
 free -h
 ```
 
-### 3.4 Otimizações para SSD
+### 2.4 TRIM para SSDs
 
+**Apenas se você tem SSD:**
 ```bash
-# Verificar se TRIM está habilitado
-sudo systemctl status fstrim.timer
+# Verificar suporte
+sudo lsblk --discard
 
-# Se não estiver, habilitar:
+# Se DISC-GRAN e DISC-MAX não forem zero:
 sudo systemctl enable fstrim.timer
 sudo systemctl start fstrim.timer
-
-# Executar TRIM manualmente (teste)
-sudo fstrim -v /
 ```
-
-### 3.5 Gestão de Energia (Laptops)
-
-**Apenas para laptops:**
-
-#### Opção A: TLP (recomendado para a maioria)
-```bash
-# Instalar TLP
-sudo pacman -S tlp tlp-rdw
-
-# Habilitar e iniciar
-sudo systemctl enable tlp.service
-sudo systemctl start tlp.service
-
-# Verificar status (opcional)
-sudo tlp-stat -s
-
-# Mascarar serviços conflitantes (importante!)
-sudo systemctl mask systemd-rfkill.service systemd-rfkill.socket
-```
-
-#### Opção B: power-profiles-daemon (se usa GNOME/KDE)
-```bash
-# Já vem instalado com GNOME/KDE por padrão
-sudo systemctl enable power-profiles-daemon
-sudo systemctl start power-profiles-daemon
-```
-
-**IMPORTANTE:** Não use TLP e power-profiles-daemon simultaneamente - causam conflitos!
 
 ---
 
-## 4. Instalação de Pacotes Base Universais
+## 3. Pacotes Base Universais
 
-### 4.1 Rede e Bluetooth
-
-```bash
-# Ferramentas essenciais de rede
-sudo pacman -S wpa_supplicant
-
-# Bluetooth (essencial para todos os ambientes)
-sudo pacman -S bluez bluez-utils
-
-# Ativar e iniciar serviços do Bluetooth
-sudo systemctl enable bluetooth.service
-sudo systemctl start bluetooth.service
-```
-
-### 4.2 Suporte a Impressoras
+### 3.1 Ferramentas de Sistema
 
 ```bash
-# Instalar sistema de impressão CUPS
-sudo pacman -S cups cups-pdf
+# Compilação (necessário para AUR)
+sudo pacman -S base-devel git
 
-# Ativar serviço de impressão
-sudo systemctl enable cups
-sudo systemctl start cups
+# Compressão e arquivos
+sudo pacman -S zip unzip p7zip unrar tar
 
-# Interface web de gerenciamento: http://localhost:631
-```
+# Rede e download
+sudo pacman -S wget curl rsync
 
-### 4.3 Sistema de Áudio Moderno
-
-```bash
-# SOF Firmware (necessário para laptops/PCs modernos)
-sudo pacman -S sof-firmware
-
-# PipeWire - substituto moderno para PulseAudio/JACK
-sudo pacman -S pipewire pipewire-pulse pipewire-alsa pipewire-jack wireplumber
-
-# Ativar serviços de áudio para o usuário
-systemctl --user enable pipewire pipewire-pulse wireplumber
-systemctl --user start pipewire pipewire-pulse wireplumber
-
-# Testar áudio
-speaker-test -t wav -c 2
-```
-
-### 4.4 Drivers Gráficos
-
-**IMPORTANTE**: A instalação de drivers gráficos depende completamente da sua configuração de hardware. As bibliotecas e drivers instalados variam conforme as especificações da sua máquina.
-
-É fundamental que cada usuário verifique as especificações do seu PC e instale as bibliotecas apropriadas para garantir o melhor funcionamento e desempenho.
-
-**Referências oficiais:**
-- NVIDIA + Hyprland: https://wiki.hypr.land/Nvidia/
-- Drivers NVIDIA (Arch Wiki): https://wiki.archlinux.org/title/NVIDIA  
-- Drivers Xorg/Wayland: https://wiki.archlinux.org/title/Xorg#Driver_installation
-
-#### 4.4.1 Sistema Híbrido Intel + NVIDIA
-
-```bash
-# Drivers Mesa para Intel (OpenGL e Vulkan)
-sudo pacman -S mesa lib32-mesa vulkan-intel lib32-vulkan-intel
-
-# Drivers proprietários NVIDIA
-sudo pacman -S nvidia nvidia-utils lib32-nvidia-utils nvidia-settings
-
-# Suporte EGL para NVIDIA com Wayland (essencial para Hyprland)
-sudo pacman -S egl-wayland
-
-# Configurar módulos do kernel para Wayland/Hyprland
-sudo nano /etc/modprobe.d/nvidia.conf
-# Adicionar esta linha:
-options nvidia_drm modeset=1 fbdev=1
-
-# Regenerar initramfs
-sudo mkinitcpio -P
-
-# Verificar instalação
-nvidia-smi
-glxinfo | grep "OpenGL renderer"
-```
-
-#### 4.4.2 GPU AMD
-
-```bash
-# Drivers Mesa para AMD (OpenGL e Vulkan)
-sudo pacman -S mesa lib32-mesa vulkan-radeon lib32-vulkan-radeon
-
-# Aceleração de vídeo
-sudo pacman -S libva-mesa-driver lib32-libva-mesa-driver mesa-vdpau lib32-mesa-vdpau
-
-# Verificar instalação
-glxinfo | grep "OpenGL renderer"
-vulkaninfo | grep "deviceName"
-```
-
-#### 4.4.3 Intel Integrado (Apenas)
-
-```bash
-# Drivers Mesa para Intel
-sudo pacman -S mesa lib32-mesa vulkan-intel lib32-vulkan-intel
-
-# Aceleração de vídeo
-sudo pacman -S intel-media-driver libva-intel-driver
-
-# Verificar instalação
-glxinfo | grep "OpenGL renderer"
-```
-
-### 4.5 Ferramentas Essenciais do Sistema
-
-```bash
-# DBUS - Message bus (ESSENCIAL para comunicação entre processos)
-sudo pacman -S dbus
-sudo systemctl enable dbus
-
-# FUSE - Sistemas de arquivos em userspace (AppImage, SSHFS, etc)
-sudo pacman -S fuse2 fuse3
-
-# Monitoramento de recursos
+# Monitoramento
 sudo pacman -S htop btop
 
-# Monitor de GPU (se tiver NVIDIA)
-sudo pacman -S nvtop
+# Informações do sistema
+sudo pacman -S neofetch inxi
 
-# Informações de hardware
-sudo pacman -S lshw dmidecode
-
-# Sensores de hardware (temperatura, ventoinhas)
+# Sensores de hardware
 sudo pacman -S lm_sensors
-sudo sensors-detect  # Detectar sensores (aceite os padrões)
-sensors              # Ver temperaturas
-
-# ACPI - Gerenciamento de energia (essencial para laptops)
-sudo pacman -S acpi acpid
-# Se laptop, habilitar:
-sudo systemctl enable acpid
-
-# Firewall
-sudo pacman -S ufw
-sudo ufw default deny incoming
-sudo ufw default allow outgoing
-sudo ufw enable
-sudo ufw status verbose
+sudo sensors-detect  # Aceitar padrões
 ```
 
-### 4.6 Utilitários do Sistema
+### 3.2 Rede e Conectividade
 
 ```bash
-# Ferramentas de sistema de arquivos
+# Bluetooth
+sudo pacman -S bluez bluez-utils
+sudo systemctl enable bluetooth.service
+sudo systemctl start bluetooth.service
+
+# Ferramentas de diagnóstico
+sudo pacman -S bind mtr
+```
+
+### 3.3 Sistema de Arquivos
+
+```bash
+# Ferramentas básicas
 sudo pacman -S e2fsprogs dosfstools
 
-# Utilitários básicos de rede e download
-sudo pacman -S git wget curl rsync
+# FUSE (AppImage, SSHFS)
+sudo pacman -S fuse2 fuse3
 
-# Utilitários de terminal
-sudo pacman -S tree dialog bash-completion
+# Suporte Windows/USB
+sudo pacman -S ntfs-3g exfatprogs
 
-# Após instalar bash-completion, recarregar shell
-source /etc/profile.d/bash_completion.sh
+# Montagem automática
+sudo pacman -S udisks2
+
+# GVFS (essencial para gerenciadores de arquivo)
+sudo pacman -S gvfs gvfs-mtp gvfs-gphoto2 gvfs-afc gvfs-smb
+
+# Diretórios padrão
+sudo pacman -S xdg-user-dirs xdg-utils
+xdg-user-dirs-update
 ```
 
-### 4.7 Ferramentas de Compressão
+### 3.4 Multimídia Base
 
 ```bash
-# Suporte a múltiplos formatos de compressão
-sudo pacman -S zip unzip p7zip unrar tar
-```
-
-### 4.8 Ferramentas de Diagnóstico
-
-```bash
-# Informações detalhadas do sistema
-sudo pacman -S inxi neofetch
-
-# Ferramentas de diagnóstico de rede
-sudo pacman -S net-tools    # ifconfig, netstat (legado mas útil)
-sudo pacman -S bind         # dig, nslookup (DNS)
-sudo pacman -S mtr          # traceroute + ping melhorado
-sudo pacman -S iw           # Configuração Wi-Fi avançada
-sudo pacman -S ethtool      # Informações de interfaces de rede
-
-# Ver informações do hardware
-inxi -Fxz           # Informações completas
-lspci               # Dispositivos PCI
-lsusb               # Dispositivos USB
-lsblk               # Discos e partições
-
-# Exemplos de uso das ferramentas de rede:
-# dig google.com              # Testar DNS
-# mtr google.com              # Traceroute interativo
-# sudo ethtool eth0           # Info da interface ethernet
-# iw dev wlan0 scan           # Escanear redes Wi-Fi
-```
-
-### 4.9 Codecs de Mídia e Fontes
-
-```bash
-# Codecs de áudio e vídeo
-sudo pacman -S ffmpeg gst-libav gst-plugins-good gst-plugins-bad gst-plugins-ugly gst-plugins-base gstreamer
+# Codecs essenciais
+sudo pacman -S ffmpeg
 
 # Fontes essenciais
 sudo pacman -S noto-fonts noto-fonts-emoji ttf-dejavu ttf-liberation ttf-font-awesome ttf-roboto
 
-# Fontes para terminais e código (Nerd Fonts)
+# Fontes para terminais e código (Nerd Fonts) - Opcional
 sudo pacman -S ttf-jetbrains-mono-nerd ttf-firacode-nerd
 
-# Fontes adicionais (opcional)
-sudo pacman -S ttf-ubuntu-font-family ttf-opensans
+# Fontes específicas CJK (Japonês, Chines, Koreano, etc) - Opcional
+sudo pacman -S noto-fonts-cjk
 ```
 
-### 4.10 Sistema de Autenticação (Polkit)
+### 3.5 Sistema Base
 
 ```bash
-# Polkit - necessário para autenticação gráfica em TODOS os ambientes
+# Polkit (autenticação)
 sudo pacman -S polkit
-```
 
-### 4.11 Diretórios e Utilitários XDG
-
-```bash
-# Criar e gerenciar pastas padrão (Downloads, Documents, Pictures, etc)
-sudo pacman -S xdg-user-dirs
-xdg-user-dirs-update
-
-# Utilitários XDG (abrir arquivos com aplicação padrão, etc)
-sudo pacman -S xdg-utils
-```
-
-### 4.12 Sistema de Arquivos Virtual (GVFS)
-
-```bash
-# GVFS - essencial para gerenciadores de arquivos, acesso a dispositivos, redes, etc
-sudo pacman -S gvfs gvfs-mtp gvfs-gphoto2 gvfs-afc gvfs-nfs gvfs-smb
-
-# Suporte a thumbnails/previews de arquivos (imagens, vídeos, PDFs)
-sudo pacman -S tumbler ffmpegthumbnailer poppler-glib libgsf
-```
-
-### 4.13 Gerenciamento de Discos e Partições
-
-```bash
-# Montagem automática de dispositivos USB/externos
-sudo pacman -S udisks2
-
-# Suporte completo a NTFS (leitura/escrita em partições Windows)
-sudo pacman -S ntfs-3g
-
-# Suporte a exFAT (pendrives formatados em exFAT)
-sudo pacman -S exfatprogs
-
-# Ferramenta gráfica de particionamento
-sudo pacman -S gparted
-```
-
-### 4.14 Sistema de Notificações
-
-```bash
-# Biblioteca de notificações (base necessária para todos os ambientes)
-sudo pacman -S libnotify
+# Bash completion (autocomplete no terminal)
+sudo pacman -S bash-completion
+source /etc/profile.d/bash_completion.sh
 ```
 
 ---
 
-## 5. Instalação do YAY (AUR Helper)
+## 4. Instalação do YAY (AUR Helper)
 
 O YAY permite instalar pacotes do AUR (Arch User Repository), que contém milhares de aplicações adicionais.
 
 ```bash
-# Instalar dependências
-sudo pacman -S --needed git base-devel
-
 # Clonar repositório do YAY
 git clone https://aur.archlinux.org/yay.git
 
@@ -512,75 +299,76 @@ yay --version
 yay -Syu
 ```
 
-### Uso Básico do YAY
+---
+
+## 5. Segurança Básica
+
+### 5.1 Firewall
 
 ```bash
-# Buscar pacote
-yay -Ss nome_do_pacote
+# Instalar UFW
+sudo pacman -S ufw
 
-# Instalar pacote
-yay -S nome_do_pacote
+# Configurar
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
 
-# Remover pacote
-yay -R nome_do_pacote
+# Habilitar
+sudo ufw enable
 
-# Atualizar tudo (sistema + AUR)
-yay -Syu
-
-# Limpar cache de pacotes
-yay -Sc
-
-# Remover dependências órfãs
-yay -Yc
+# Verificar
+sudo ufw status verbose
 ```
 
 ---
 
-## 6. Backup do Sistema (Timeshift)
+## 6. Backup do Sistema
+
+### 6.1 Timeshift
 
 ```bash
-# Instalar Timeshift
+# Instalar
 yay -S timeshift
 
-# Executar Timeshift
+# Executar
 sudo timeshift-gtk
 
 # Configuração recomendada:
 # - Tipo: RSYNC
-# - Localização: Selecionar partição com espaço suficiente
 # - Agendamento: Semanal
 # - Incluir: Apenas partição raiz (/)
 ```
 
-**Alternativa para sistemas Btrfs:**
+### 6.2 Criar Primeiro Snapshot
 
 ```bash
-# Snapper (para sistemas Btrfs)
-sudo pacman -S snapper
+sudo timeshift --create --comments "Instalação base completa" --tags D
 ```
 
 ---
 
-## 7. Aplicações Básicas Independentes de DE/WM
+## 7. Verificação Final
 
 ```bash
-# Navegador web
-sudo pacman -S firefox
+# Verificar serviços com falha
+systemctl --failed
 
-# Gerenciador de pacotes Flatpak
-sudo pacman -S flatpak
+# Ver erros do último boot
+journalctl -p 3 -xb
 
-# Habilitar repositório Flathub
-flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+# Verificar temperatura
+sensors
 
-# Aplicações diversas
-sudo pacman -S discord libreoffice-fresh
+# Verificar swap
+swapon --show
+free -h
 
-# OBS Studio (streaming/gravação)
-sudo pacman -S obs-studio
+# Informações completas do sistema
+inxi -Fxz
+neofetch
 
-# Terminal file manager (opcional, mas muito útil)
-sudo pacman -S ranger
+# Verificar entradas de boot
+efibootmgr -v
 ```
 
 ---
@@ -636,301 +424,42 @@ sudo pacman -S ranger
 
 ---
 
-## 9. Otimizações para Gaming (Opcional)
+## Comandos Úteis
 
-Se você pretende jogar no Linux:
-
-```bash
-# Kernel otimizado para gaming (melhor latência e performance)
-yay -S linux-zen linux-zen-headers
-
-# Após instalar, regenerar GRUB
-sudo grub-mkconfig -o /boot/grub/grub.cfg
-
-# Gamemode - otimização automática ao jogar
-sudo pacman -S gamemode lib32-gamemode
-
-# MangoHud - overlay de performance (FPS, temperatura, etc)
-sudo pacman -S mangohud lib32-mangohud
-
-# Steam
-sudo pacman -S steam
-
-# Lutris - gerenciador de jogos para Windows e emuladores
-sudo pacman -S lutris wine-staging
-
-# ProtonUp-Qt - gerenciar versões do Proton
-flatpak install flathub net.davidotek.pupgui2
-```
-
-**Uso do Gamemode:**
-```bash
-# Iniciar jogo com gamemode
-gamemoderun ./jogo
-
-# Para Steam: adicione nas opções de inicialização do jogo
-gamemoderun %command%
-```
-
----
-
-## 10. Ferramentas Avançadas de Rede (Opcional)
-
-**Apenas instale se você precisa de diagnóstico avançado ou desenvolvimento:**
+### Gerenciamento de Pacotes
 
 ```bash
-# Captura e análise de pacotes (troubleshooting avançado)
-sudo pacman -S tcpdump wireshark-qt
+# Buscar pacote
+pacman -Ss nome          # Repositórios oficiais
+yay -Ss nome             # Incluindo AUR
 
-# Ferramentas adicionais de rede
-sudo pacman -S nmap          # Scanner de portas/rede
-sudo pacman -S traceroute    # Rastreamento de rotas
-sudo pacman -S iperf3        # Teste de largura de banda
+# Informações sobre pacote
+pacman -Si nome
 
-# Se usar Wireshark, adicionar usuário ao grupo
-sudo usermod -aG wireshark $USER
-# Relogar para aplicar
-```
+# Instalar
+sudo pacman -S nome      # Oficial
+yay -S nome              # AUR
 
----
+# Remover (com dependências)
+sudo pacman -Rns nome
 
-## 11. Verificação Final do Sistema
-
-Após completar a instalação, execute estas verificações:
-
-```bash
-# Verificar serviços com falha
-systemctl --failed
-
-# Ver erros do último boot
-journalctl -p 3 -xb
-
-# Verificar status do áudio
-systemctl --user status pipewire
-systemctl --user status pipewire-pulse
-
-# Testar áudio
-speaker-test -t wav -c 2
-
-# Verificar driver de vídeo
-glxinfo | grep "OpenGL renderer"
-vulkaninfo | grep "deviceName"
-
-# Verificar se NVIDIA está carregada (se aplicável)
-lsmod | grep nvidia
-
-# Verificar temperatura do sistema
-sensors
-
-# Verificar zram (se configurado)
-zramctl
-swapon --show
-
-# Ver informações completas
-inxi -Fxz
-neofetch
-
-# Verificar modo de boot
-bootctl status
-
-# Verificar entradas de boot
-efibootmgr -v
-```
-
----
-
-## 12. Problemas Comuns e Soluções
-
-### 12.1 Áudio não funciona
-
-```bash
-# Verificar se PipeWire está rodando
-systemctl --user status pipewire
-systemctl --user status pipewire-pulse
-
-# Reiniciar serviços de áudio
-systemctl --user restart pipewire pipewire-pulse wireplumber
-
-# Verificar dispositivos de áudio
-pactl list sinks
-
-# Testar áudio
-speaker-test -t wav -c 2
-```
-
-### 12.2 Bluetooth não conecta
-
-```bash
-# Verificar status
-systemctl status bluetooth
-
-# Reiniciar bluetooth
-sudo systemctl restart bluetooth
-
-# Conectar via CLI
-bluetoothctl
-# Dentro do bluetoothctl:
-power on
-scan on
-# Aguarde aparecer o dispositivo
-pair MAC_ADDRESS
-connect MAC_ADDRESS
-trust MAC_ADDRESS
-```
-
-### 12.3 Performance baixa (NVIDIA)
-
-```bash
-# Verificar se driver está carregado
-lsmod | grep nvidia
-nvidia-smi
-
-# Verificar se modeset está habilitado
-cat /sys/module/nvidia_drm/parameters/modeset
-# Deve retornar: Y
-
-# Forçar uso da GPU dedicada para um programa específico
-__NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia nome_do_programa
-
-# Adicionar ao .bashrc para sempre usar GPU dedicada
-echo 'export __NV_PRIME_RENDER_OFFLOAD=1' >> ~/.bashrc
-echo 'export __GLX_VENDOR_LIBRARY_NAME=nvidia' >> ~/.bashrc
-```
-
-### 12.4 Tela preta após atualização do kernel (NVIDIA)
-
-```bash
-# Boot em modo de recuperação ou pelo pendrive
-# Montar sistema
-mount /dev/sdaX /mnt  # Sua partição root
-arch-chroot /mnt
-
-# Reinstalar drivers NVIDIA
-sudo pacman -S nvidia nvidia-utils
-
-# Regenerar initramfs
-sudo mkinitcpio -P
-
-# Regenerar GRUB
-sudo grub-mkconfig -o /boot/grub/grub.cfg
-
-exit
-reboot
-```
-
-### 12.5 Sistema lento após instalar zram
-
-```bash
-# Verificar configuração atual
-zramctl
-
-# Se zram estiver muito grande, reduzir
-sudo nano /etc/systemd/zram-generator.conf.d/zram.conf
-
-# Mudar para 1/4 da RAM
-[zram0]
-zram-size = ram / 4
-
-# Reiniciar
-sudo reboot
-```
-
----
-
-## 13. Manutenção Regular
-
-```bash
-# Atualizar sistema (incluindo AUR)
+# Atualizar tudo
 yay -Syu
 
-# Limpar cache de pacotes antigos (mantém últimas 3 versões)
+# Limpar cache
 yay -Sc
 
-# Limpar cache completamente (libera mais espaço)
-yay -Scc
-
-# Remover pacotes órfãos (não usados por nada)
+# Remover órfãos
 yay -Yc
 
-# Ver pacotes instalados explicitamente
-pacman -Qe
+# Listar arquivos de um pacote
+pacman -Ql nome_do_pacote
 
-# Ver pacotes maiores instalados
-expac -H M '%m\t%n' | sort -h | tail -20
-
-# Ver ocupação de disco
-df -h
-du -sh ~/.cache/
-du -sh /var/cache/pacman/pkg/
-
-# Limpar cache do yay/paru
-yay -Sc
-rm -rf ~/.cache/yay
-
-# Verificar arquivos .pacnew (configurações novas)
-sudo find /etc -name "*.pacnew"
-
-# Verificar logs antigos
-journalctl --disk-usage
-sudo journalctl --vacuum-time=2weeks
+# Descobrir qual pacote possui um arquivo
+pacman -Qo /caminho/do/arquivo
 ```
 
----
 
-## 14. Comandos Úteis
 
-```bash
-# Buscar arquivo de configuração
-sudo find /etc -name "arquivo.conf"
 
-# Ver logs em tempo real
-journalctl -f
 
-# Ver logs de um serviço específico
-journalctl -u nome_do_servico
-
-# Listar serviços ativos
-systemctl list-units --type=service --state=running
-
-# Reiniciar serviço
-sudo systemctl restart nome_do_servico
-
-# Ver portas abertas
-sudo ss -tulpn
-
-# Ver processos que mais usam CPU
-ps aux --sort=-%cpu | head -10
-
-# Ver processos que mais usam RAM
-ps aux --sort=-%mem | head -10
-
-# Testar velocidade de internet
-speedtest-cli  # Instale com: sudo pacman -S speedtest-cli
-
-# Ver informações de hardware
-sudo dmidecode -t memory  # RAM
-sudo dmidecode -t processor  # CPU
-sudo dmidecode -t baseboard  # Placa-mãe
-```
-
----
-
-## 15. Documentação e Ajuda
-
-- **Arch Wiki**: https://wiki.archlinux.org/
-- **Fórum oficial**: https://bbs.archlinux.org/
-- **Manual do pacman**: `man pacman`
-- **Manual de qualquer comando**: `man nome_do_comando`
-- **Pesquisar no wiki do Arch**: Instale `arch-wiki-docs` e use `wiki-search termo`
-- **Ajuda inline**: `comando --help` ou `comando -h`
-
----
-
-**Importante**: 
-
-- Mantenha sempre um **backup** das suas configurações importantes
-- **Documente** as modificações que fizer no sistema para facilitar futuras reinstalações ou troubleshooting
-- Antes de atualizar, verifique o site do Arch Linux por **breaking changes**
-- **Não atualize às cegas** - leia os pacotes que serão atualizados
-
-**Próximo passo**: Escolha e instale seu ambiente desktop/window manager preferido seguindo os guias específicos listados na seção 8.
