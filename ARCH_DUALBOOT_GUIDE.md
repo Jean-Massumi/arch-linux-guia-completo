@@ -496,13 +496,7 @@ Após verificar que o dual-boot funciona, siga o guia de pós-instalação:
 
 5. **Não mexa na partição EFI** manualmente
 
-### 11.2 Alternando entre Sistemas
-
-- **Método 1**: Use o menu do GRUB ao ligar o computador
-- **Método 2**: No Linux, reinicie e escolha Windows no GRUB
-- **Método 3**: No Windows, use "Opções de inicialização avançadas"
-
-### 11.3 Acessando Arquivos do Windows no Linux
+### 11.2 Acessando Arquivos do Windows no Linux
 
 ```bash
 # Criar ponto de montagem
