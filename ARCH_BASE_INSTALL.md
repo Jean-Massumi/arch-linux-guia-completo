@@ -583,7 +583,6 @@ systemctl enable NetworkManager
 **O que fazem**:
 - Instalam o gerenciador de rede gráfico
 - Habilitam os serviços para iniciar automaticamente
-- Otimizam SSDs com TRIM automático
 
 ### 14.1 (Opcional) Verificar Serviços Habilitados
 
