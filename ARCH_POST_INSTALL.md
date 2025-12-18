@@ -6,7 +6,7 @@
 
 ---
 
-## ⚠️ Pré-requisito
+## Pré-requisito
 
 Este guia assume que você completou a [Instalação Base do Arch Linux](./ARCH_BASE_INSTALL.md).
 
