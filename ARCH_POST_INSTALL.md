@@ -1,5 +1,38 @@
 # Guia de Pós-Instalação do Arch Linux
 
+![Arch Linux](https://img.shields.io/badge/Arch_Linux-1793D1?style=for-the-badge&logo=arch-linux&logoColor=white)
+
+> **Configuração completa do sistema pós-instalação base**
+
+---
+
+## ⚠️ Pré-requisito
+
+Este guia assume que você completou a [Instalação Base do Arch Linux](./ARCH_BASE_INSTALL.md).
+
+---
+
+## Índice
+
+- [1. Conectando ao Wi-Fi](#1-conectando-ao-wi-fi)
+- [2. Atualizando o Sistema](#2-atualizando-o-sistema)
+- [3. Otimizações Essenciais do Sistema](#3-otimizações-essenciais-do-sistema)
+- [4. Instalação de Pacotes Base Universais](#4-instalação-de-pacotes-base-universais)
+- [5. Instalação do YAY (AUR Helper)](#5-instalação-do-yay-aur-helper)
+- [6. Backup do Sistema (Timeshift)](#6-backup-do-sistema-timeshift)
+- [7. Aplicações Básicas Independentes de DE/WM](#7-aplicações-básicas-independentes-de-dewm)
+- [8. Ambientes Desktop e Window Managers](#8-ambientes-desktop-e-window-managers)
+- [9. Otimizações para Gaming (Opcional)](#9-otimizações-para-gaming-opcional)
+- [10. Ferramentas Avançadas de Rede (Opcional)](#10-ferramentas-avançadas-de-rede-opcional)
+- [11. Verificação Final do Sistema](#11-verificação-final-do-sistema)
+- [12. Problemas Comuns e Soluções](#12-problemas-comuns-e-soluções)
+- [13. Manutenção Regular](#13-manutenção-regular)
+- [14. Comandos Úteis](#14-comandos-úteis)
+- [15. Aliases Úteis](#15-aliases-úteis)
+- [16. Documentação e Ajuda](#16-documentação-e-ajuda)
+
+---
+
 ## 1. Conectando ao Wi-Fi
 
 Após finalizar a instalação básica do Arch Linux:
@@ -72,49 +105,76 @@ sudo nano /etc/xdg/reflector/reflector.conf
 # Configurar atualização automática semanal
 sudo systemctl enable reflector.timer
 sudo systemctl start reflector.timer
+
+# Verificar status
+sudo systemctl status reflector.timer
 ```
 
-### 3.3 Otimização de Swap/Zram
+### 3.3 Otimização de Memória Virtual (Zswap)
+O Zswap é uma tecnologia que comprime dados na RAM antes de enviá-los ao disco, combinando velocidade com suporte à hibernação.
 
-#### Opção A: Ajustar Swappiness (Swap tradicional)
+#### Passo 1: Verificar/Criar Swap
 
+Você precisa de swap em disco (partição ou arquivo) para usar Zswap e hibernação.
+
+**Se já tem partição swap (criada na instalação):**
 ```bash
-# Verificar swap atual
+# Verificar se já existe
+swapon --show
+# Se mostrar algo, você já tem swap configurado. Pule para o Passo 2.
+```
+
+**Se não tem swap, criar swapfile:**
+```bash
+# Criar swapfile (tamanho = sua RAM, para hibernação)
+# Exemplo para 16GB de RAM:
+sudo dd if=/dev/zero of=/swapfile bs=1M count=16384 status=progress
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+
+# Tornar permanente
+echo '/swapfile none swap defaults 0 0' | sudo tee -a /etc/fstab
+
+# Verificar
 swapon --show
 free -h
+```
 
-# Ajustar swappiness (reduz uso de swap, prioriza RAM)
-echo "vm.swappiness=10" | sudo tee -a /etc/sysctl.d/99-swappiness.conf
+#### Passo 2: Habilitar Zswap
+```bash
+# Editar GRUB
+sudo nano /etc/default/grub
 
-# Aplicar imediatamente
+# Na linha GRUB_CMDLINE_LINUX_DEFAULT, adicionar:
+# zswap.enabled=1 zswap.compressor=zstd zswap.max_pool_percent=25
+
+# Exemplo:
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash zswap.enabled=1 zswap.compressor=zstd zswap.max_pool_percent=25"
+
+# Regenerar GRUB
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+```
+
+#### Passo 3: Ajustar Swappiness
+```bash
+# Reduz uso de swap em disco (prioriza RAM e cache Zswap)
+echo "vm.swappiness=10" | sudo tee /etc/sysctl.d/99-swappiness.conf
 sudo sysctl vm.swappiness=10
 ```
 
-#### Opção B: Zram (Melhor performance)
-
-Zram cria swap comprimido na RAM, muito mais rápido que swap em disco.
-
+#### Passo 4: Reiniciar e Verificar
 ```bash
-# Instalar zram-generator
-sudo pacman -S zram-generator
-
-# Criar diretório de configuração
-sudo mkdir -p /etc/systemd/zram-generator.conf.d
-
-# Configurar zram (usar metade da RAM)
-echo -e "[zram0]\nzram-size = ram / 2" | sudo tee /etc/systemd/zram-generator.conf.d/zram.conf
-
-# Desabilitar swap tradicional (se tiver)
-sudo swapoff -a
-sudo nano /etc/fstab  # Comentar linha do swap
-
-# Reiniciar para aplicar
 sudo reboot
 
-# Após reiniciar, verificar se zram está ativo
-zramctl
+# Após reiniciar:
+# Verificar Zswap ativo
+cat /sys/module/zswap/parameters/enabled  # Y
+cat /sys/module/zswap/parameters/compressor  # zstd
+
+# Verificar swap
 swapon --show
-# Deve mostrar /dev/zram0 como dispositivo de swap
+free -h
 ```
 
 ### 3.4 Otimizações para SSD
@@ -141,16 +201,21 @@ sudo fstrim -v /
 sudo pacman -S tlp tlp-rdw
 
 # Habilitar e iniciar
-sudo systemctl enable --now tlp
+sudo systemctl enable tlp.service
+sudo systemctl start tlp.service
 
 # Verificar status (opcional)
 sudo tlp-stat -s
+
+# Mascarar serviços conflitantes (importante!)
+sudo systemctl mask systemd-rfkill.service systemd-rfkill.socket
 ```
 
 #### Opção B: power-profiles-daemon (se usa GNOME/KDE)
 ```bash
 # Já vem instalado com GNOME/KDE por padrão
-sudo systemctl enable --now power-profiles-daemon
+sudo systemctl enable power-profiles-daemon
+sudo systemctl start power-profiles-daemon
 ```
 
 **IMPORTANTE:** Não use TLP e power-profiles-daemon simultaneamente - causam conflitos!
