@@ -693,6 +693,10 @@ nmtui
 
 ## 19. Próximos Passos
 
+### Secure Boot - Opcional
+
+**[ARCH_SECURE_BOOT_GUIDE.md](./ARCH_SECURE_BOOT_GUIDE.md)**
+
 ### Guia Completo de Pós-Instalação
 
 Para um guia detalhado sobre como configurar seu sistema Arch Linux do zero até um ambiente completo e personalizado, consulte:
