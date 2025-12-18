@@ -647,19 +647,6 @@ Após reiniciar, você verá:
 3. **Senha**: Digite sua senha
 4. **Terminal**: Você está no Arch Linux!
 
-### Comandos Úteis no Primeiro Boot
-
-```bash
-# Testar internet
-ping -c 3 archlinux.org
-
-# Conectar WiFi (se necessário)
-nmtui
-
-# Atualizar sistema
-sudo pacman -Syu
-```
-
 ---
 
 ## 18. Solução de Problemas Comuns
@@ -701,20 +688,6 @@ sudo systemctl enable NetworkManager
 
 # Configurar conexão
 nmtui
-```
-
-### 18.4 Esqueci a Senha do Root ou Usuário
-
-```bash
-# Boot pelo pendrive de instalação
-mount /dev/sda3 /mnt
-arch-chroot /mnt
-
-# Redefinir senha do root
-passwd
-
-# Redefinir senha do usuário
-passwd seu_usuario
 ```
 
 ---
