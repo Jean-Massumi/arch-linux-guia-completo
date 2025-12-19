@@ -614,9 +614,13 @@ systemctl is-enabled NetworkManager
 
 ## 15. Instalação de Microcódigo da CPU
 
+**IMPORTANTE**: Escolha **APENAS UM** conforme o processador do seu computador.
+
 ```bash
 # Para processadores Intel:
 pacman -S intel-ucode
+
+# OU
 
 # Para processadores AMD:
 pacman -S amd-ucode
