@@ -93,7 +93,7 @@ Seu sistema é seguro sem Secure Boot se você usa senhas fortes, mantém sistem
 
 Este guia tem DOIS caminhos diferentes:
 - **Caminho A**: Apenas Linux (sem Windows)
-- **Caminho B**: Dual boot (Windows + Linux) - VOCÊ PROVAVELMENTE QUER ESTE!
+- **Caminho B**: Dual boot (Windows + Linux)
 
 **Escolha o seu caminho e siga APENAS ele!**
 
