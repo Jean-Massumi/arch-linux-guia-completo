@@ -437,11 +437,13 @@ echo "KEYMAP=br-abnt2" > /etc/vconsole.conf
 ### 9.4 Verificar Configurações de Localização
 
 ```bash
-# Verificar se os locales foram gerados corretamente
+# Verificar se pt_BR foi gerado
 locale -a | grep pt_BR
+# Deve mostrar: pt_BR.utf8
 
-# Verificar variáveis de ambiente de idioma
-locale
+# Verificar se o arquivo está correto
+cat /etc/locale.conf
+# Deve mostrar: LANG=pt_BR.UTF-8
 ```
 
 **O que fazem**: Confirmam se as configurações de idioma e localização foram aplicadas corretamente.
@@ -450,6 +452,9 @@ locale
 
 ## 10. Configuração de Data e Hora
 
+**IMPORTANTE**: Os comandos `timedatectl` não funcionam dentro do ambiente chroot. Use-os apenas após reiniciar o sistema.
+
+### Durante a instalação (no chroot):
 ```bash
 # Definir fuso horário (altere conforme sua região)
 ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
@@ -457,18 +462,14 @@ ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
 # Sincronizar relógio do hardware
 hwclock --systohc
 
-# Habilitar sincronização automática de horário
-timedatectl set-ntp true
-
-# Verificar configuração
-timedatectl
+# Verificar se está correto
+date
 ```
 
 **O que fazem**:
-- Define o fuso horário do sistema
-- Sincroniza o relógio do hardware com o do sistema
-- Habilita sincronização automática via NTP
-- Mostra o status atual da configuração de tempo
+- `ln -sf`: Cria um link simbólico que define o fuso horário do sistema
+- `hwclock --systohc`: Sincroniza o relógio do hardware com o horário do sistema
+- `date`: Mostra a data e hora atuais para verificar se está correto
 
 ---
 
