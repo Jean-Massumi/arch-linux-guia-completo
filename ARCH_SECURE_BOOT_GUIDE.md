@@ -87,88 +87,209 @@ Seu sistema é seguro sem Secure Boot se você usa senhas fortes, mantém sistem
 
 ---
 
-## Método 2: sbctl (Recomendado)
+## Método 2: sbctl 
 
-**Compatibilidade:** O sbctl funciona na maioria dos PCs modernos, mas alguns fabricantes têm firmwares problemáticos. Se encontrar erros persistentes, pode ser limitação do hardware.
+**Compatibilidade:** O sbctl funciona na maioria dos PCs modernos, mas alguns fabricantes têm firmwares problemáticos. Se encontrar erros persistentes, pode ser limitação do hardware. Ferramenta oficial do Arch Wiki
 
-Ferramenta oficial do Arch Wiki. Configuração única, assinatura automática de kernels.
+Este guia tem DOIS caminhos diferentes:
+- **Caminho A**: Apenas Linux (sem Windows)
+- **Caminho B**: Dual boot (Windows + Linux) - VOCÊ PROVAVELMENTE QUER ESTE!
 
-### Instalação Completa
+**Escolha o seu caminho e siga APENAS ele!**
 
+---
+
+### CAMINHO A: Apenas Linux (sem Windows)
+
+### Passo 1: Limpar chaves na BIOS
+1. Entre na BIOS/UEFI
+2. Procure "Secure Boot"
+3. Escolha "Clear Keys" ou "Delete All Keys"
+4. Salve e saia
+
+#### Passo 2: Instalar e verificar
 ```bash
-# 1. Instalar
+# Instalar sbctl
 sudo pacman -S sbctl
 
-# 2. Verificar status
+# Verificar status
 sbctl status
-# Setup Mode deve estar: Enabled
-# Se não estiver, limpe as chaves na BIOS primeiro
+# Setup Mode DEVE estar: Enabled
+```
 
-# 3. Criar chaves
+#### Passo 3: Criar e matricular chaves
+```bash
+# Criar suas próprias chaves
 sudo sbctl create-keys
 
-# 4. Matricular chaves
-# ESCOLHA UM (leia as explicações abaixo):
-
-# Opção A: Só Arch (mais seguro)
+# Matricular chaves (SEM -m, pois não tem Windows)
 sudo sbctl enroll-keys
 
-# Opção B: Dual-boot com Windows (mantém chaves Microsoft)
+# Para notebooks de marca (Dell, HP, Lenovo, Framework):
+# sudo sbctl enroll-keys --firmware-builtin
+# ou: sudo sbctl enroll-keys -f
+```
+
+#### Passo 4: Assinar arquivos - Pule para "Assinatura de Arquivos"
+
+---
+
+### CAMINHO B: Dual Boot (Windows + Linux)
+
+#### Passo 1: NÃO limpe as chaves!
+**MANTENHA as chaves Microsoft! O Windows precisa delas!**
+- Setup Mode ficará "Disabled" - Isso é NORMAL para dual boot!
+
+#### Passo 2: Instalar e verificar
+```bash
+# Instalar sbctl
+sudo pacman -S sbctl
+
+# Verificar status
+sbctl status
+# Setup Mode estará: Disabled (NORMAL para dual boot!)
+```
+
+#### Passo 3: Criar e matricular chaves
+```bash
+# Criar suas próprias chaves
+sudo sbctl create-keys
+
+# Matricular chaves MANTENDO as da Microsoft (-m é OBRIGATÓRIO!)
 sudo sbctl enroll-keys --microsoft
-# ou de forma abreviada:
+# ou forma abreviada:
 sudo sbctl enroll-keys -m
 
-# Opção C: Dual-boot + Notebook de marca (Framework, Dell, HP, Lenovo)
-# Mantém chaves Microsoft + certificados OEM (para atualizações de firmware)
+# Para notebooks de marca + dual boot:
 sudo sbctl enroll-keys --microsoft --firmware-builtin
-# ou de forma abreviada:
-sudo sbctl enroll-keys -m -f
+# ou: sudo sbctl enroll-keys -m -f
+```
 
-# 5. Assinar bootloader e kernel
-# IMPORTANTE: Execute APENAS os comandos do bootloader que VOCÊ instalou
+#### Passo 4: Assinar arquivos - Continue para "Assinatura de Arquivos"
 
-# Passo 1: Descobrir onde está montada a partição EFI
+---
+
+### Assinatura de Arquivos (AMBOS OS CAMINHOS)
+
+### Descobrir configuração do sistema:
+```bash
+# Ver onde EFI está montado
 mount | grep -i efi
-# Se mostrar /boot/efi → use /boot/efi nos comandos abaixo
-# Se mostrar /boot → use /boot nos comandos abaixo
+# Se mostrar /boot/efi -> use /boot/efi/ nos comandos
+# Se mostrar apenas /boot -> use /boot/ nos comandos
 
-# Passo 2: Ver qual bootloader você instalou
-ls /boot/efi/EFI/
-# Se listar "GRUB/" → use OPÇÃO A
-# Se listar "systemd/" → use OPÇÃO B
+# Ver qual bootloader está instalado
+ls /boot/efi/EFI/  # ou ls /boot/EFI/
+# GRUB/ -> use OPÇÃO A
+# systemd/ -> use OPÇÃO B
+```
 
-# ══════════════════════════════════════════════════════════
-# OPÇÃO A: Se você instalou GRUB (dual-boot geralmente usa)
-# ══════════════════════════════════════════════════════════
+#### OPÇÃO A: GRUB (comum em dual boot)
+```bash
+# Assinar bootloader GRUB
 sudo sbctl sign -s /boot/efi/EFI/GRUB/grubx64.efi
-sudo sbctl sign -s /boot/vmlinuz-linux
 
-# ══════════════════════════════════════════════════════════
-# OPÇÃO B: Se você instalou systemd-boot
-# ══════════════════════════════════════════════════════════
+# Assinar kernel e initramfs (IMPORTANTES!)
+sudo sbctl sign -s /boot/vmlinuz-linux
+sudo sbctl sign -s /boot/initramfs-linux.img
+sudo sbctl sign -s /boot/initramfs-linux-fallback.img
+
+# Verificar se shim/MOK existem (se dual boot com Windows pode ter):
+ls /boot/efi/EFI/GRUB/shimx64.efi 2>/dev/null && echo "shimx64.efi existe"
+ls /boot/efi/EFI/GRUB/mmx64.efi 2>/dev/null && echo "mmx64.efi existe"
+
+# Se os comandos acima mostraram que existem, assine-os:
+# sudo sbctl sign -s /boot/efi/EFI/GRUB/shimx64.efi
+# sudo sbctl sign -s /boot/efi/EFI/GRUB/mmx64.efi
+```
+
+#### OPÇÃO B: systemd-boot
+```bash
+# Assinar bootloader systemd
 sudo sbctl sign -s /boot/efi/EFI/systemd/systemd-bootx64.efi
 sudo sbctl sign -s /boot/efi/EFI/BOOT/BOOTX64.EFI
+
+# Assinar kernel e initramfs (IMPORTANTES!)
 sudo sbctl sign -s /boot/vmlinuz-linux
+sudo sbctl sign -s /boot/initramfs-linux.img
+sudo sbctl sign -s /boot/initramfs-linux-fallback.img
+```
 
-# 6. Verificar se tudo está assinado (IMPORTANTE!)
-sbctl verify
-# Saída esperada: Todos os arquivos com ✓ (assinados)
-# Se aparecer ✗ (não assinado), assine antes de continuar:
-# sudo sbctl sign -s /caminho/do/arquivo
+---
 
-# 7. Agora SIM: Reinicie e habilite Secure Boot na BIOS
+## Verificação e Ativação
+```bash
+# SEMPRE verifique antes de reiniciar!
+sudo sbctl verify
 
-# 8. Após boot, verificar se Secure Boot está ativo
+# Saída esperada: todos com ✓ Signed
+# Se algo mostrar ✗ Not signed:
+# sudo sbctl sign -s /caminho/do/arquivo/nao-assinado
+```
+
+### Habilitar Secure Boot:
+
+1. Reinicie o computador
+2. Entre na BIOS/UEFI
+3. Habilite "Secure Boot"
+4. Salve e reinicie
+
+### Verificar se funcionou:
+```bash
 sbctl status
 # Deve mostrar: Secure Boot: enabled
+```
 
-# Verificação adicional
-bootctl status | grep "Secure Boot"
-# Deve mostrar: Secure Boot: enabled
+---
 
-# Ou verificar diretamente no kernel
-dmesg | grep -i "secure boot"
-# Deve mostrar: secureboot: Secure boot enabled
+## Automação de Assinatura (após atualizações do kernel)
+
+Configure o sbctl para assinar automaticamente após cada atualização:
+```bash
+# Habilitar hooks do pacman
+sudo sbctl generate-bundles
+
+# Ou manualmente criar hook
+sudo nano /etc/pacman.d/hooks/99-sbctl.hook
+```
+
+Conteúdo do arquivo:
+```
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Type = Path
+Target = boot/vmlinuz-*
+Target = usr/lib/modules/*/vmlinuz
+Target = boot/*-ucode.img
+
+[Action]
+Description = Signing kernel and bootloader with sbctl
+When = PostTransaction
+Exec = /usr/bin/sbctl sign-all
+```
+
+Verificar se funcionou:
+```bash
+# Atualizar sistema para testar
+sudo pacman -Syu
+
+# Verificar se foi assinado automaticamente
+sbctl verify
+```
+
+---
+
+## Manutenção Manual (se não configurou automação)
+
+Toda vez que atualizar o kernel, assine novamente:
+```bash
+sudo sbctl sign -s /boot/vmlinuz-linux
+sudo sbctl sign -s /boot/initramfs-linux.img
+sudo sbctl sign -s /boot/initramfs-linux-fallback.img
+
+# Verificar
+sudo sbctl verify
 ```
 
 ### Pronto!
@@ -176,25 +297,6 @@ dmesg | grep -i "secure boot"
 Atualizações de kernel serão assinadas automaticamente. Zero manutenção.
 
 ---
-
-## Dual-Boot: IMPORTANTE
-
-**Se você tem Windows, use a flag `-m` (ou `--microsoft`):**
-
-```bash
-# Forma abreviada (mais comum)
-sudo sbctl enroll-keys -m
-
-# Forma completa (mesmo efeito)
-sudo sbctl enroll-keys --microsoft
-```
-
-**Se você tem notebook de marca (Framework, Dell, HP, Lenovo):**
-
-```bash
-# Adicione também -f para manter certificados OEM
-sudo sbctl enroll-keys -m -f
-```
 
 **Explicação das flags:**
 
