@@ -53,6 +53,24 @@ ping -c 3 archlinux.org
 sudo pacman -Syu
 ```
 
+### 1.3 Verificar e Configurar Data/Hora
+```bash
+# Verificar configuração atual
+timedatectl
+
+# Se estiver errado, listar fusos disponíveis:
+timedatectl list-timezones | grep America/
+
+# Corrigir fuso horário (formato: Continente/Cidade)
+sudo timedatectl set-timezone America/Sao_Paulo
+
+# Habilitar sincronização automática (NTP)
+sudo timedatectl set-ntp true
+
+# Verificar novamente
+timedatectl
+```
+
 ---
 
 ## 2. Otimizações do Sistema
