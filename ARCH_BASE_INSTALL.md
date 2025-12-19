@@ -452,8 +452,6 @@ cat /etc/locale.conf
 
 ## 10. Configuração de Data e Hora
 
-**IMPORTANTE**: Os comandos `timedatectl` não funcionam dentro do ambiente chroot. Use-os apenas após reiniciar o sistema.
-
 ### Durante a instalação (no chroot):
 ```bash
 # Listar fusos horários disponíveis
@@ -481,29 +479,39 @@ hwclock --systohc
 
 ---
 
-## 11. Configuração de Hostname
+## 11. Configuração de Hostname (Nome do Computador)
+
+O **hostname** é como seu computador se identifica na rede e no sistema.
+
+**Onde ele aparece:**
+- No terminal: `usuario@meu-arch:~$`
+- Na rede: outros computadores veem esse nome
+- Em logs do sistema
+- Em comandos como `hostnamectl`, `uname -n`
 
 ### 11.1 Definir Nome do Computador
-
 ```bash
 # Substitua "meu-arch" pelo nome desejado
+# Use apenas letras minúsculas, números e hífens
+# Exemplos: notebook-linux, arch-desktop, pc-joao
 echo "meu-arch" > /etc/hostname
 ```
 
 ### 11.2 Configurar Arquivo Hosts
-
 ```bash
 nano /etc/hosts
-
-# Adicione as seguintes linhas:
+# Adicione as seguintes linhas (substitua "meu-arch" pelo mesmo nome acima):
 127.0.0.1   localhost
 ::1         localhost
 127.0.1.1   meu-arch.localdomain   meu-arch
 ```
 
 **O que fazem**:
-- Define o nome da máquina na rede
-- Configura resolução de nomes locais
+- `/etc/hostname`: Define o nome permanente da máquina
+- `/etc/hosts`: Permite que o sistema resolva seu próprio nome localmente (sem precisar de DNS)
+- `127.0.1.1`: Endereço IP local que aponta para o próprio computador
+
+**Dica**: Escolha um nome curto e descritivo. Você vai ver ele toda vez que abrir o terminal!
 
 ---
 
