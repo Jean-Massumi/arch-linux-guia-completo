@@ -494,7 +494,7 @@ O **hostname** é como seu computador se identifica na rede e no sistema.
 # Substitua "meu-arch" pelo nome desejado
 # Use apenas letras minúsculas, números e hífens
 # Exemplos: notebook-linux, arch-desktop, pc-joao
-echo "meu-arch" > /etc/hostname
+echo meu-arch > /etc/hostname
 ```
 
 ### 11.2 Configurar Arquivo Hosts
@@ -540,7 +540,7 @@ EDITOR=nano visudo
 ### 12.3 Criar Usuário Regular
 ````bash
 # Substitua "seu_usuario" pelo nome desejado
-useradd -m -g users -G wheel,storage,power,audio,video,input,render -s /bin/bash seu_usuario
+useradd -m -G wheel -s /bin/bash seu_usuario
 
 # Definir senha do usuário
 passwd seu_usuario
