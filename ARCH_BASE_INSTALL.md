@@ -19,7 +19,7 @@
 - [8. Instalação do Sistema Base](#8-instalação-do-sistema-base)
 - [9. Configuração do Sistema](#9-configuração-do-sistema)
 - [10. Configuração de Data e Hora](#10-configuração-de-data-e-hora)
-- [11. Configuração de Hostname (Nome do Computador)](#11-configuração-de-hostname)
+- [11. Configuração de Hostname (Nome do Computador)](#11-configuração-de-hostname-(nome-do-computador))
 - [12. Configuração de Usuários](#12-configuração-de-usuários)
 - [13. Instalação e Configuração do Bootloader](#13-instalação-e-configuração-do-bootloader)
 - [14. Instalação do NetworkManager](#14-instalação-do-networkmanager)
