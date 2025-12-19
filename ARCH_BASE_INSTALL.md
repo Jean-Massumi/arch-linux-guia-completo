@@ -456,20 +456,28 @@ cat /etc/locale.conf
 
 ### Durante a instalação (no chroot):
 ```bash
-# Definir fuso horário (altere conforme sua região)
+# Listar fusos horários disponíveis
+ls /usr/share/zoneinfo/America/
+# Ou de outras regiões: Europe/, Asia/, Africa/, etc.
+
+# Definir fuso horário (padrão: /usr/share/zoneinfo/Continente/Cidade)
 ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
+# Exemplos: America/Manaus, America/Fortaleza, Europe/London, Asia/Tokyo
+
+# Verificar se está correto
+ls -l /etc/localtime
+date
 
 # Sincronizar relógio do hardware
 hwclock --systohc
-
-# Verificar se está correto
-date
 ```
 
 **O que fazem**:
-- `ln -sf`: Cria um link simbólico que define o fuso horário do sistema
-- `hwclock --systohc`: Sincroniza o relógio do hardware com o horário do sistema
-- `date`: Mostra a data e hora atuais para verificar se está correto
+- `ls /usr/share/zoneinfo/`: Lista fusos disponíveis por continente
+- `ln -sf`: Define o fuso horário (formato: Continente/Cidade ou Continente/Estado)
+- `ls -l /etc/localtime`: Confirma que o link foi criado
+- `date`: Mostra data/hora atual para verificar
+- `hwclock --systohc`: Sincroniza relógio do hardware: Mostra a data e hora atuais para verificar se está correto
 
 ---
 
