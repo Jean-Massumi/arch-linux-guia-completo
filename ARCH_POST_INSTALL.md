@@ -183,7 +183,6 @@ sudo nano /etc/sysctl.d/99-swappiness.conf
 
 # Adicionar (escolha o valor conforme sua RAM):
 vm.swappiness=10
-vm.vfs_cache_pressure=50
 
 # Valores recomendados:
 # - 4-8GB RAM: swappiness=10-20
