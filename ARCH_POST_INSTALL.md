@@ -23,8 +23,6 @@ Este guia assume que você completou a [Instalação Base do Arch Linux](./ARCH_
 - [7. Verificação Final](#7-verificação-final)
 - [8. Ambientes Desktop e Window Managers](#8-ambientes-desktop-e-window-managers)
 - [Comandos Úteis](#comandos-úteis)
-- [Manutenção Regular](#manutenção-regular)
-- [Documentação e Recursos](#documentação-e-recursos)
 
 ---
 
@@ -140,7 +138,9 @@ swapon --show
 
 **Se não tem swap, criar swapfile:**
 ```bash
-# Criar swapfile (tamanho = sua RAM, para hibernação)
+# Criar swapfile - ajuste o tamanho conforme sua necessidade:
+# - Hibernação: tamanho = sua RAM
+# - Sem hibernação: 4-8GB é suficiente
 # Exemplo para 16GB de RAM:
 sudo dd if=/dev/zero of=/swapfile bs=1M count=16384 status=progress
 sudo chmod 600 /swapfile
@@ -160,11 +160,17 @@ free -h
 # Editar GRUB
 sudo nano /etc/default/grub
 
-# Na linha GRUB_CMDLINE_LINUX_DEFAULT, adicionar:
-# zswap.enabled=1 zswap.compressor=zstd zswap.max_pool_percent=25
+# Na linha GRUB_CMDLINE_LINUX_DEFAULT, adicionar os parâmetros do Zswap.
+# Valores recomendados por quantidade de RAM:
+# - 4-8GB: max_pool_percent=20-25
+# - 16GB: max_pool_percent=15-20
+# - 32GB+: max_pool_percent=10
 
-# Exemplo:
+# Exemplo (ajuste conforme sua RAM):
 GRUB_CMDLINE_LINUX_DEFAULT="quiet splash zswap.enabled=1 zswap.compressor=zstd zswap.max_pool_percent=25"
+
+# Compressor: zstd (melhor compressão) ou lz4 (mais rápido)
+# Escolha zstd para máxima economia de RAM ou lz4 para velocidade.
 
 # Regenerar GRUB
 sudo grub-mkconfig -o /boot/grub/grub.cfg
@@ -172,21 +178,30 @@ sudo grub-mkconfig -o /boot/grub/grub.cfg
 
 #### Passo 3: Ajustar Swappiness
 ```bash
-# Reduz uso de swap em disco (prioriza RAM e cache Zswap)
-echo "vm.swappiness=10" | sudo tee /etc/sysctl.d/99-swappiness.conf
-sudo sysctl vm.swappiness=10
+# Criar arquivo de configuração
+sudo nano /etc/sysctl.d/99-swappiness.conf
+
+Adicionar (escolha o valor conforme sua RAM):
+vm.swappiness=10
+vm.vfs_cache_pressure=50
+
+# Valores recomendados:
+# - 4-8GB RAM: swappiness=10-20
+# - 16GB RAM: swappiness=5-10
+# - 32GB+ RAM: swappiness=1-5
+
+# Aplicar imediatamente
+sudo sysctl --system
 ```
 
 #### Passo 4: Reiniciar e Verificar
 ```bash
 sudo reboot
 
-# Após reiniciar:
-# Verificar Zswap ativo
-cat /sys/module/zswap/parameters/enabled  # Y
-cat /sys/module/zswap/parameters/compressor  # zstd
-
-# Verificar swap
+# Após reiniciar, verificar configuração:
+cat /sys/module/zswap/parameters/enabled  # deve mostrar Y
+cat /sys/module/zswap/parameters/compressor  # deve mostrar zstd ou lz4
+cat /proc/sys/vm/swappiness  # deve mostrar o valor configurado
 swapon --show
 free -h
 ```
