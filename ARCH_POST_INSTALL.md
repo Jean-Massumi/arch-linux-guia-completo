@@ -237,11 +237,13 @@ sudo pacman -S wget curl rsync
 sudo pacman -S htop btop
 
 # Informações do sistema
-sudo pacman -S neofetch inxi
+sudo pacman -S fastfetch inxi
 
 # Sensores de hardware
 sudo pacman -S lm_sensors
-sudo sensors-detect  # Aceitar padrões
+
+# Detectar sensores (responder "yes" para tudo)
+sudo sensors-detect7
 ```
 
 ### 3.2 Rede e Conectividade
@@ -303,7 +305,6 @@ sudo pacman -S polkit
 
 # Bash completion (autocomplete no terminal)
 sudo pacman -S bash-completion
-source /etc/profile.d/bash_completion.sh
 ```
 
 ---
@@ -341,15 +342,24 @@ yay -Syu
 # Instalar UFW
 sudo pacman -S ufw
 
-# Configurar
+# Bloquear todas as conexões vindas de fora
 sudo ufw default deny incoming
+# Saída: Default incoming policy changed to 'deny'
+
+# Permitir todas as conexões saindo do seu PC
 sudo ufw default allow outgoing
+# Saída: Default outgoing policy changed to 'allow'
 
-# Habilitar
+# Ativar o firewall (responder 'y')
 sudo ufw enable
+# Saída: Firewall is active and enabled on system startup
 
-# Verificar
+# Habilitar serviço para iniciar automaticamente
+sudo systemctl enable ufw
+
+# Verificar status
 sudo ufw status verbose
+# Deve mostrar: Status: active
 ```
 
 ---
