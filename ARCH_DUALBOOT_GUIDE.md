@@ -207,9 +207,15 @@ sda         500G disk
 ### 5.2 Verificar Partição EFI
 
 ```bash
-# Montar temporariamente para verificar conteúdo
+# Verificar se é realmente partição EFI
 mount /dev/sda2 /mnt
-ls /mnt/EFI/Microsoft && echo "Partição EFI confirmada" || echo "ERRO: Partição incorreta"
+ls -la /mnt/EFI/
+
+# Deve mostrar pastas como:
+# Microsoft/ (Windows)
+# Boot/
+
+# Desmontar
 umount /mnt
 ```
 
@@ -404,7 +410,7 @@ pacman -S grub efibootmgr os-prober ntfs-3g
 
 ```bash
 # Instalar GRUB
-grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB --recheck
+grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
 
 # Verificar instalação
 efibootmgr -v
@@ -432,8 +438,11 @@ GRUB_TIMEOUT=10
 # Gerar configuração detectando o Windows
 grub-mkconfig -o /boot/grub/grub.cfg
 
-# Você DEVE ver uma linha similar a:
-# "Found Windows Boot Manager on /dev/sda2@/EFI/Microsoft/Boot/bootmgfw.efi"
+# Verificar se Windows foi detectado
+grep -i "Windows" /boot/grub/grub.cfg
+
+# Verificar se há entrada de menu do Windows
+grep "menuentry.*Windows" /boot/grub/grub.cfg
 ```
 
 **Se o Windows NÃO for detectado**, veja a seção 12.1 de troubleshooting.
@@ -495,24 +504,6 @@ Após verificar que o dual-boot funciona, siga o guia de pós-instalação:
 4. **Faça backup regular** de ambos os sistemas
 
 5. **Não mexa na partição EFI** manualmente
-
-### 11.2 Acessando Arquivos do Windows no Linux
-
-```bash
-# Criar ponto de montagem
-sudo mkdir -p /mnt/windows
-
-# Montar partição do Windows
-sudo mount -t ntfs-3g /dev/sda3 /mnt/windows
-
-# Acessar arquivos
-ls /mnt/windows
-```
-
-**Para montar automaticamente na inicialização:**
-```bash
-echo "/dev/sda3 /mnt/windows ntfs-3g defaults 0 0" | sudo tee -a /etc/fstab
-```
 
 ---
 
