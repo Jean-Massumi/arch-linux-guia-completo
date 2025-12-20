@@ -17,11 +17,12 @@ Este guia assume que você completou a [Instalação Base do Arch Linux](./ARCH_
 - [1. Primeiros Passos](#1-primeiros-passos)
 - [2. Otimizações do Sistema](#2-otimizações-do-sistema)
 - [3. Pacotes Base Universais](#3-pacotes-base-universais)
-- [4. Instalação do YAY (AUR Helper)](#4-instalação-do-yay-aur-helper)
-- [5. Segurança Básica](#5-segurança-básica)
-- [6. Backup do Sistema](#6-backup-do-sistema)
-- [7. Verificação Final](#7-verificação-final)
-- [8. Ambientes Desktop e Window Managers](#8-ambientes-desktop-e-window-managers)
+- [4. Drivers Essenciais](#4-drivers-essenciais)
+- [5. Instalação do YAY (AUR Helper)](#5-instalação-do-yay-aur-helper)
+- [6. Segurança Básica](#6-segurança-básica)
+- [7. Backup do Sistema](#7-backup-do-sistema)
+- [8. Verificação Final](#8-verificação-final)
+- [9. Ambientes Desktop e Window Managers](#9-ambientes-desktop-e-window-managers)
 - [Comandos Úteis](#comandos-úteis)
 
 ---
@@ -123,42 +124,29 @@ sudo systemctl enable reflector.timer
 sudo systemctl start reflector.timer
 ```
 
-### 2.3 Otimização de Memória Virtual (Zswap)
-O Zswap é uma tecnologia que comprime dados na RAM antes de enviá-los ao disco, combinando velocidade com suporte à hibernação.
+### 2.3 Otimização de Swap (Opcional)
+O swap melhora a performance quando a RAM está cheia. Você já criou swap na instalação base.
 
-#### Passo 1: Verificar/Criar Swap
-
-Você precisa de swap em disco (partição ou arquivo) para usar Zswap e hibernação.
-
-**Se já tem partição swap (criada na instalação):**
+#### Ajustar Swappiness
 ```bash
-# Verificar se já existe
-swapon --show
-# Se mostrar algo, você já tem swap configurado. Pule para o Passo 2.
+# Controla quando o sistema usa swap
+sudo nano /etc/sysctl.d/99-swappiness.conf
+
+# Adicionar (valor recomendado por RAM):
+vm.swappiness=10
+
+# Valores recomendados:
+# - 8GB ou menos: swappiness=10-20
+# - 16GB ou mais: swappiness=5-10
+
+# Aplicar
+sudo sysctl --system
 ```
 
-**Se não tem swap, criar swapfile:**
+#### Zswap (Opcional - Avançado)
+
+Comprime dados antes de enviar ao swap, economizando RAM.
 ```bash
-# Criar swapfile - ajuste o tamanho conforme sua necessidade:
-# - Hibernação: tamanho = sua RAM
-# - Sem hibernação: 4-8GB é suficiente
-# Exemplo para 16GB de RAM:
-sudo dd if=/dev/zero of=/swapfile bs=1M count=16384 status=progress
-sudo chmod 600 /swapfile
-sudo mkswap /swapfile
-sudo swapon /swapfile
-
-# Tornar permanente
-echo '/swapfile none swap defaults 0 0' | sudo tee -a /etc/fstab
-
-# Verificar
-swapon --show
-free -h
-```
-
-#### Passo 2: Habilitar Zswap
-```bash
-# Editar GRUB
 sudo nano /etc/default/grub
 
 # Na linha GRUB_CMDLINE_LINUX_DEFAULT, adicionar os parâmetros do Zswap.
@@ -175,35 +163,9 @@ GRUB_CMDLINE_LINUX_DEFAULT="quiet splash zswap.enabled=1 zswap.compressor=zstd z
 
 # Regenerar GRUB
 sudo grub-mkconfig -o /boot/grub/grub.cfg
-```
 
-#### Passo 3: Ajustar Swappiness
-```bash
-# Criar arquivo de configuração
-sudo nano /etc/sysctl.d/99-swappiness.conf
-
-# Adicionar (escolha o valor conforme sua RAM):
-vm.swappiness=10
-
-# Valores recomendados:
-# - 4-8GB RAM: swappiness=10-20
-# - 16GB RAM: swappiness=5-10
-# - 32GB+ RAM: swappiness=1-5
-
-# Aplicar imediatamente
-sudo sysctl --system
-```
-
-#### Passo 4: Reiniciar e Verificar
-```bash
+# Reiniciar para aplicar
 sudo reboot
-
-# Após reiniciar, verificar configuração:
-cat /sys/module/zswap/parameters/enabled  # deve mostrar Y
-cat /sys/module/zswap/parameters/compressor  # deve mostrar zstd ou lz4
-cat /proc/sys/vm/swappiness  # deve mostrar o valor configurado
-swapon --show
-free -h
 ```
 
 ### 2.4 TRIM para SSDs
@@ -244,7 +206,7 @@ sudo pacman -S fastfetch inxi
 sudo pacman -S lm_sensors
 
 # Detectar sensores (responder "yes" para tudo)
-sudo sensors-detect7
+sudo sensors-detect
 ```
 
 ### 3.2 Rede e Conectividade
@@ -268,14 +230,11 @@ sudo pacman -S e2fsprogs dosfstools
 # FUSE (AppImage, SSHFS)
 sudo pacman -S fuse2 fuse3
 
-# Suporte Windows/USB
-sudo pacman -S ntfs-3g exfatprogs
+# Suporte USB
+sudo pacman -S exfatprogs
 
 # Montagem automática
 sudo pacman -S udisks2
-
-# GVFS (essencial para gerenciadores de arquivo)
-sudo pacman -S gvfs gvfs-mtp gvfs-gphoto2 gvfs-afc gvfs-smb
 
 # Diretórios padrão
 sudo pacman -S xdg-user-dirs xdg-utils
@@ -306,11 +265,70 @@ sudo pacman -S polkit
 
 # Bash completion (autocomplete no terminal)
 sudo pacman -S bash-completion
+
+# D-Bus (comunicação entre aplicações - CRÍTICO)
+sudo pacman -S dbus
+sudo systemctl enable dbus.service
 ```
 
 ---
 
-## 4. Instalação do YAY (AUR Helper)
+## 4. Drivers Essenciais
+
+### 4.1 Áudio (PipeWire)
+```bash
+# Sistema de áudio moderno (substitui PulseAudio)
+sudo pacman -S pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber
+
+# Habilitar para seu usuário
+systemctl --user enable pipewire pipewire-pulse wireplumber
+systemctl --user start pipewire pipewire-pulse wireplumber
+
+# Verificar
+pactl info
+```
+
+### 4.2 Impressoras (CUPS)
+```bash
+# Backend de impressão
+sudo pacman -S cups cups-pdf
+
+# Habilitar serviço
+sudo systemctl enable cups.socket
+sudo systemctl start cups.socket
+
+# Drivers comuns (opcional)
+sudo pacman -S gutenprint foomatic-db foomatic-db-engine
+```
+
+**Nota**: Ferramentas de configuração gráfica (system-config-printer, print-manager) 
+serão instaladas junto com o ambiente desktop.
+
+### 4.3 Touchpad (Laptops)
+```bash
+# Driver moderno de touchpad
+sudo pacman -S libinput xf86-input-libinput
+
+# Verificar dispositivos
+libinput list-devices
+```
+
+### 4.4 Drivers de GPU
+
+Para instalação de drivers de vídeo (Intel, AMD, NVIDIA), consulte:
+
+**[Guia Completo de Drivers de GPU](./GPU_DRIVERS_GUIDE.md)**
+
+Este guia cobre:
+- Identificação do hardware
+- Drivers Intel (mesa + vulkan-intel)
+- Drivers AMD (mesa + vulkan-radeon)
+- Drivers NVIDIA (proprietários + open-source)
+- Configurações e troubleshooting
+
+---
+
+## 5. Instalação do YAY (AUR Helper)
 
 O YAY permite instalar pacotes do AUR (Arch User Repository), que contém milhares de aplicações adicionais.
 
@@ -335,9 +353,9 @@ yay -Syu
 
 ---
 
-## 5. Segurança Básica
+## 6. Segurança Básica
 
-### 5.1 Firewall
+### 6.1 Firewall
 
 ```bash
 # Instalar UFW
@@ -365,9 +383,9 @@ sudo ufw status verbose
 
 ---
 
-## 6. Backup do Sistema
+## 7. Backup do Sistema
 
-### 6.1 Timeshift
+### 7.1 Timeshift
 
 ```bash
 # Instalar
@@ -382,7 +400,7 @@ sudo timeshift-gtk
 # - Incluir: Apenas partição raiz (/)
 ```
 
-### 6.2 Criar Primeiro Snapshot
+### 7.2 Criar Primeiro Snapshot
 
 ```bash
 sudo timeshift --create --comments "Instalação base completa" --tags D
@@ -390,7 +408,7 @@ sudo timeshift --create --comments "Instalação base completa" --tags D
 
 ---
 
-## 7. Verificação Final
+## 8. Verificação Final
 
 ```bash
 # Verificar serviços com falha
@@ -416,9 +434,9 @@ efibootmgr -v
 
 ---
 
-## 8. Ambientes Desktop e Window Managers
+## 9. Ambientes Desktop e Window Managers
 
-### 8.1 GNOME
+### 9.1 GNOME
 
 **GNOME** é um ambiente desktop moderno e elegante, focado na simplicidade e produtividade. É o padrão em distribuições como Ubuntu e Fedora, oferecendo uma interface limpa com workflow baseado em Activities e Workspaces.
 
@@ -434,7 +452,7 @@ efibootmgr -v
 
 ---
 
-### 8.2 KDE Plasma
+### 9.2 KDE Plasma
 
 **KDE Plasma** é um ambiente desktop altamente customizável e rico em recursos. É perfeito para usuários que gostam de personalizar cada aspecto do sistema, oferecendo uma experiência similar ao Windows, mas com muito mais flexibilidade.
 
@@ -450,7 +468,7 @@ efibootmgr -v
 
 ---
 
-### 8.3 Hyprland
+### 9.3 Hyprland
 
 **Hyprland** é um compositor Wayland moderno com tiling dinâmico, conhecido por suas animações suaves e alta customização. É a escolha perfeita para entusiastas que querem um ambiente bonito, eficiente e totalmente personalizável.
 
@@ -501,8 +519,3 @@ pacman -Ql nome_do_pacote
 # Descobrir qual pacote possui um arquivo
 pacman -Qo /caminho/do/arquivo
 ```
-
-
-
-
-
