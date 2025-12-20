@@ -181,7 +181,7 @@ sudo grub-mkconfig -o /boot/grub/grub.cfg
 # Criar arquivo de configuração
 sudo nano /etc/sysctl.d/99-swappiness.conf
 
-Adicionar (escolha o valor conforme sua RAM):
+# Adicionar (escolha o valor conforme sua RAM):
 vm.swappiness=10
 vm.vfs_cache_pressure=50
 
