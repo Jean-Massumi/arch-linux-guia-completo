@@ -323,11 +323,11 @@ lsblk -f
 mount /dev/sda3 /mnt
 
 # Criar diretórios para os outros pontos de montagem
-mkdir -p /mnt/boot/efi    # Diretório para partição EFI
+mkdir -p /mnt/boot    # Diretório para partição EFI
 mkdir /mnt/home           # Diretório para partição home
 
 # Montar partição EFI
-mount /dev/sda1 /mnt/boot/efi
+mount /dev/sda1 /mnt/boot
 
 # Montar partição home
 mount /dev/sda4 /mnt/home
@@ -559,7 +559,7 @@ passwd seu_usuario
 pacman -S grub efibootmgr
 
 # Instalar GRUB na partição EFI
-grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB --recheck
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB --recheck
 ```
 
 ### 13.2 Gerar Configuração do GRUB
@@ -676,12 +676,12 @@ Após reiniciar, você verá:
 ```bash
 # Boot pelo pendrive de instalação e execute:
 mount /dev/sda3 /mnt
-mount /dev/sda1 /mnt/boot/efi
+mount /dev/sda1 /mnt/boot
 mount /dev/sda4 /mnt/home
 arch-chroot /mnt
 
 # Reinstalar GRUB:
-grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB --recheck
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB --recheck
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
