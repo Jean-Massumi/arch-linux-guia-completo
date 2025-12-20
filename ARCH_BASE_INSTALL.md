@@ -28,7 +28,6 @@
 - [17. Primeiro Boot](#17-primeiro-boot)
 - [18. Solução de Problemas Comuns](#18-solução-de-problemas-comuns)
 - [19. Próximos Passos](#19-próximos-passos)
-- [Apêndices](#apêndices)
 
 ---
 
