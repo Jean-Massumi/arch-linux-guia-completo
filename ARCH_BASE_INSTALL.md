@@ -147,11 +147,9 @@ wipefs -a /dev/sda
 ### 3.4 Verificar Limpeza
 
 ```bash
-lsblk
-fdisk -l /dev/sda
+# Verificar limpeza (mais detalhado)
+lsblk -f /dev/sda
 ```
-
-**O que faz**: Confirma que o disco foi limpo e não possui partições.
 
 ---
 
@@ -165,16 +163,11 @@ Se você quer apenas o Arch Linux no computador, siga este guia normalmente.
 
 #### **Dual-Boot com Windows**
 
-Se você já tem Windows instalado e quer manter os dois sistemas:
+**ATENÇÃO**: Se você já tem Windows instalado:
 
-1. **Não siga as seções 4 a 6** deste guia
-2. **Consulte**: [ARCH_DUALBOOT_GUIDE.md](./ARCH_DUALBOOT_GUIDE.md)
-3. O guia de dual-boot explica:
-   - Como redimensionar a partição do Windows
-   - Como reutilizar a partição EFI existente
-   - Particionamento, formatação e montagem específicos
-   - Configuração do GRUB para detectar o Windows
-4. Após completar o dual-boot, volte para a **seção 7** deste guia
+1. **PARE AQUI** - Não continue para as seções 4, 5 e 6
+2. Consulte: [ARCH_DUALBOOT_GUIDE.md](./ARCH_DUALBOOT_GUIDE.md)
+3. Após completar o dual-boot, retorne para a **seção 7** deste guia
 
 > **Continue lendo se você está fazendo instalação única.**
 
@@ -323,11 +316,11 @@ lsblk -f
 mount /dev/sda3 /mnt
 
 # Criar diretórios para os outros pontos de montagem
-mkdir -p /mnt/boot    # Diretório para partição EFI
+mkdir -p /mnt/boot/efi    # Diretório para partição EFI
 mkdir /mnt/home           # Diretório para partição home
 
 # Montar partição EFI
-mount /dev/sda1 /mnt/boot
+mount /dev/sda1 /mnt/boot/efi
 
 # Montar partição home
 mount /dev/sda4 /mnt/home
@@ -355,7 +348,7 @@ mount | grep /mnt
 pacman -Sy reflector
 
 # Configurar mirrors brasileiros mais rápidos
-reflector --country Brazil --latest 10 --sort rate --verbose --save /etc/pacman.d/mirrorlist
+reflector --country Brazil --protocol https --latest 10 --sort rate --verbose --save /etc/pacman.d/mirrorlist
 ```
 
 **O que faz**: 
@@ -368,7 +361,7 @@ reflector --country Brazil --latest 10 --sort rate --verbose --save /etc/pacman.
 
 ```bash
 # Instalar pacotes essenciais do sistema
-pacstrap -K /mnt base base-devel linux linux-firmware linux-headers nano neovim
+pacstrap -K /mnt base base-devel linux linux-firmware linux-headers nano neovim man-db man-pages texinfo
 ```
 
 **O que faz**:
@@ -378,19 +371,11 @@ pacstrap -K /mnt base base-devel linux linux-firmware linux-headers nano neovim
 - `linux-firmware`: Firmware para hardware
 - `linux-headers`: Cabeçalhos do kernel (para módulos)
 - `nano/neovim`: Editores de texto
-
-> **Dica**: Para maior estabilidade, você pode usar `linux-lts` (Long Term Support) no lugar de `linux`.
-
-### 8.1 Instalar Documentação do Sistema (Recomendado)
-```bash
-# Instalar páginas de manual e documentação
-pacstrap /mnt man-db man-pages texinfo
-```
-
-**O que fazem:**
 - `man-db`: Sistema de páginas de manual
 - `man-pages`: Documentação de comandos Linux
 - `texinfo`: Documentação adicional do GNU
+
+> **Dica**: Para maior estabilidade, você pode usar `linux-lts` (Long Term Support) no lugar de `linux`.
 
 ---
 
@@ -559,7 +544,7 @@ passwd seu_usuario
 pacman -S grub efibootmgr
 
 # Instalar GRUB na partição EFI
-grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB --recheck
+grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB --recheck
 ```
 
 ### 13.2 Gerar Configuração do GRUB
@@ -676,12 +661,12 @@ Após reiniciar, você verá:
 ```bash
 # Boot pelo pendrive de instalação e execute:
 mount /dev/sda3 /mnt
-mount /dev/sda1 /mnt/boot
+mount /dev/sda1 /mnt/boot/efi
 mount /dev/sda4 /mnt/home
 arch-chroot /mnt
 
 # Reinstalar GRUB:
-grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB --recheck
+grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB --recheck
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
