@@ -163,12 +163,20 @@ Antes de começar, certifique-se de ter:
 **[ARCH_POST_INSTALL.md](./ARCH_POST_INSTALL.md)** - Configuração completa do ambiente (OBRIGATÓRIO)
 
 **Conteúdo:**
-- Instalação de drivers (GPU, áudio, impressoras)
 - Ferramentas essenciais do sistema
 - Otimizações e configurações de performance
 - Preparação para ambiente desktop
 
-**IMPORTANTE**: Se você configurou Secure Boot, certifique-se de que o sistema está bootando corretamente antes de prosseguir com esta etapa.
+**[GPU_DRIVERS_GUIDE.md](./GPU_DRIVERS_GUIDE.md)** - Instalação de drivers de vídeo (RECOMENDADO)
+
+**Conteúdo:**
+- Drivers Intel (integrated graphics)
+- Drivers AMD (open-source e AMDGPU)
+- Drivers NVIDIA (proprietary e open-source)
+- Vulkan e aceleração de hardware
+- Troubleshooting de drivers de vídeo
+
+**IMPORTANTE**: Configure os drivers de GPU apropriados para seu hardware antes de instalar ambientes desktop para evitar problemas de performance e compatibilidade.
 
 ---
 
