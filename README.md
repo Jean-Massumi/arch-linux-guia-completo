@@ -61,26 +61,6 @@
 
 ---
 
-## Fluxo de Instalação
-
-```
-PREPARAÇÃO
-    ↓
-INSTALAÇÃO BASE (obrigatório)
-    ↓
-DUAL-BOOT? (opcional - apenas se tiver Windows)
-    ↓
-SECURE BOOT? (opcional - recomendado configurar ANTES da pós-instalação)
-    ↓
-PÓS-INSTALAÇÃO (obrigatório)
-    ↓
-AMBIENTE DESKTOP (escolha um)
-```
-
-**IMPORTANTE**: Configure o Secure Boot (se desejar) ANTES de instalar drivers e ambientes desktop na pós-instalação. Isso evita problemas de compatibilidade e necessidade de reinstalação.
-
----
-
 ## Tempo Estimado
 
 | Etapa | Tempo | Observação |
