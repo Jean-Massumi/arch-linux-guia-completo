@@ -167,7 +167,7 @@ sudo nano /etc/default/grub
 # - 32GB+: max_pool_percent=10
 
 # Exemplo (ajuste conforme sua RAM):
-GRUB_CMDLINE_LINUX_DEFAULT="quiet splash zswap.enabled=1 zswap.compressor=zstd zswap.max_pool_percent=25"
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash zswap.enabled=1 zswap.compressor=zstd zswap.max_pool_percent=25 zswap.zpool=z3fold""
 
 # Compressor: zstd (melhor compressão) ou lz4 (mais rápido)
 # Escolha zstd para máxima economia de RAM ou lz4 para velocidade.
