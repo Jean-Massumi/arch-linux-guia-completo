@@ -84,6 +84,7 @@ sudo nano /etc/pacman.conf
 Color                    # Habilita cores na saída
 ParallelDownloads = 10   # Permite 10 downloads simultâneos
 VerbosePkgLists          # Lista detalhada de pacotes
+ILoveCandy
 
 # Para suporte 32-bit (Steam, Wine, jogos)
 [multilib]
