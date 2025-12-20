@@ -39,7 +39,7 @@ Ao usar ou adaptar este material, inclua:
 
 ```
 Baseado em "Manual Completo de Instalação do Arch Linux" por Jean-Massumi
-Disponível em: [URL do repositório]
+Disponível em: https://github.com/Jean-Massumi/arch-linux-guia-completo
 Licença: CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/)
 ```
 
