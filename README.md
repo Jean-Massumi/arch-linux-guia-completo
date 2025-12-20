@@ -101,9 +101,11 @@ Antes de começar, certifique-se de ter:
 **[BOOTABLE_USB_GUIDE.md](./BOOTABLE_USB_GUIDE.md)** - Como criar pendrive bootável
 
 **Conteúdo:**
-- Guia para Windows (Rufus, Balena Etcher)
+- Download e verificação de integridade da ISO
+- Guia para Windows (Rufus, Ventoy)
 - Guia para Linux (dd, Ventoy)
-- Verificação de integridade da ISO
+- Configuração da BIOS/UEFI para boot
+- Solução de problemas comuns
 
 ---
 
