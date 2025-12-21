@@ -278,7 +278,7 @@ sudo systemctl enable dbus.service
 ### 4.1 Áudio (PipeWire)
 ```bash
 # Sistema de áudio moderno (substitui PulseAudio)
-sudo pacman -S pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber
+sudo pacman -S pipewire pipewire-alsa pipewire-pulse pipewire-jack pipewire-audio wireplumber
 
 # Habilitar para seu usuário
 systemctl --user enable pipewire pipewire-pulse wireplumber
@@ -304,16 +304,7 @@ sudo pacman -S gutenprint foomatic-db foomatic-db-engine
 **Nota**: Ferramentas de configuração gráfica (system-config-printer, print-manager) 
 serão instaladas junto com o ambiente desktop.
 
-### 4.3 Touchpad (Laptops)
-```bash
-# Driver moderno de touchpad
-sudo pacman -S libinput xf86-input-libinput
-
-# Verificar dispositivos
-libinput list-devices
-```
-
-### 4.4 Drivers de GPU
+### 4.3 Drivers de GPU
 
 Para instalação de drivers de vídeo (Intel, AMD, NVIDIA), consulte:
 
