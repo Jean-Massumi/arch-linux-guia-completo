@@ -68,6 +68,14 @@ lspci -v | grep -A 10 "VGA"
 inxi -G
 ```
 
+### 1.4 Instalar Ferramentas de Verificação
+````bash
+# Ferramentas para testar drivers (necessário para verificações posteriores)
+sudo pacman -S mesa-utils vulkan-tools
+````
+
+Essas ferramentas serão usadas para verificar se os drivers foram instalados corretamente.
+
 ---
 
 ## 2. Intel Integrado
@@ -81,7 +89,7 @@ inxi -G
 sudo pacman -S mesa lib32-mesa vulkan-intel lib32-vulkan-intel
 
 # Aceleração de vídeo
-sudo pacman -S intel-media-driver libva-intel-driver
+sudo pacman -S intel-media-driver libva-intel-driver lib32-intel-media-driver
 ```
 
 ### 2.2 Verificação
@@ -112,6 +120,16 @@ sudo pacman -S mesa lib32-mesa vulkan-radeon lib32-vulkan-radeon
 
 # Aceleração de vídeo
 sudo pacman -S libva-mesa-driver lib32-libva-mesa-driver mesa-vdpau lib32-mesa-vdpau
+```
+
+**Nota sobre drivers Vulkan AMD:**
+- `vulkan-radeon` (RADV): Driver open-source da Mesa (recomendado)
+- `amdvlk`: Driver oficial da AMD (alternativo, opcional)
+
+A maioria dos usuários deve usar apenas `vulkan-radeon`. O `amdvlk` pode ser instalado se tiver problemas de compatibilidade específicos:
+```bash
+# Apenas se necessário
+sudo pacman -S amdvlk lib32-amdvlk
 ```
 
 ### 3.2 Verificação
@@ -253,6 +271,49 @@ glxinfo | grep "OpenGL renderer"
 **Referências oficiais:**
 - [NVIDIA - Arch Wiki](https://wiki.archlinux.org/title/NVIDIA)
 - [Hyprland + NVIDIA](https://wiki.hypr.land/Nvidia/)
+
+### 4.9 Drivers Open-Source (Nouveau)
+
+**Alternativa aos drivers proprietários NVIDIA.**
+
+**Quando usar:**
+- Problemas com drivers proprietários
+- Precisa de estabilidade máxima
+- Compatibilidade com Wayland sem configurações extras
+
+**Quando NÃO usar:**
+- Jogos e aplicações 3D (performance inferior)
+- Precisa de todos os recursos da GPU
+- Hardware muito recente
+
+**Instalação:**
+````bash
+# Drivers Nouveau (open-source)
+sudo pacman -S mesa lib32-mesa xf86-video-nouveau
+
+# Aceleração de vídeo
+sudo pacman -S libva-mesa-driver lib32-libva-mesa-driver
+````
+
+**Nota**: Se você instalou drivers proprietários NVIDIA antes, remova-os primeiro:
+````bash
+sudo pacman -Rns nvidia nvidia-utils lib32-nvidia-utils
+sudo reboot
+````
+
+**Verificação:**
+````bash
+lsmod | grep nouveau
+# Deve aparecer: nouveau
+
+glxinfo | grep "OpenGL renderer"
+# Saída: Nouveau...
+````
+
+**Limitações conhecidas:**
+- Performance 50-70% inferior aos drivers proprietários
+- Alguns recursos avançados não disponíveis
+- Melhor compatibilidade com Wayland
 
 ---
 
