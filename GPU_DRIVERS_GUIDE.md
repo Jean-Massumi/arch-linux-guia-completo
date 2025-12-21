@@ -124,13 +124,6 @@ sudo pacman -S libva-mesa-driver lib32-libva-mesa-driver
 
 **Nota sobre drivers Vulkan AMD:**
 - `vulkan-radeon` (RADV): Driver open-source da Mesa (recomendado)
-- `amdvlk`: Driver oficial da AMD (alternativo, opcional)
-
-A maioria dos usuários deve usar apenas `vulkan-radeon`. O `amdvlk` pode ser instalado se tiver problemas de compatibilidade específicos:
-```bash
-# Apenas se necessário
-sudo pacman -S amdvlk lib32-amdvlk
-```
 
 ### 3.2 Verificação
 
