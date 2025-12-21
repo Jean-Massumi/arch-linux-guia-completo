@@ -152,8 +152,8 @@ lsmod | grep amdgpu
 ### 4.1 Passo 1: Instalar Drivers
 
 ```bash
-# Drivers proprietários NVIDIA
-sudo pacman -S nvidia nvidia-utils lib32-nvidia-utils nvidia-settings
+# Drivers NVIDIA open-source oficiais (RTX 20xx, 30xx, 40xx, GTX 16xx)
+sudo pacman -S nvidia-open nvidia-utils lib32-nvidia-utils nvidia-settings
 ```
 
 ### 4.2 Passo 2: Configurar Módulos do Kernel
