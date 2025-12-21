@@ -89,7 +89,7 @@ Essas ferramentas serão usadas para verificar se os drivers foram instalados co
 sudo pacman -S mesa lib32-mesa vulkan-intel lib32-vulkan-intel
 
 # Aceleração de vídeo
-sudo pacman -S intel-media-driver libva-intel-driver lib32-intel-media-driver
+sudo pacman -S intel-media-driver libva-intel-driver
 ```
 
 ### 2.2 Verificação
@@ -119,7 +119,7 @@ vulkaninfo | grep "deviceName"
 sudo pacman -S mesa lib32-mesa vulkan-radeon lib32-vulkan-radeon
 
 # Aceleração de vídeo
-sudo pacman -S libva-mesa-driver lib32-libva-mesa-driver mesa-vdpau lib32-mesa-vdpau
+sudo pacman -S libva-mesa-driver lib32-libva-mesa-driver
 ```
 
 **Nota sobre drivers Vulkan AMD:**
