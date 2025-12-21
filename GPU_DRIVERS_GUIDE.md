@@ -179,7 +179,7 @@ sudo nano /etc/mkinitcpio.conf
 
 **Encontrar a linha MODULES e modificar para:**
 ```
-MODULES=(i915 nvidia nvidia_modeset nvidia_uvm nvidia_drm)
+MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)
 ```
 
 **Salvar e sair**
@@ -259,10 +259,6 @@ glxinfo | grep "OpenGL renderer"
 ```
 
 **Pronto!** Sistema NVIDIA está configurado. Você pode prosseguir para instalar o ambiente desktop.
-
-**Referências oficiais:**
-- [NVIDIA - Arch Wiki](https://wiki.archlinux.org/title/NVIDIA)
-- [Hyprland + NVIDIA](https://wiki.hypr.land/Nvidia/)
 
 ### 4.9 Drivers Open-Source (Nouveau)
 
@@ -349,7 +345,7 @@ sudo nano /etc/mkinitcpio.conf
 
 **Modificar MODULES:**
 ```
-MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)
+MODULES=(i915 nvidia nvidia_modeset nvidia_uvm nvidia_drm)
 ```
 
 **Salvar e sair**
@@ -365,10 +361,26 @@ sudo mkinitcpio -P
 sudo nano /etc/default/grub
 ```
 
-**Modificar:**
+**Modificar:** 
+
+**Exemplo - Se sua linha está assim:**
+```
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"
+```
+
+**Deve ficar assim:**
 ```
 GRUB_CMDLINE_LINUX_DEFAULT="quiet splash nvidia_drm.modeset=1 nvidia_drm.fbdev=1"
 ```
+
+**IMPORTANTE: Se você já tem outros parâmetros (como Zswap), apenas adicione ao final:**
+
+**(Zswap + NVIDIA):**
+```
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash zswap.enabled=1 zswap.compressor=zstd zswap.max_pool_percent=25 zswap.zpool=z3fold nvidia_drm.modeset=1 nvidia_drm.fbdev=1"
+```
+
+> **Dica:** Todos os parâmetros ficam na mesma linha, separados por espaços. Não quebre a linha!
 
 **Salvar e sair**
 
@@ -446,10 +458,6 @@ __NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia glxinfo | grep "Ope
 ```
 
 **Pronto!** Sistema híbrido está configurado. Você pode prosseguir para instalar o ambiente desktop.
-
-**Referências:**
-- [NVIDIA Optimus - Arch Wiki](https://wiki.archlinux.org/title/NVIDIA_Optimus)
-- [PRIME - Arch Wiki](https://wiki.archlinux.org/title/PRIME)
 
 ---
 
@@ -612,6 +620,7 @@ Com os drivers de GPU instalados, você está pronto para:
 - **Arch Wiki - AMDGPU**: https://wiki.archlinux.org/title/AMDGPU
 - **Arch Wiki - NVIDIA**: https://wiki.archlinux.org/title/NVIDIA
 - **Arch Wiki - PRIME (Híbrido)**: https://wiki.archlinux.org/title/PRIME
+- **Arch Wiki - Optimus**: https://wiki.archlinux.org/title/NVIDIA_Optimus
 - **Hyprland + NVIDIA**: https://wiki.hypr.land/Nvidia/
 
 ---
