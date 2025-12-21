@@ -179,17 +179,7 @@ sudo nano /etc/mkinitcpio.conf
 
 **Encontrar a linha MODULES e modificar para:**
 ```
-MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)
-```
-
-**Antes:**
-```
-MODULES=()
-```
-
-**Depois:**
-```
-MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)
+MODULES=(i915 nvidia nvidia_modeset nvidia_uvm nvidia_drm)
 ```
 
 **Salvar e sair**
@@ -209,15 +199,24 @@ sudo nano /etc/default/grub
 
 **Encontrar a linha GRUB_CMDLINE_LINUX_DEFAULT e adicionar os parâmetros NVIDIA:**
 
-**Antes:**
+**Exemplo - Se sua linha está assim:**
 ```
 GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"
 ```
 
-**Depois:**
+**Deve ficar assim:**
 ```
 GRUB_CMDLINE_LINUX_DEFAULT="quiet splash nvidia_drm.modeset=1 nvidia_drm.fbdev=1"
 ```
+
+**IMPORTANTE: Se você já tem outros parâmetros (como Zswap), apenas adicione ao final:**
+
+**(Zswap + NVIDIA):**
+```
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash zswap.enabled=1 zswap.compressor=zstd zswap.max_pool_percent=25 zswap.zpool=z3fold nvidia_drm.modeset=1 nvidia_drm.fbdev=1"
+```
+
+> **Dica:** Todos os parâmetros ficam na mesma linha, separados por espaços. Não quebre a linha!
 
 **Salvar e sair**
 
