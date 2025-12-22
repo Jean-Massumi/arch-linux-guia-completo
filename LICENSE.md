@@ -1,5 +1,7 @@
 # Licença
 
+Este documento descreve os termos de uso deste guia.
+
 Copyright (c) 2025 Jean-Massumi
 
 ---
@@ -20,16 +22,16 @@ Esta obra está licenciada sob a **Creative Commons Atribuição-CompartilhaIgua
 
 ### Você Tem a Liberdade de:
 
-* **Compartilhar** — copiar e redistribuir o material em qualquer suporte ou formato
-* **Adaptar** — remixar, transformar e criar a partir do material para qualquer fim, mesmo que comercial
+- **Compartilhar** — copiar e redistribuir o material em qualquer suporte ou formato
+- **Adaptar** — remixar, transformar e criar a partir do material para qualquer fim, mesmo que comercial
 
 ### Sob as Seguintes Condições:
 
-* **Atribuição (BY)** — Você deve dar o crédito apropriado, prover um link para a licença e indicar se foram feitas alterações. Você deve fazê-lo sob qualquer circunstância razoável, mas de maneira alguma que sugira que o licenciante apoia você ou o seu uso.
+- **Atribuição (BY)** — Você deve dar o crédito apropriado, prover um link para a licença e indicar se foram feitas alterações. Você deve fazê-lo sob qualquer circunstância razoável, mas de maneira alguma que sugira que o licenciante apoia você ou o seu uso.
 
-* **Compartilha Igual (SA)** — Se você remixar, transformar ou criar a partir do material, deverá distribuir suas contribuições sob a mesma licença que a original.
+- **Compartilha Igual (SA)** — Se você remixar, transformar ou criar a partir do material, deverá distribuir suas contribuições sob a mesma licença que a original.
 
-* **Sem Restrições Adicionais** — Você não pode aplicar termos jurídicos ou medidas de caráter tecnológico que restrinjam legalmente outros de fazerem algo que a licença permita.
+- **Sem Restrições Adicionais** — Você não pode aplicar termos jurídicos ou medidas de caráter tecnológico que restrinjam legalmente outros de fazerem algo que a licença permita.
 
 ---
 
@@ -38,8 +40,8 @@ Esta obra está licenciada sob a **Creative Commons Atribuição-CompartilhaIgua
 Ao usar ou adaptar este material, inclua:
 
 ```
-Baseado em "Manual Completo de Instalação do Arch Linux" por Jean-Massumi
-Disponível em: https://github.com/Jean-Massumi/arch-linux-guia-completo
+Baseado em "Guia Completo de Instalação do Arch Linux" por Jean-Massumi
+Disponível em: https://github.com/Jean-Massumi/archlinux-installation-guide-ptbr
 Licença: CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/)
 ```
 
@@ -48,8 +50,9 @@ Licença: CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/)
 ## Texto Legal Completo
 
 Para ver o texto legal completo desta licença, visite:
-* **Português (BR)**: [https://creativecommons.org/licenses/by-sa/4.0/deed.pt_BR](https://creativecommons.org/licenses/by-sa/4.0/deed.pt_BR)
-* **Legal Code**: [https://creativecommons.org/licenses/by-sa/4.0/legalcode](https://creativecommons.org/licenses/by-sa/4.0/legalcode)
+
+- **Português (BR)**: [https://creativecommons.org/licenses/by-sa/4.0/deed.pt_BR](https://creativecommons.org/licenses/by-sa/4.0/deed.pt_BR)
+- **Legal Code**: [https://creativecommons.org/licenses/by-sa/4.0/legalcode](https://creativecommons.org/licenses/by-sa/4.0/legalcode)
 
 ---
 
