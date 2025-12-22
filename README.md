@@ -22,7 +22,7 @@ Guia completo e atualizado para instalação do Arch Linux em português brasile
 ---
 
 ## Índice
-- [Início Rápido](#inicio-rapido)
+- [Início Rápido](#início-rápido)
 - [Tempo Estimado](#tempo-estimado)
 - [Pré-requisitos](#pré-requisitos)
 - [Documentação](#documentação)
