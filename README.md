@@ -192,7 +192,7 @@ Para contribuir com código:
 
 ## Licença
 
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](./LICENSE.md) para mais detalhes.
+Veja o arquivo [LICENSE](./LICENSE.md) para mais detalhes.
 
 ---
 
