@@ -63,7 +63,7 @@ Guia completo e atualizado para instalação do Arch Linux em português brasile
 - Conexão à internet durante a instalação
 - Backup completo de dados importantes
 - Pendrive de no mínimo 4GB
-- Espaço em disco: Mínimo 60GB (recomendado 120GB+)
+- Espaço em disco: Mínimo 120GB (recomendado 250GB+)
 
 ---
 
