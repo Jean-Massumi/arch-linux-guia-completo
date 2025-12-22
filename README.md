@@ -22,7 +22,6 @@ Guia completo e atualizado para instalação do Arch Linux em português brasile
 ---
 
 ## Índice
-- [Início Rápido](#início-rápido)
 - [Tempo Estimado](#tempo-estimado)
 - [Pré-requisitos](#pré-requisitos)
 - [Documentação](#documentação)
@@ -31,28 +30,14 @@ Guia completo e atualizado para instalação do Arch Linux em português brasile
   - [Configurações Avançadas](#configurações-avançadas)
   - [Pós-Instalação](#pós-instalação)
   - [Ambientes Desktop](#ambientes-desktop-completos)
-- [FAQ Rápido](#faq-rápido)
+  - [Aplicativos Recomendados](#aplicativos-recomendados)
+  - [Otimização e Performance](#otimização-e-performance)
+  - [Gaming](#gaming)
+- [FAQ](#faq)
+- [Troubleshooting](#troubleshooting)
 - [Como Contribuir](#como-contribuir)
 - [Suporte e Recursos](#suporte-e-recursos)
 - [Licença](#licença)
-
----
-
-## Início Rápido
-
-### Passos Comuns a Todas as Instalações
-
-1. Baixe a ISO oficial: [archlinux.org/download](https://archlinux.org/download)
-2. Crie o pendrive bootável: [BOOTABLE_USB_GUIDE.md](./BOOTABLE_USB_GUIDE.md)
-3. Instalação base: [ARCH_BASE_INSTALL.md](./ARCH_BASE_INSTALL.md)
-4. Pós-instalação: [ARCH_POST_INSTALL.md](./ARCH_POST_INSTALL.md)
-5. Escolha seu ambiente desktop
-
-### Configurações Adicionais (se aplicável)
-
-- **Dual-Boot com Windows**: Siga [ARCH_DUALBOOT_GUIDE.md](./ARCH_DUALBOOT_GUIDE.md) durante a etapa 3
-  - **ATENÇÃO**: Faça backup completo antes de começar
-- **Secure Boot**: Configure com [ARCH_SECURE_BOOT_GUIDE.md](./ARCH_SECURE_BOOT_GUIDE.md) após a etapa 3
 
 ---
 
@@ -66,7 +51,8 @@ Guia completo e atualizado para instalação do Arch Linux em português brasile
 | **Secure Boot** (opcional) | +15-30 min | Configuração de segurança avançada |
 | **Pós-Instalação** | 30-60 min | Drivers, ferramentas essenciais |
 | **Ambiente Desktop** | 30-90 min | GNOME/KDE/Hyprland + customização |
-| **TOTAL** | **2-4 horas** | Varia conforme experiência e opções escolhidas |
+| **Aplicativos e Otimização** (opcional) | +30-60 min | Instalação de apps e melhorias de performance |
+| **TOTAL** | **2-5 horas** | Varia conforme experiência e opções escolhidas |
 
 ---
 
@@ -77,7 +63,7 @@ Guia completo e atualizado para instalação do Arch Linux em português brasile
 - Conexão à internet durante a instalação
 - Backup completo de dados importantes
 - Pendrive de no mínimo 4GB
-- Espaço em disco: Mínimo 20GB (recomendado 60GB+)
+- Espaço em disco: Mínimo 60GB (recomendado 120GB+)
 
 ---
 
@@ -132,83 +118,43 @@ Configure antes de instalar ambientes desktop.
 
 ---
 
-## FAQ Rápido
+### Aplicativos Recomendados
 
-<details>
-<summary><b>Quanto tempo leva a instalação?</b></summary>
+**[RECOMMENDED_APPS.md](./RECOMMENDED_APPS.md)** - Lista de aplicativos essenciais
 
-Entre 2 a 4 horas no total, dependendo da sua experiência, velocidade da internet e ambiente desktop escolhido.
-</details>
+Navegadores, comunicação, desenvolvimento, multimídia, produtividade etc.
 
-<details>
-<summary><b>Posso instalar junto com Windows (dual-boot)?</b></summary>
+---
 
-Sim! O guia ARCH_DUALBOOT_GUIDE.md é um complemento do ARCH_BASE_INSTALL.md. Pontos críticos:
-- Faça backup completo antes de começar
-- Desabilite Fast Boot e Secure Boot na BIOS
-- Desabilite BitLocker se estiver ativo
-- Reserve no mínimo 60GB para o Arch Linux
-- Siga as instruções de dual-boot DURANTE a instalação base
-</details>
+### Otimização e Performance
 
-<details>
-<summary><b>Preciso de internet durante a instalação?</b></summary>
+**[OPTIMIZATION_GUIDE.md](./OPTIMIZATION_GUIDE.md)** - Melhorias de performance (OPCIONAL)
 
-Sim, a instalação baixa pacotes diretamente dos repositórios oficiais. Certifique-se de ter uma conexão estável.
-</details>
+Configurações para otimizar o sistema: swap, zram, systemd services etc
 
-<details>
-<summary><b>Qual ambiente desktop devo escolher?</b></summary>
+---
 
-- Iniciantes: GNOME (mais simples e intuitivo)
-- Customização: KDE Plasma (infinitas opções de personalização)
-- Performance: Hyprland (leve e moderno, mas requer mais conhecimento)
-</details>
+### Gaming
 
-<details>
-<summary><b>Posso mudar de ambiente desktop depois?</b></summary>
+**[GAMING_SETUP.md](./GAMING_SETUP.md)** - Configuração para jogos (OPCIONAL)
 
-Sim! Você pode instalar múltiplos ambientes e alternar entre eles no login.
-</details>
+Steam, Proton, Lutris e otimizações para gaming.
 
-<details>
-<summary><b>Preciso configurar Secure Boot?</b></summary>
+---
 
-Não é obrigatório. O sistema funciona perfeitamente sem Secure Boot. Configure apenas se:
-- Você tem necessidade específica de segurança
-- Quer manter a mesma configuração de segurança do Windows
-- Está confortável com procedimentos avançados
+## FAQ
 
-Se decidir configurar, faça ANTES da pós-instalação para evitar problemas.
+Dúvidas frequentes sobre instalação, dual-boot, Secure Boot e mais.
 
-Consulte: ARCH_SECURE_BOOT_GUIDE.md
-</details>
+Consulte: [FAQ.md](./FAQ.md)
 
-<details>
-<summary><b>Por que configurar Secure Boot antes da pós-instalação?</b></summary>
+---
 
-Configurar Secure Boot antes de instalar drivers e ambientes desktop:
-- Evita conflitos com drivers de GPU que podem não funcionar com Secure Boot mal configurado
-- Permite testar se o sistema boota corretamente antes de investir tempo na configuração completa
-- Facilita o troubleshooting caso algo dê errado
-- Evita necessidade de reinstalação completa do sistema
-</details>
+## Troubleshooting
 
-<details>
-<summary><b>O Arch Linux é difícil?</b></summary>
+Problemas comuns e soluções para instalação, boot, drivers e sistema.
 
-O Arch tem a reputação de ser difícil, mas com este guia passo a passo, qualquer pessoa com conhecimento básico de Linux pode instalá-lo. A dificuldade está mais na quantidade de decisões a tomar do que na complexidade técnica em si.
-</details>
-
-<details>
-<summary><b>Por que escolher Arch Linux?</b></summary>
-
-- Controle total: Você decide o que instalar
-- Sempre atualizado: Rolling release com últimas versões
-- Documentação excelente: Arch Wiki é a melhor referência
-- Aprendizado: Você entende como o sistema funciona
-- Performance: Sistema leve sem bloatware
-</details>
+Consulte: [TROUBLESHOOTING.md](./TROUBLESHOOTING.md)
 
 ---
 
