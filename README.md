@@ -158,15 +158,18 @@ Consulte: [TROUBLESHOOTING.md](./TROUBLESHOOTING.md)
 
 ---
 
-## Contribuições
+## Como Contribuir
 
-Contribuições são bem-vindas! Sinta-se livre para:
+Contribuições são bem-vindas:
 
-- Reportar erros ou problemas encontrados
-- Sugerir melhorias nos guias
-- Adicionar traduções para outros idiomas
-- Criar pull requests com correções ou novos conteúdos
-- Dar uma estrela no projeto se ele foi útil para você
+- Reporte erros abrindo uma issue
+- Sugira melhorias via pull request
+- Dê uma estrela se o guia foi útil
+
+Para contribuir com código:
+1. Fork o repositório
+2. Crie uma branch com sua modificação
+3. Envie um pull request com descrição clara
 
 ---
 
@@ -181,21 +184,6 @@ Contribuições são bem-vindas! Sinta-se livre para:
 - [r/archlinux](https://www.reddit.com/r/archlinux/)
 
 **Para problemas**: Consulte primeiro a Arch Wiki, depois use o fórum oficial ou Reddit.
-
----
-
-## Como Contribuir
-
-Contribuições são bem-vindas:
-
-- Reporte erros abrindo uma issue
-- Sugira melhorias via pull request
-- Dê uma estrela se o guia foi útil
-
-Para contribuir com código:
-1. Fork o repositório
-2. Crie uma branch com sua modificação
-3. Envie um pull request com descrição clara
 
 ---
 
