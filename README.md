@@ -8,6 +8,10 @@
   ![Portuguese](https://img.shields.io/badge/Idioma-Português-green?style=for-the-badge)
 </div>
 
+## Sobre
+
+Guia completo e atualizado para instalação do Arch Linux em português brasileiro. Criado para tornar o processo acessível desde iniciantes até usuários avançados, com instruções detalhadas e troubleshooting.
+
 > **LEIA PRIMEIRO**: [**AVISO DE RESPONSABILIDADE IMPORTANTE**](./DISCLAIMER.md) - Leia antes de prosseguir!
 
 > **IMPORTANTE**: Este manual é atualizado regularmente e testado para 2025. Devido à natureza rolling release do Arch Linux, alguns comandos podem mudar no futuro. Sempre consulte a [documentação oficial](https://wiki.archlinux.org/) para verificar atualizações.
@@ -18,8 +22,7 @@
 ---
 
 ## Índice
-- [Quick Start](#quick-start)
-- [Fluxo de Instalação](#fluxo-de-instalação)
+- [Início Rápido](#inicio-rapido)
 - [Tempo Estimado](#tempo-estimado)
 - [Pré-requisitos](#pré-requisitos)
 - [Documentação](#documentação)
@@ -29,35 +32,27 @@
   - [Pós-Instalação](#pós-instalação)
   - [Ambientes Desktop](#ambientes-desktop-completos)
 - [FAQ Rápido](#faq-rápido)
-- [Contribuições](#contribuições)
+- [Como Contribuir](#como-contribuir)
 - [Suporte e Recursos](#suporte-e-recursos)
+- [Licença](#licença)
 
 ---
 
-## Quick Start
+## Início Rápido
 
-### Instalação Padrão (Sistema Único)
+### Passos Comuns a Todas as Instalações
 
-```
-1. Baixe a ISO oficial: archlinux.org/download
-2. Crie o pendrive bootável: BOOTABLE_USB_GUIDE.md
-3. Instalação base: ARCH_BASE_INSTALL.md
-4. [OPCIONAL] Secure Boot: ARCH_SECURE_BOOT_GUIDE.md
-5. Pós-instalação: ARCH_POST_INSTALL.md
-6. Escolha seu ambiente desktop
-```
+1. Baixe a ISO oficial: [archlinux.org/download](https://archlinux.org/download)
+2. Crie o pendrive bootável: [BOOTABLE_USB_GUIDE.md](./BOOTABLE_USB_GUIDE.md)
+3. Instalação base: [ARCH_BASE_INSTALL.md](./ARCH_BASE_INSTALL.md)
+4. Pós-instalação: [ARCH_POST_INSTALL.md](./ARCH_POST_INSTALL.md)
+5. Escolha seu ambiente desktop
 
-### Instalação Dual-Boot com Windows
+### Configurações Adicionais (se aplicável)
 
-```
-1. ATENÇÃO: Faça backup completo dos seus dados
-2. Baixe a ISO oficial: archlinux.org/download
-3. Crie o pendrive bootável: BOOTABLE_USB_GUIDE.md
-4. Instalação base + Dual-Boot: ARCH_BASE_INSTALL.md + ARCH_DUALBOOT_GUIDE.md
-5. [OPCIONAL] Secure Boot: ARCH_SECURE_BOOT_GUIDE.md
-6. Pós-instalação: ARCH_POST_INSTALL.md
-7. Escolha seu ambiente desktop
-```
+- **Dual-Boot com Windows**: Siga [ARCH_DUALBOOT_GUIDE.md](./ARCH_DUALBOOT_GUIDE.md) durante a etapa 3
+  - **ATENÇÃO**: Faça backup completo antes de começar
+- **Secure Boot**: Configure com [ARCH_SECURE_BOOT_GUIDE.md](./ARCH_SECURE_BOOT_GUIDE.md) após a etapa 3
 
 ---
 
@@ -77,20 +72,12 @@
 
 ## Pré-requisitos
 
-### Nível de Conhecimento
-- **Iniciante**: Pode seguir o guia, mas requer atenção aos detalhes
-- **Intermediário**: Ideal para quem já usou Linux antes
-- **Avançado**: Terá facilidade com os procedimentos
-
 ### Requisitos Técnicos
-Antes de começar, certifique-se de ter:
-
-- **Conhecimento básico** de terminal Linux
-- **Conexão à internet** durante a instalação
-- **Backup completo** de dados importantes (especialmente para dual-boot)
-- **Pendrive** de no mínimo 4GB
-- **Espaço em disco**: Mínimo 20GB (recomendado 60GB+)
-- **Paciência** e disposição para aprender
+- Conhecimento básico de terminal Linux
+- Conexão à internet durante a instalação
+- Backup completo de dados importantes
+- Pendrive de no mínimo 4GB
+- Espaço em disco: Mínimo 20GB (recomendado 60GB+)
 
 ---
 
@@ -98,106 +85,50 @@ Antes de começar, certifique-se de ter:
 
 ### Preparação
 
-**[BOOTABLE_USB_GUIDE.md](./BOOTABLE_USB_GUIDE.md)** - Como criar pendrive bootável
-
-**Conteúdo:**
-- Download e verificação de integridade da ISO
-- Guia para Windows (Rufus, Ventoy)
-- Guia para Linux (dd, Ventoy)
-- Configuração da BIOS/UEFI para boot
-- Solução de problemas comuns
+**[BOOTABLE_USB_GUIDE.md](./BOOTABLE_USB_GUIDE.md)** - Criação do pendrive bootável
+- Download e verificação da ISO
+- Guias para Windows e Linux
+- Configuração da BIOS/UEFI
 
 ---
 
 ### Instalação Base
 
-**[ARCH_BASE_INSTALL.md](./ARCH_BASE_INSTALL.md)** - Instalação base do Arch Linux (OBRIGATÓRIO)
+**[ARCH_BASE_INSTALL.md](./ARCH_BASE_INSTALL.md)** - Instalação base (OBRIGATÓRIO)
 
-**Conteúdo:**
-- Preparação e particionamento do disco
-- Instalação do sistema base
-- Configuração de bootloader (GRUB)
-- Configuração inicial do sistema (idioma, fuso horário, usuários)
-- Solução de problemas comuns
+Este é o guia principal. Todos devem começar por aqui.
 
-**IMPORTANTE**: Este é o guia principal de instalação. Todos os usuários devem seguir este documento primeiro.
+**[ARCH_DUALBOOT_GUIDE.md](./ARCH_DUALBOOT_GUIDE.md)** - Dual-Boot com Windows (OPCIONAL)
 
----
-
-**[ARCH_DUALBOOT_GUIDE.md](./ARCH_DUALBOOT_GUIDE.md)** - Complemento para Dual-Boot com Windows (OPCIONAL)
-
-**Conteúdo:**
-- Preparação do Windows
-- Redimensionamento de partições
-- Particionamento para dual-boot
-- Configuração do GRUB para detectar Windows
-- Troubleshooting específico de dual-boot
-
-**Quando usar**: Este guia é um COMPLEMENTO do ARCH_BASE_INSTALL.md. Use apenas se você vai instalar o Arch Linux junto com o Windows. As instruções de dual-boot devem ser seguidas DURANTE a instalação base, não depois.
+Complemento do guia base. Use apenas se for instalar junto com Windows.
 
 ---
 
 ### Configurações Avançadas
 
-**[ARCH_SECURE_BOOT_GUIDE.md](./ARCH_SECURE_BOOT_GUIDE.md)** - Configurar Secure Boot (OPCIONAL)
+**[ARCH_SECURE_BOOT_GUIDE.md](./ARCH_SECURE_BOOT_GUIDE.md)** - Secure Boot (OPCIONAL)
 
-**Conteúdo:**
-- O que é Secure Boot e quando usar
-- Configuração com sbctl (método recomendado)
-- Dual-boot com Secure Boot
-- Troubleshooting completo
-
-**Quando configurar**: 
-- APÓS a instalação base estar completa e funcionando
-- ANTES de instalar drivers e ambientes desktop (pós-instalação)
-- Configure agora e teste o boot antes de prosseguir
-
-**Por que antes da pós-instalação?**
-- Permite testar o boot sem perder tempo com reinstalação
-- Configuração mais limpa e menos propensa a erros
-
-**Você pode pular esta etapa**: O sistema funciona perfeitamente sem Secure Boot. Configure apenas se tiver necessidade específica de segurança ou dual-boot com Windows 11.
+Configure APÓS a instalação base funcionar e ANTES da pós-instalação.
 
 ---
 
 ### Pós-Instalação
 
-**[ARCH_POST_INSTALL.md](./ARCH_POST_INSTALL.md)** - Configuração completa do ambiente (OBRIGATÓRIO)
+**[ARCH_POST_INSTALL.md](./ARCH_POST_INSTALL.md)** - Configuração do ambiente (OBRIGATÓRIO)
 
-**Conteúdo:**
-- Ferramentas essenciais do sistema
-- Otimizações e configurações de performance
-- Preparação para ambiente desktop
+**[GPU_DRIVERS_GUIDE.md](./GPU_DRIVERS_GUIDE.md)** - Drivers de vídeo (RECOMENDADO)
 
-**[GPU_DRIVERS_GUIDE.md](./GPU_DRIVERS_GUIDE.md)** - Instalação de drivers de vídeo (RECOMENDADO)
-
-**Conteúdo:**
-- Drivers Intel (integrated graphics)
-- Drivers AMD (open-source e AMDGPU)
-- Drivers NVIDIA (proprietary e open-source)
-- Vulkan e aceleração de hardware
-- Troubleshooting de drivers de vídeo
-
-**IMPORTANTE**: Configure os drivers de GPU apropriados para seu hardware antes de instalar ambientes desktop para evitar problemas de performance e compatibilidade.
+Configure antes de instalar ambientes desktop.
 
 ---
 
 ### Ambientes Desktop Completos
 
-**[GNOME_COMPLETE_SETUP.md](./GNOME_COMPLETE_SETUP.md)** - Setup GNOME otimizado e completo
-- Interface moderna e intuitiva
-- Melhor para iniciantes
-- Integração completa com Wayland
+**[GNOME_COMPLETE_SETUP.md](./GNOME_COMPLETE_SETUP.md)** - Interface moderna e intuitiva (recomendado para iniciantes)
 
-**[KDE_COMPLETE_SETUP.md](./KDE_COMPLETE_SETUP.md)** - Setup KDE Plasma completo
-- Altamente customizável
-- Visual moderno e polido
-- Rico em recursos e configurações
+**[KDE_COMPLETE_SETUP.md](./KDE_COMPLETE_SETUP.md)** - Altamente customizável
 
-**[HYPRLAND_COMPLETE_SETUP.md](./HYPRLAND_COMPLETE_SETUP.md)** - Setup Hyprland (Wayland compositor)
-- Gerenciador de janelas tiling
-- Extremamente leve e rápido
-- Requer conhecimento intermediário
+**[HYPRLAND_COMPLETE_SETUP.md](./HYPRLAND_COMPLETE_SETUP.md)** - Tiling window manager (requer conhecimento intermediário)
 
 ---
 
@@ -296,19 +227,29 @@ Contribuições são bem-vindas! Sinta-se livre para:
 ## Suporte e Recursos
 
 ### Documentação Oficial
-- **Arch Wiki**: [wiki.archlinux.org](https://wiki.archlinux.org/) - A bíblia do Arch Linux
-- **Installation Guide**: [Guia Oficial](https://wiki.archlinux.org/title/Installation_guide)
+- [Arch Wiki](https://wiki.archlinux.org/) - Referência principal
+- [Guia Oficial de Instalação](https://wiki.archlinux.org/title/Installation_guide)
 
 ### Comunidades
-- **Fórum Oficial**: [Arch Linux Forums](https://bbs.archlinux.org/)
-- **Reddit**: [r/archlinux](https://www.reddit.com/r/archlinux/)
-- **Telegram**: Grupos brasileiros de Linux e Arch Linux
+- [Fórum Oficial](https://bbs.archlinux.org/)
+- [r/archlinux](https://www.reddit.com/r/archlinux/)
 
-### Ajuda Adicional
-Este manual não inclui suporte técnico oficial. Para problemas específicos:
-1. Consulte a Arch Wiki (90% dos problemas estão documentados lá)
-2. Use o fórum oficial para perguntas complexas
-3. Pesquise no Reddit para experiências de outros usuários
+**Para problemas**: Consulte primeiro a Arch Wiki, depois use o fórum oficial ou Reddit.
+
+---
+
+## Como Contribuir
+
+Contribuições são bem-vindas:
+
+- Reporte erros abrindo uma issue
+- Sugira melhorias via pull request
+- Dê uma estrela se o guia foi útil
+
+Para contribuir com código:
+1. Fork o repositório
+2. Crie uma branch com sua modificação
+3. Envie um pull request com descrição clara
 
 ---
 
