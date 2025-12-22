@@ -17,7 +17,7 @@ Guia completo e atualizado para instalação do Arch Linux em português brasile
 > **IMPORTANTE**: Este manual é atualizado regularmente e testado para 2025. Devido à natureza rolling release do Arch Linux, alguns comandos podem mudar no futuro. Sempre consulte a [documentação oficial](https://wiki.archlinux.org/) para verificar atualizações.
 
 > **Tempo estimado de leitura**: 5 minutos  
-> **Tempo estimado de instalação completa**: 2-4 horas
+> **Tempo estimado de instalação completa**: 2-5 horas
 
 ---
 
@@ -158,14 +158,6 @@ Steam, Proton, Lutris e otimizações para gaming.
 Dúvidas frequentes sobre instalação, dual-boot, Secure Boot e mais.
 
 Consulte: [FAQ.md](./FAQ.md)
-
----
-
-## Troubleshooting
-
-Problemas comuns e soluções para instalação, boot, drivers e sistema.
-
-Consulte: [TROUBLESHOOTING.md](./TROUBLESHOOTING.md)
 
 ---
 
