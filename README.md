@@ -4,7 +4,7 @@
   <img src="https://archlinux.org/static/logos/archlinux-logo-dark-90dpi.ebdee92a15b3.png" alt="Arch Linux" width="400"/>
   
   ![Status](https://img.shields.io/badge/Status-Atualizado_Dez_2025-green?style=for-the-badge)
-  ![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)
+  ![License](https://img.shields.io/badge/License-CC_BY--SA_4.0-blue?style=for-the-badge)
   ![Portuguese](https://img.shields.io/badge/Idioma-Português-green?style=for-the-badge)
 </div>
 
@@ -60,10 +60,21 @@ Guia completo e atualizado para instalação do Arch Linux em português brasile
 
 ### Requisitos Técnicos
 - Conhecimento básico de terminal Linux
-- Conexão à internet durante a instalação
-- Backup completo de dados importantes
-- Pendrive de no mínimo 4GB
-- Espaço em disco: Mínimo 120GB (recomendado 250GB+)
+- Pendrive de no mínimo 4GB (8GB recomendado)
+- Conexão à internet **estável** durante instalação
+- **BACKUP COMPLETO** de todos os dados importantes
+
+### Requisitos de Hardware
+**Mínimo:**
+- CPU: x86_64 (64-bit)
+- RAM: 4GB
+- Disco: 120GB
+
+**Recomendado:**
+- CPU: x86_64 multi-core
+- RAM: 8GB+
+- Disco: 250GB+ SSD
+- GPU dedicada (para gaming/edição)
 
 ---
 
