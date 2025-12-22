@@ -336,33 +336,40 @@ Método mais rápido sem entrar na BIOS:
 
 ## 6. Solução de Problemas
 
-### 6.1 Pendrive não aparece no boot
+<details>
+<summary><b>Pendrive não aparece no boot</b></summary>
 
 **Soluções:**
 - Verifique se o pendrive está corretamente conectado
 - Tente outra porta USB (prefira USB 2.0 para maior compatibilidade)
 - Recrie o pendrive usando outro método (Rufus modo DD ou Ventoy)
 - Verifique se o Secure Boot está desabilitado na BIOS
+</details>
 
-### 6.2 Erro "Boot device not found"
+<details>
+<summary><b>Erro "Boot device not found"</b></summary>
+
+**Causa**: Incompatibilidade entre esquema de partição e modo de boot.
+
+**Solução no Rufus:**
+- **UEFI**: Use GPT + UEFI (non CSM)
+- **BIOS**: Use MBR + BIOS (ou UEFI-CSM)
+
+Recrie o pendrive com configuração correta.
+</details>
+
+<details>
+<summary><b>Sistema não inicializa após criar pendrive</b></summary>
 
 **Soluções:**
-- Verifique se escolheu a opção correta no Rufus:
-  - GPT para UEFI
-  - MBR para BIOS Legacy
-- Recrie o pendrive usando "modo DD" no Rufus
-- Tente usar outro pendrive
-- Verifique se a ISO está íntegra (SHA256)
+1. Verifique hash SHA256 da ISO
+2. Baixe ISO de outro mirror
+3. Teste outro pendrive
+4. Formate completamente o pendrive antes de recriar
+</details>
 
-### 6.3 Sistema não inicializa após criar o pendrive
-
-**Soluções:**
-- Verifique a integridade da ISO baixada
-- Baixe a ISO novamente de outro mirror
-- Formate completamente o pendrive antes de recriar
-- Teste o pendrive em outro computador
-
-### 6.4 Erro no dd: "Permission denied"
+<details>
+<summary><b>Erro no dd: "Permission denied" (Linux)</b></summary>
 
 **Solução:**
 ```bash
@@ -372,35 +379,32 @@ sudo dd bs=4M if=arquivo.iso of=/dev/sdb status=progress oflag=sync
 # Verifique se o pendrive não está montado
 sudo umount /dev/sdb*
 ```
+</details>
 
-### 6.5 Pendrive fica inutilizável após criar boot
+<details>
+<summary><b>Restaurar pendrive para uso normal</b></summary>
 
-**Como restaurar o pendrive para uso normal:**
+**Windows:**
+1. Abra "Gerenciamento de Disco" (diskmgmt.msc)
+2. Delete todas as partições do pendrive
+3. Crie nova partição
+4. Formate como FAT32 ou NTFS
 
-**No Windows:**
-1. Abra o "Gerenciamento de Disco" (diskmgmt.msc)
-2. Localize o pendrive
-3. Delete todas as partições
-4. Crie uma nova partição
-5. Formate como FAT32 ou NTFS
-
-**No Linux:**
+**Linux:**
 ```bash
-# Listar dispositivos
-sudo fdisk -l
-
-# Abrir fdisk no dispositivo (ex: /dev/sdb)
+# Abrir fdisk (substitua /dev/sdb)
 sudo fdisk /dev/sdb
 
-# Dentro do fdisk:
-# d - deletar todas as partições
-# n - criar nova partição (aceite os padrões)
-# t - mudar tipo para 0c (FAT32 LBA)
-# w - salvar e sair
+# Comandos dentro do fdisk:
+d    # deletar partições (repita se necessário)
+n    # criar nova partição (aceite padrões)
+t    # tipo: 0c (FAT32 LBA)
+w    # salvar e sair
 
 # Formatar
 sudo mkfs.vfat -F32 /dev/sdb1
 ```
+</details>
 
 ---
 
