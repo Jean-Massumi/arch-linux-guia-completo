@@ -655,44 +655,106 @@ Após reiniciar, você verá:
 
 ## 18. Solução de Problemas Comuns
 
-### 18.1 Se o sistema não inicializar
+<details>
+<summary><b>Sistema não inicializa</b></summary>
+
+Boot pelo pendrive de instalação e execute:
 
 ```bash
-# Boot pelo pendrive de instalação e execute:
+# Montar partições (ajuste conforme seu particionamento)
 mount /dev/sda3 /mnt
 mount /dev/sda1 /mnt/boot/efi
 mount /dev/sda4 /mnt/home
+
+# Entrar no sistema
 arch-chroot /mnt
 
-# Reinstalar GRUB:
+# Reinstalar GRUB
 grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB --recheck
 grub-mkconfig -o /boot/grub/grub.cfg
+
+# Sair e reiniciar
+exit
+umount -R /mnt
+reboot
 ```
+</details>
 
-### 18.2 Problemas de Rede
+<details>
+<summary><b>Sistema não tem internet após instalação</b></summary>
 
+**Verificar NetworkManager:**
 ```bash
-# Após fazer login no sistema instalado:
-sudo systemctl status NetworkManager
-sudo systemctl start NetworkManager
-sudo nmtui  # Interface gráfica para configurar rede
-```
-
-### 18.3 Sistema Inicia Mas Não Tem Internet
-
-```bash
-# Verificar status do NetworkManager
+# Status do serviço
 sudo systemctl status NetworkManager
 
-# Se não estiver rodando, iniciar
+# Se não estiver rodando
 sudo systemctl start NetworkManager
-
-# Habilitar para iniciar automaticamente
 sudo systemctl enable NetworkManager
 
 # Configurar conexão
 nmtui
 ```
+
+**Alternativa via CLI:**
+```bash
+# WiFi
+nmcli device wifi list
+nmcli device wifi connect "NOME_REDE" password "SENHA"
+
+# Ethernet
+sudo dhcpcd interface_name
+```
+</details>
+
+<details>
+<summary><b>Erro ao instalar pacotes</b></summary>
+
+**Atualizar mirrors:**
+```bash
+reflector --latest 10 --country Brazil --sort rate --save /etc/pacman.d/mirrorlist
+```
+
+**Sincronizar banco de dados:**
+```bash
+pacman -Syy
+```
+
+**Atualizar keyring:**
+```bash
+pacman -S archlinux-keyring
+```
+</details>
+
+<details>
+<summary><b>Erro "signature is unknown trust"</b></summary>
+
+```bash
+pacman -Sy archlinux-keyring
+pacman-key --init
+pacman-key --populate archlinux
+```
+</details>
+
+<details>
+<summary><b>Tela preta após boot</b></summary>
+
+**Solução temporária:**
+1. No menu GRUB, pressione `e`
+2. Na linha com `linux`, adicione: `nomodeset`
+3. Pressione `Ctrl+X` para iniciar
+
+**Solução permanente:**
+```bash
+sudo nano /etc/default/grub
+
+# Adicionar na linha GRUB_CMDLINE_LINUX_DEFAULT
+GRUB_CMDLINE_LINUX_DEFAULT="quiet nomodeset"
+
+# Salvar e atualizar
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+```
+</details>
 
 ---
 
