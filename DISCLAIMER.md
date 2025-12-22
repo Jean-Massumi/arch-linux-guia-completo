@@ -11,6 +11,8 @@ Este manual é fornecido "como está", sem garantias de qualquer tipo. O autor *
 
 **Você assume total responsabilidade pelos procedimentos executados.**
 
+---
+
 ## Pré-requisitos Obrigatórios
 
 Antes de prosseguir, você DEVE:
@@ -21,6 +23,8 @@ Antes de prosseguir, você DEVE:
 - Verificar compatibilidade de hardware
 - Garantir conexão de internet estável
 
+---
+
 ## Riscos da Instalação
 
 Os procedimentos deste manual podem causar:
@@ -28,6 +32,8 @@ Os procedimentos deste manual podem causar:
 - **Perda permanente de dados** no disco selecionado
 - Sistema inutilizável se executado incorretamente
 - Necessidade de reinstalação completa
+
+---
 
 ## Recomendações
 
@@ -41,6 +47,8 @@ Os procedimentos deste manual podem causar:
 - Consulte a [Arch Wiki](https://wiki.archlinux.org/) em caso de dúvidas
 - Não tenha pressa - erros custam tempo
 
+---
+
 ## Suporte
 
 Este manual **não oferece suporte técnico oficial**. Recursos disponíveis:
@@ -48,6 +56,8 @@ Este manual **não oferece suporte técnico oficial**. Recursos disponíveis:
 - **Documentação Oficial**: [wiki.archlinux.org](https://wiki.archlinux.org/)
 - **Fórum**: [bbs.archlinux.org](https://bbs.archlinux.org/)
 - **Reddit**: [r/archlinux](https://reddit.com/r/archlinux/)
+
+---
 
 ## Confirmação
 
