@@ -154,7 +154,32 @@ lsblk -f /dev/sda
 
 ## 4. Particionamento do Disco
 
-### 4.1 Escolha Seu Tipo de Instalação
+### 4.1 Recomendações de Tamanho de Partições
+
+| Partição | Recomendado | Uso |
+|----------|-------------|-----|
+| EFI | 512MB-1GB | Boot UEFI |
+| Swap | Veja tabela abaixo | Memória virtual |
+| Root (/) | Veja tabela abaixo | Sistema operacional |
+| Home | Resto do disco | Dados pessoais |
+
+**Recomendações de Swap por Quantidade de RAM:**
+
+| RAM Instalada | Tamanho de Swap Recomendado |
+|---------------|----------------------------|
+| Menos de 8GB | 2x a quantidade de RAM |
+| 8GB a 16GB | Igual à quantidade de RAM |
+| Mais de 16GB | RAM/2 (ou 8GB fixo) |
+
+**Recomendações de Root (/) por Tipo de Uso:**
+
+| Perfil de Uso | Tamanho Root (/) | O Que Inclui |
+|---------------|------------------|--------------|
+| **Uso Geral** | 40-50GB | GNOME/KDE + navegador + office + desenvolvimento básico |
+| **Desenvolvimento** | 50-70GB | IDEs, containers Docker, múltiplas ferramentas de dev, builds |
+| **Gaming** | 70-100GB+ | Steam + Proton + shaders compilados + mods (jogos ficam em /home) |
+
+### 4.2 Escolha Seu Tipo de Instalação
 
 #### **Instalação Única (Disco Completo)**
 
@@ -170,7 +195,7 @@ Se você quer apenas o Arch Linux no computador, siga este guia normalmente.
 
 > **Continue lendo se você está fazendo instalação única.**
 
-### 4.2 Instalação Única - Iniciar Particionamento
+### 4.3 Instalação Única - Iniciar Particionamento
 
 ```bash
 fdisk /dev/sda    # Substitua pelo nome do SEU disco
@@ -178,7 +203,7 @@ fdisk /dev/sda    # Substitua pelo nome do SEU disco
 
 **O que faz**: Abre o utilitário de particionamento para o disco especificado.
 
-### 4.3 Criar Tabela de Partição GPT
+### 4.4 Criar Tabela de Partição GPT
 
 ```bash
 # Dentro do fdisk:
@@ -187,7 +212,7 @@ Command (m for help): g
 
 **O que faz**: Cria uma nova tabela de partição GPT (GUID Partition Table), necessária para UEFI.
 
-### 4.4 Verificar Espaço Disponível
+### 4.5 Verificar Espaço Disponível
 
 ```bash
 # Dentro do fdisk, antes de criar partições:
@@ -195,23 +220,6 @@ Command (m for help): p
 ```
 
 **O que faz**: Mostra o espaço total disponível no disco para você calcular melhor o tamanho das partições.
-
-### 4.5 Recomendações de Tamanho de Partições
-
-| Partição | Tamanho Mínimo | Recomendado | Uso |
-|----------|----------------|-------------|-----|
-| EFI | 512MB | 1GB | Boot UEFI |
-| Swap | Varia | Veja tabela abaixo | Memória virtual |
-| Root (/) | 20GB | 40-60GB | Sistema operacional |
-| Home | 20GB | Resto do disco | Dados pessoais |
-
-**Recomendações de Swap por Quantidade de RAM:**
-
-| RAM Instalada | Tamanho de Swap Recomendado |
-|---------------|----------------------------|
-| Menos de 8GB | 2x a quantidade de RAM |
-| 8GB a 16GB | Igual à quantidade de RAM |
-| Mais de 16GB | RAM/2 (ou 8GB fixo) |
 
 ### 4.6 Criar Partições
 
