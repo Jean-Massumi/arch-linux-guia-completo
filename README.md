@@ -34,7 +34,6 @@ Guia completo e atualizado para instalação do Arch Linux em português brasile
   - [Otimização e Performance](#otimização-e-performance)
   - [Gaming](#gaming)
 - [FAQ](#faq)
-- [Troubleshooting](#troubleshooting)
 - [Como Contribuir](#como-contribuir)
 - [Suporte e Recursos](#suporte-e-recursos)
 - [Licença](#licença)
