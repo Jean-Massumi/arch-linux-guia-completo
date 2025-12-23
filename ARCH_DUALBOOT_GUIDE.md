@@ -56,7 +56,7 @@ O processo de dual-boot difere da instalação padrão nos seguintes pontos:
 - **Windows 10 ou 11** já instalado e funcionando
 - **Backup completo** de todos os dados importantes
 - **Pendrive bootável** com Arch Linux ISO ([veja como criar](./BOOTABLE_USB_GUIDE.md))
-- **Mínimo 60GB livres** no disco para o Arch Linux
+- **Mínimo 120GB livres** no disco para o Arch Linux
 - **Conexão com internet** durante a instalação
 - **Desabilitar BitLocker** se estiver ativo no Windows
 
@@ -91,7 +91,7 @@ manage-bde -off C:
 
 1. Abra o **Gerenciamento de Disco** (diskmgmt.msc)
 2. Verifique quanto espaço livre você tem na partição C:
-3. Certifique-se de ter pelo menos **60GB livres** para o Arch
+3. Certifique-se de ter pelo menos **120GB livres** para o Arch
 
 ### 1.4 Desfragmentar o Disco (HDD apenas)
 
@@ -118,8 +118,8 @@ manage-bde -off C:
 1. Clique com botão direito na partição **C:** (Windows)
 2. Selecione "Reduzir Volume"
 3. Digite a quantidade de espaço a reduzir em MB
-   - Para 60GB: digite `61440` MB
-   - Para 100GB: digite `102400` MB
+   - Para 120GB: digite `122880` MB
+   - Para 250GB: digite `256000` MB
 4. Clique em "Reduzir"
 
 **O Windows criará um espaço "Não Alocado" - NÃO formate este espaço agora.**
