@@ -149,12 +149,21 @@ lsmod | grep amdgpu
 
 **Para GPUs NVIDIA dedicadas (GeForce, RTX, GTX):**
 
-### 4.1 Passo 1: Instalar Drivers
+### 4.1 Passo 1: Escolha e Instale os Drivers
 
+**Se instalou APENAS 1 kernel (linux OU linux-lts):**
 ```bash
-# Drivers NVIDIA open-source oficiais (RTX 20xx, 30xx, 40xx, GTX 16xx)
+# Drivers NVIDIA open-source (RTX 20xx, 30xx, 40xx, GTX 16xx)
 sudo pacman -S nvidia-open nvidia-utils lib32-nvidia-utils nvidia-settings
 ```
+
+**Se instalou 2 kernels (linux + linux-lts):**
+```bash
+# Drivers NVIDIA com DKMS (compila para ambos os kernels automaticamente)
+sudo pacman -S nvidia-open-dkms nvidia-utils lib32-nvidia-utils nvidia-settings
+```
+
+> **Por que DKMS?** Recompila o driver automaticamente para cada kernel quando atualizar. Essencial para múltiplos kernels.
 
 ### 4.2 Passo 2: Configurar Módulos do Kernel
 
