@@ -452,39 +452,8 @@ grep "menuentry.*Windows" /boot/grub/grub.cfg
 Complete as seguintes seções do guia base:
 - **Seção 14**: Instalação do NetworkManager
 - **Seção 15**: Instalação de Microcódigo da CPU
-
----
-
-## 10. Finalização
-
-### 10.1 Sair e Reiniciar
-
-```bash
-# Sair do chroot
-exit
-
-# Desmontar todas as partições
-umount -R /mnt
-
-# Reiniciar
-reboot
-```
-
-### 10.2 Primeiro Boot Dual-Boot
-
-Ao reiniciar, você verá o **menu do GRUB** com opções:
-
-1. **Arch Linux**
-2. **Advanced options for Arch Linux**
-3. **Windows Boot Manager**
-
-**Teste ambos os sistemas** para garantir que funcionam corretamente.
-
-### 10.3 Configuração Pós-Instalação
-
-Após verificar que o dual-boot funciona, siga o guia de pós-instalação:
-
-**[ARCH_POST_INSTALL.md](./ARCH_POST_INSTALL.md)** - Configuração completa do ambiente
+- **Seção 16**: Finalização da Instalação
+- **Seção 17**: Primeiro Boot
 
 ---
 
