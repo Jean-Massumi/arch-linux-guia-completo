@@ -10,7 +10,7 @@
 
 ## Sobre
 
-Guia completo e atualizado para instalação do Arch Linux em português brasileiro. Criado para tornar o processo acessível desde iniciantes até usuários avançados, com instruções detalhadas e troubleshooting.
+Guia completo e atualizado para instalação do Arch Linux em português brasileiro. Criado para tornar o processo acessível desde iniciantes até usuários avançados, com instruções detalhadas.
 
 > **LEIA PRIMEIRO**: [**AVISO DE RESPONSABILIDADE IMPORTANTE**](./DISCLAIMER.md) - Leia antes de prosseguir!
 
