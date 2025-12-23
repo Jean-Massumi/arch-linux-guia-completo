@@ -231,7 +231,7 @@ O usuário decide o tamanho de cada partição do armazenamento.
 Command (m for help): n           # Criar nova partição
 Partition number (1-128): [Enter] # Aceitar padrão (1)
 First sector: [Enter]             # Aceitar início padrão
-Last sector: +1G                  # Definir tamanho de 1GB 
+Last sector: +1G                  # Digite o tamanho desejado (ex: +512M, +1G)
 
 Command (m for help): t           # Alterar tipo da partição
 Partition number: 1               # Selecionar partição 1
@@ -244,20 +244,20 @@ Hex code or alias: 1              # Tipo: EFI System
 Command (m for help): n           # Criar nova partição
 Partition number (2-128): [Enter] # Aceitar padrão (2)
 First sector: [Enter]             # Aceitar início padrão
-Last sector: +8G                  # Definir tamanho de 8GB
+Last sector: +8G                  # Digite o tamanho desejado (ex: +8G, +16G)
 
 Command (m for help): t           # Alterar tipo da partição
 Partition number: 2               # Selecionar partição 2
 Hex code or alias: 19             # Tipo: Linux swap
 ```
 
-#### Partição 3 - Raiz / Root (60GB)
+#### Partição 3 - Raiz / Root
 
 ```bash
 Command (m for help): n          # Criar nova partição
 Partition number (3-128): [Enter] # Aceitar padrão (3)
 First sector: [Enter]            # Aceitar início padrão
-Last sector: +60G                # Definir tamanho de 60GB
+Last sector: +60G                # Digite o tamanho desejado (ex: +40G, +60G)
 # Tipo já fica como Linux filesystem (padrão)
 ```
 
