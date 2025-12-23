@@ -358,23 +358,48 @@ reflector --country Brazil --protocol https --latest 10 --sort rate --verbose --
 
 ## 8. Instalação do Sistema Base
 
+### 8.1 Escolha do Kernel
+
+O Arch oferece vários tipos de kernels (`linux-zen`, `linux-hardened`, etc.), mas os **mais recomendados** são:
+
+| Kernel | Descrição |
+|--------|-----------|
+| **linux** | Versão estável mais recente |
+| **linux-lts** | Long Term Support - mais estável, atualizações conservadoras |
+
+**Escolha:**
+- **1 kernel**: Minimalista (~100MB de espaço)
+- **2 kernels** (recomendado): Tenha um backup caso uma atualização dê problema
+
+### 8.2 Instalação - Escolha UMA opção:
+
+#### Opção A: linux (padrão)
 ```bash
-# Instalar pacotes essenciais do sistema
 pacstrap -K /mnt base base-devel linux linux-firmware linux-headers nano neovim man-db man-pages texinfo
+```
+
+#### Opção B: linux-lts (mais estável)
+```bash
+pacstrap -K /mnt base base-devel linux-lts linux-firmware linux-lts-headers nano neovim man-db man-pages texinfo
+```
+
+#### Opção C: Ambos (recomendado - fallback)
+```bash
+pacstrap -K /mnt base base-devel linux linux-lts linux-firmware linux-headers linux-lts-headers nano neovim man-db man-pages texinfo
 ```
 
 **O que faz**:
 - `base`: Pacotes fundamentais do sistema
 - `base-devel`: Ferramentas de desenvolvimento (compiladores, etc.)
-- `linux`: Kernel do Linux
+- `linux` / `linux-lts`: Kernel(s) do Linux
 - `linux-firmware`: Firmware para hardware
-- `linux-headers`: Cabeçalhos do kernel (para módulos)
+- `linux-headers` / `linux-lts-headers`: Cabeçalhos do kernel (para módulos - um para cada kernel instalado)
 - `nano/neovim`: Editores de texto
 - `man-db`: Sistema de páginas de manual
 - `man-pages`: Documentação de comandos Linux
 - `texinfo`: Documentação adicional do GNU
 
-> **Dica**: Para maior estabilidade, você pode usar `linux-lts` (Long Term Support) no lugar de `linux`.
+> **Nota**: Com 2 kernels, o GRUB cria entradas separadas no menu de boot.
 
 ---
 
@@ -557,6 +582,8 @@ grub-mkconfig -o /boot/grub/grub.cfg
 - Detectam outros sistemas operacionais (dual-boot)
 - Geram o menu de inicialização
 
+> **Se instalou 2 kernels**: O GRUB detectará automaticamente ambos e criará entradas separadas no menu de boot.
+
 ### 13.3 (Opcional) Verificar Instalação do GRUB
 
 ```bash
@@ -646,10 +673,29 @@ reboot
 
 Após reiniciar, você verá:
 
-1. **Menu do GRUB**: Selecione "Arch Linux"
-2. **Prompt de login**: Digite seu nome de usuário
-3. **Senha**: Digite sua senha
-4. **Terminal**: Você está no Arch Linux!
+**1. Menu do GRUB** (pode variar conforme suas escolhas):
+
+- **Instalação única (1 kernel)**:
+  - Arch Linux
+  
+- **Instalação única (2 kernels)**:
+  - Arch Linux (linux)
+  - Arch Linux (linux-lts)
+  
+- **Dual-boot com Windows (1 kernel)**:
+  - Arch Linux
+  - Windows Boot Manager
+  
+- **Dual-boot com Windows (2 kernels)**:
+  - Arch Linux (linux)
+  - Arch Linux (linux-lts)
+  - Windows Boot Manager
+
+**2. Prompt de login**: Digite seu nome de usuário
+
+**3. Senha**: Digite sua senha
+
+**4. Terminal**: Você está no Arch Linux!
 
 ---
 
