@@ -484,10 +484,12 @@ Complete as seguintes seções do guia base:
 
 ## 11. Solução de Problemas Dual-Boot
 
-### 11.1 GRUB Não Detecta o Windows
+<details>
+<summary><b>11.1 GRUB Não Detecta o Windows</b></summary>
+
+<br>
 
 **Solução:**
-
 ```bash
 # Boot pelo Arch Linux
 # Verificar se os-prober está instalado
@@ -505,24 +507,26 @@ sudo mount /dev/sda2 /boot/efi
 
 # Regenerar configuração
 sudo grub-mkconfig -o /boot/grub/grub.cfg
-
 # Verificar se detectou
 # Deve aparecer: "Found Windows Boot Manager..."
 ```
 
-### 11.2 Sistema Boota Direto no Windows
+</details>
 
-**Causa**: BIOS está priorizando Windows Boot Manager.
+<details>
+<summary><b>11.2 Sistema Boota Direto no Windows</b></summary>
+
+<br>
+
+**Causa:** BIOS está priorizando Windows Boot Manager.
 
 **Solução 1 - Pela BIOS:**
-
 1. Entre na BIOS/UEFI (F2, DEL, F10)
 2. Procure "Boot Order" ou "Boot Priority"
 3. Coloque **GRUB** ou **Arch Linux** como primeira opção
 4. Salve e reinicie
 
 **Solução 2 - Via efibootmgr:**
-
 ```bash
 # Verificar ordem de boot atual
 efibootmgr -v
@@ -532,10 +536,14 @@ efibootmgr -v
 sudo efibootmgr -o XXXX,YYYY
 ```
 
-### 11.3 Erro "No Bootable Device" ou Windows Sobrescreveu GRUB
+</details>
+
+<details>
+<summary><b>11.3 Erro "No Bootable Device" ou Windows Sobrescreveu GRUB</b></summary>
+
+<br>
 
 **Solução:**
-
 ```bash
 # Boot pelo pendrive do Arch
 mount /dev/sda5 /mnt
@@ -552,12 +560,16 @@ umount -R /mnt
 reboot
 ```
 
-### 11.4 Horário Diferente entre Windows e Linux
+</details>
 
-**Causa**: Windows usa horário local (RTC), Linux usa UTC.
+<details>
+<summary><b>11.4 Horário Diferente entre Windows e Linux</b></summary>
+
+<br>
+
+**Causa:** Windows usa horário local (RTC), Linux usa UTC.
 
 **Solução 1 - Fazer Linux usar horário local (mais simples):**
-
 ```bash
 sudo timedatectl set-local-rtc 1 --adjust-system-clock
 ```
@@ -569,12 +581,16 @@ No Windows, como Administrador:
 reg add "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\TimeZoneInformation" /v RealTimeIsUniversal /d 1 /t REG_DWORD /f
 ```
 
-### 11.5 Não Consigo Acessar Partições do Windows no Arch
+</details>
 
-**Solução**: Veja seção 11.3 sobre como montar partições Windows.
+<details>
+<summary><b>11.5 Não Consigo Acessar Partições do Windows no Arch</b></summary>
+
+<br>
+
+**Solução:** Veja seção 11.3 sobre como montar partições Windows.
 
 Se o problema persistir:
-
 ```bash
 # Verificar se ntfs-3g está instalado
 sudo pacman -S ntfs-3g
@@ -583,12 +599,16 @@ sudo pacman -S ntfs-3g
 sudo mount -t ntfs-3g -o rw,uid=1000,gid=1000 /dev/sda3 /mnt/windows
 ```
 
-### 11.6 Partição EFI Muito Pequena (100MB)
+</details>
 
-**Problema**: Windows criou partição EFI de apenas 100MB, que pode encher rapidamente.
+<details>
+<summary><b>11.6 Partição EFI Muito Pequena (100MB)</b></summary>
+
+<br>
+
+**Problema:** Windows criou partição EFI de apenas 100MB, que pode encher rapidamente.
 
 **Solução 1 - Usar compressão alta no initramfs (Recomendado):**
-
 ```bash
 sudo nano /etc/mkinitcpio.conf
 
@@ -602,7 +622,6 @@ sudo mkinitcpio -P
 ```
 
 **Solução 2 - Manter apenas um kernel:**
-
 ```bash
 # Listar kernels instalados
 pacman -Q | grep linux
@@ -617,6 +636,8 @@ ls /boot
 **Solução 3 - Aumentar partição EFI (Avançado):**
 
 Consulte: [Arch Wiki - EFI System Partition](https://wiki.archlinux.org/title/EFI_system_partition#Enlarge_the_EFI_system_partition)
+
+</details>
 
 ---
 
