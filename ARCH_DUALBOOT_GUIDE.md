@@ -22,9 +22,8 @@
 - [7. Formatação e Montagem](#7-formatação-e-montagem)
 - [8. Continuar com Instalação Base](#8-continuar-com-instalação-base)
 - [9. Configuração do GRUB para Dual-Boot](#9-configuração-do-grub-para-dual-boot)
-- [10. Finalização](#10-finalização)
-- [11. Dicas Importantes](#11-dicas-importantes)
-- [12. Solução de Problemas Dual-Boot](#12-solução-de-problemas-dual-boot)
+- [10. Dicas Importantes](#11-dicas-importantes)
+- [11. Solução de Problemas Dual-Boot](#12-solução-de-problemas-dual-boot)
 - [Apêndice A: Dual-Boot em Discos Separados](#apêndice-a-dual-boot-em-discos-separados)
 
 ---
@@ -457,9 +456,9 @@ Complete as seguintes seções do guia base:
 
 ---
 
-## 11. Dicas Importantes
+## 10. Dicas Importantes
 
-### 11.1 Manutenção do Dual-Boot
+### 10.1 Manutenção do Dual-Boot
 
 1. **Sempre atualize o GRUB após mudanças**:
    ```bash
@@ -476,9 +475,9 @@ Complete as seguintes seções do guia base:
 
 ---
 
-## 12. Solução de Problemas Dual-Boot
+## 11. Solução de Problemas Dual-Boot
 
-### 12.1 GRUB Não Detecta o Windows
+### 11.1 GRUB Não Detecta o Windows
 
 **Solução:**
 
@@ -504,7 +503,7 @@ sudo grub-mkconfig -o /boot/grub/grub.cfg
 # Deve aparecer: "Found Windows Boot Manager..."
 ```
 
-### 12.2 Sistema Boota Direto no Windows
+### 11.2 Sistema Boota Direto no Windows
 
 **Causa**: BIOS está priorizando Windows Boot Manager.
 
@@ -526,7 +525,7 @@ efibootmgr -v
 sudo efibootmgr -o XXXX,YYYY
 ```
 
-### 12.3 Erro "No Bootable Device" ou Windows Sobrescreveu GRUB
+### 11.3 Erro "No Bootable Device" ou Windows Sobrescreveu GRUB
 
 **Solução:**
 
@@ -546,7 +545,7 @@ umount -R /mnt
 reboot
 ```
 
-### 12.4 Horário Diferente entre Windows e Linux
+### 11.4 Horário Diferente entre Windows e Linux
 
 **Causa**: Windows usa horário local (RTC), Linux usa UTC.
 
@@ -563,7 +562,7 @@ No Windows, como Administrador:
 reg add "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\TimeZoneInformation" /v RealTimeIsUniversal /d 1 /t REG_DWORD /f
 ```
 
-### 12.5 Não Consigo Acessar Partições do Windows no Arch
+### 11.5 Não Consigo Acessar Partições do Windows no Arch
 
 **Solução**: Veja seção 11.3 sobre como montar partições Windows.
 
@@ -577,7 +576,7 @@ sudo pacman -S ntfs-3g
 sudo mount -t ntfs-3g -o rw,uid=1000,gid=1000 /dev/sda3 /mnt/windows
 ```
 
-### 12.6 Partição EFI Muito Pequena (100MB)
+### 11.6 Partição EFI Muito Pequena (100MB)
 
 **Problema**: Windows criou partição EFI de apenas 100MB, que pode encher rapidamente.
 
