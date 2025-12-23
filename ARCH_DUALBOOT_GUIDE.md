@@ -22,8 +22,8 @@
 - [7. Formatação e Montagem](#7-formatação-e-montagem)
 - [8. Continuar com Instalação Base](#8-continuar-com-instalação-base)
 - [9. Configuração do GRUB para Dual-Boot](#9-configuração-do-grub-para-dual-boot)
-- [10. Dicas Importantes](#11-dicas-importantes)
-- [11. Solução de Problemas Dual-Boot](#12-solução-de-problemas-dual-boot)
+- [10. Dicas Importantes](#10-dicas-importantes)
+- [11. Solução de Problemas Dual-Boot](#11-solução-de-problemas-dual-boot)
 - [Apêndice A: Dual-Boot em Discos Separados](#apêndice-a-dual-boot-em-discos-separados)
 
 ---
