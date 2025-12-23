@@ -731,8 +731,6 @@ pacman -S archlinux-keyring
 
 ```bash
 pacman -Sy archlinux-keyring
-pacman-key --init
-pacman-key --populate archlinux
 ```
 </details>
 
