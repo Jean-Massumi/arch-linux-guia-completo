@@ -736,26 +736,6 @@ pacman-key --populate archlinux
 ```
 </details>
 
-<details>
-<summary><b>Tela preta após boot</b></summary>
-
-**Solução temporária:**
-1. No menu GRUB, pressione `e`
-2. Na linha com `linux`, adicione: `nomodeset`
-3. Pressione `Ctrl+X` para iniciar
-
-**Solução permanente:**
-```bash
-sudo nano /etc/default/grub
-
-# Adicionar na linha GRUB_CMDLINE_LINUX_DEFAULT
-GRUB_CMDLINE_LINUX_DEFAULT="quiet nomodeset"
-
-# Salvar e atualizar
-sudo grub-mkconfig -o /boot/grub/grub.cfg
-```
-</details>
-
 ---
 
 ## 19. Próximos Passos
