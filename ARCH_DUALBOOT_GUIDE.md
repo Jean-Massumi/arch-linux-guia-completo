@@ -251,12 +251,19 @@ umount /mnt
 
 | Partição | Tamanho | Tipo | Uso |
 |----------|---------|------|-----|
-| sda4 | 8GB | Linux Swap | Memória virtual |
-| sda5 | 40-60GB | Linux filesystem | Raiz (/) |
+| sda4 | Varia | Linux Swap | Memória virtual (veja recomendações abaixo) |
+| sda5 | Varia | Linux filesystem | Raiz (/) - veja recomendações abaixo |
 | sda6 | Resto | Linux filesystem | Home (/home) |
+
+**Recomendações de Tamanho:**
+
+Para **Swap** e **Root (/)**, consulte as tabelas de recomendação em:
+**[ARCH_BASE_INSTALL.md - Seção 4.1](./ARCH_BASE_INSTALL.md#41-recomendações-de-tamanho-de-partições)**
+
 
 ### 6.3 Criar Novas Partições
 
+> **Importante**: Os tamanhos nos exemplos abaixo são sugestões. Ajuste conforme seu perfil de uso (veja seção 6.2).
 ```bash
 # Abrir fdisk no disco (substitua sda pelo seu disco)
 fdisk /dev/sda
@@ -271,21 +278,21 @@ fdisk /dev/sda
 # Verificar partições existentes
 Command (m for help): p
 
-# Criar Partição Swap (8GB)
+# Criar Partição Swap (exemplo: 8GB - ajuste conforme sua RAM)
 Command (m for help): n
 Partition number: 4 (ou próximo número disponível)
 First sector: [Enter] (aceitar padrão)
-Last sector: +8G
+Last sector: +8G    # Ajuste conforme recomendações
 
 Command (m for help): t
 Partition number: 4
 Hex code or alias: 19  (Linux swap)
 
-# Criar Partição Root (60GB)
+# Criar Partição Root (exemplo: 60GB - ajuste conforme seu uso)
 Command (m for help): n
 Partition number: 5
 First sector: [Enter]
-Last sector: +60G
+Last sector: +60G    # Ajuste: 40-50GB (geral), 70-100GB+ (gaming), 50-70GB (dev)
 # Tipo já é Linux filesystem (padrão)
 
 # Criar Partição Home (resto do espaço)
