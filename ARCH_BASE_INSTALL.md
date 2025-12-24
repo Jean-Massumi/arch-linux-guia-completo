@@ -798,13 +798,4 @@ pacman -Sy archlinux-keyring
 
 ### Guia Completo de Pós-Instalação
 
-Para um guia detalhado sobre como configurar seu sistema Arch Linux do zero até um ambiente completo e personalizado, consulte:
-
 **[ARCH_POST_INSTALL.md](./ARCH_POST_INSTALL.md)**
-
-Este guia inclui:
-- Otimizações do sistema
-- Instalação de utilitários essenciais
-- Configuração de AUR helpers
-- Instalação de drivers
-- Temas e personalizações
