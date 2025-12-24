@@ -31,7 +31,6 @@ Guia completo e atualizado para instalação do Arch Linux em português brasile
   - [Pós-Instalação](#pós-instalação)
   - [Ambientes Desktop](#ambientes-desktop-completos)
   - [Aplicativos Recomendados](#aplicativos-recomendados)
-  - [Otimização e Performance](#otimização-e-performance)
   - [Gaming](#gaming)
 - [FAQ](#faq)
 - [Como Contribuir](#como-contribuir)
@@ -50,7 +49,7 @@ Guia completo e atualizado para instalação do Arch Linux em português brasile
 | **Secure Boot** (opcional) | +15-30 min | Configuração de segurança avançada |
 | **Pós-Instalação** | 30-60 min | Drivers, ferramentas essenciais |
 | **Ambiente Desktop** | 30-90 min | GNOME/KDE/Hyprland + customização |
-| **Aplicativos e Otimização** (opcional) | +30-60 min | Instalação de apps e melhorias de performance |
+| **Aplicativos** (opcional) | +15-30 min | Instalação de apps |
 | **TOTAL** | **2-5 horas** | Varia conforme experiência e opções escolhidas |
 
 ---
@@ -133,14 +132,6 @@ Configure antes de instalar ambientes desktop.
 **[RECOMMENDED_APPS.md](./RECOMMENDED_APPS.md)** - Lista de aplicativos essenciais
 
 Navegadores, comunicação, desenvolvimento, multimídia, produtividade etc.
-
----
-
-### Otimização e Performance
-
-**[OPTIMIZATION_GUIDE.md](./OPTIMIZATION_GUIDE.md)** - Melhorias de performance (OPCIONAL)
-
-Configurações para otimizar o sistema: swap, zram, systemd services etc
 
 ---
 
