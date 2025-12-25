@@ -15,8 +15,8 @@
 - [5. Sistema Híbrido (Intel + NVIDIA)](#5-sistema-híbrido-intel--nvidia)
 - [6. Verificação da Instalação](#6-verificação-da-instalação)
 - [7. Problemas Comuns](#7-problemas-comuns)
-- [8. Próximos Passos](#8-próximos-passos)
-- [9. Documentação Oficial](#9-documentação-oficial)
+- [8. Próximos Passos](#próximos-passos)
+- [9. Documentação Oficial](#documentação-oficial)
 
 ---
 
