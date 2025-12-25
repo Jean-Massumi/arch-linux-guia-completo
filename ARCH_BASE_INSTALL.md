@@ -712,6 +712,8 @@ Após reiniciar, você verá:
 <details>
 <summary><b>Sistema não inicializa</b></summary>
 
+<br>
+
 Boot pelo pendrive de instalação e execute:
 
 ```bash
@@ -736,6 +738,8 @@ reboot
 
 <details>
 <summary><b>Sistema não tem internet após instalação</b></summary>
+
+<br>
 
 **Verificar NetworkManager:**
 ```bash
@@ -764,6 +768,8 @@ sudo dhcpcd interface_name
 <details>
 <summary><b>Erro ao instalar pacotes</b></summary>
 
+<br>
+
 **Atualizar mirrors:**
 ```bash
 reflector --latest 10 --country Brazil --sort rate --save /etc/pacman.d/mirrorlist
@@ -782,6 +788,8 @@ pacman -S archlinux-keyring
 
 <details>
 <summary><b>Erro "signature is unknown trust"</b></summary>
+
+<br>
 
 ```bash
 pacman -Sy archlinux-keyring
