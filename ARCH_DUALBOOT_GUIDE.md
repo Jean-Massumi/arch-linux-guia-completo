@@ -455,8 +455,6 @@ Complete as seguintes seções do guia base:
 
 ## 10. Dicas Importantes
 
-### 10.1 Manutenção do Dual-Boot
-
 1. **Sempre atualize o GRUB após mudanças**:
    ```bash
    sudo grub-mkconfig -o /boot/grub/grub.cfg
