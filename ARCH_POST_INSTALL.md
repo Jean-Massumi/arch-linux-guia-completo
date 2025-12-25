@@ -376,26 +376,33 @@ sudo ufw status verbose
 
 ## 7. Backup do Sistema
 
-### 7.1 Timeshift
-
+### Timeshift (Recomendado para todos)
 ```bash
 # Instalar
-yay -S timeshift
+sudo pacman -S timeshift
 
-# Executar
+# Configurar (abre interface gráfica)
 sudo timeshift-gtk
 
-# Configuração recomendada:
-# - Tipo: RSYNC
-# - Agendamento: Semanal
-# - Incluir: Apenas partição raiz (/)
+# Ou via terminal:
+sudo timeshift --create --comments "Primeiro snapshot" --tags D
 ```
 
-### 7.2 Criar Primeiro Snapshot
+**Configuração inicial no Timeshift:**
+1. Escolha o tipo: **RSYNC** (ext4) ou **BTRFS** (se usar Btrfs)
+2. Selecione o disco de destino
+3. Configure a frequência (diária, semanal, mensal)
+4. **Faça backup apenas de `/` (raiz)** - não inclua `/home` para economizar espaço
 
+**Restaurar sistema:**
 ```bash
-sudo timeshift --create --comments "Instalação base completa" --tags D
+sudo timeshift --restore
+# Ou pela interface gráfica
 ```
+
+**Limpeza de snapshots:**
+- **Automática**: Timeshift deleta snapshots antigos automaticamente conforme a política configurada (ex: manter apenas 5 diários, 3 semanais)
+- **Manual**: Você pode deletar snapshots específicos pela interface ou com `sudo timeshift --delete --snapshot 'nome'`
 
 ---
 
