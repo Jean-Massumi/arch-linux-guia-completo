@@ -473,7 +473,7 @@ Complete as seguintes seções do guia base:
 ## 11. Solução de Problemas Dual-Boot
 
 <details>
-<summary><b>11.1 GRUB Não Detecta o Windows</b></summary>
+<summary><b>GRUB Não Detecta o Windows</b></summary>
 
 <br>
 
@@ -502,7 +502,7 @@ sudo grub-mkconfig -o /boot/grub/grub.cfg
 </details>
 
 <details>
-<summary><b>11.2 Sistema Boota Direto no Windows</b></summary>
+<summary><b>Sistema Boota Direto no Windows</b></summary>
 
 <br>
 
@@ -527,7 +527,7 @@ sudo efibootmgr -o XXXX,YYYY
 </details>
 
 <details>
-<summary><b>11.3 Erro "No Bootable Device" ou Windows Sobrescreveu GRUB</b></summary>
+<summary><b>Erro "No Bootable Device" ou Windows Sobrescreveu GRUB</b></summary>
 
 <br>
 
@@ -551,7 +551,7 @@ reboot
 </details>
 
 <details>
-<summary><b>11.4 Horário Diferente entre Windows e Linux</b></summary>
+<summary><b>Horário Diferente entre Windows e Linux</b></summary>
 
 <br>
 
@@ -572,7 +572,7 @@ reg add "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\TimeZoneInformation
 </details>
 
 <details>
-<summary><b>11.5 Não Consigo Acessar Partições do Windows no Arch</b></summary>
+<summary><b>Não Consigo Acessar Partições do Windows no Arch</b></summary>
 
 <br>
 
@@ -590,7 +590,7 @@ sudo mount -t ntfs-3g -o rw,uid=1000,gid=1000 /dev/sda3 /mnt/windows
 </details>
 
 <details>
-<summary><b>11.6 Partição EFI Muito Pequena (100MB)</b></summary>
+<summary><b>Partição EFI Muito Pequena (100MB)</b></summary>
 
 <br>
 
