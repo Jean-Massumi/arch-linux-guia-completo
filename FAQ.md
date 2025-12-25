@@ -15,6 +15,8 @@
 <details>
 <summary><b>Quanto tempo leva a instalação completa?</b></summary>
 
+<br>
+ 
 Entre 2 a 5 horas, dependendo de:
 - Sua experiência com Linux
 - Velocidade da internet
@@ -25,6 +27,8 @@ Entre 2 a 5 horas, dependendo de:
 <details>
 <summary><b>Quais são os requisitos mínimos de hardware?</b></summary>
 
+<br>
+ 
 **Mínimo:**
 - Processador: x86_64 (64 bits)
 - RAM: 4GB (recomendado 8GB+)
@@ -39,18 +43,24 @@ Entre 2 a 5 horas, dependendo de:
 <details>
 <summary><b>Preciso de internet durante a instalação?</b></summary>
 
+<br>
+ 
 Sim, é obrigatório. O Arch baixa todos os pacotes diretamente dos repositórios durante a instalação. Certifique-se de ter uma conexão estável.
 </details>
 
 <details>
 <summary><b>Posso instalar o Arch em uma máquina virtual primeiro?</b></summary>
 
+<br>
+ 
 Sim! É altamente recomendado para iniciantes. Use VirtualBox ou VMware para praticar antes de instalar no hardware real.
 </details>
 
 <details>
 <summary><b>Devo fazer backup antes de instalar?</b></summary>
 
+<br>
+ 
 **SIM!** Sempre faça backup completo, especialmente em dual-boot. O particionamento pode causar perda de dados se feito incorretamente.
 </details>
 
@@ -61,6 +71,8 @@ Sim! É altamente recomendado para iniciantes. Use VirtualBox ou VMware para pra
 <details>
 <summary><b>Qual ambiente desktop devo escolher?</b></summary>
 
+<br>
+ 
 **GNOME:** Moderno, intuitivo, melhor para iniciantes
 **KDE Plasma:** Altamente customizável, rico em recursos
 **Hyprland:** Leve e rápido, requer conhecimento intermediário
@@ -71,6 +83,8 @@ Você pode instalar múltiplos e alternar entre eles.
 <details>
 <summary><b>UEFI ou BIOS? Qual escolher?</b></summary>
 
+<br>
+ 
 Depende do seu hardware:
 - Computadores modernos (2012+): Geralmente UEFI
 - Computadores antigos: BIOS Legacy
@@ -83,6 +97,8 @@ Para verificar: `ls /sys/firmware/efi/efivars`
 <details>
 <summary><b>Qual esquema de particionamento usar?</b></summary>
 
+<br>
+ 
 **Para UEFI:**
 - EFI System Partition (ESP): 512MB-1GB (FAT32)
 - Root (/): 30GB+ (ext4 ou btrfs)
@@ -98,6 +114,8 @@ Para verificar: `ls /sys/firmware/efi/efivars`
 <details>
 <summary><b>Encontrei erro ao instalar pacotes, o que fazer?</b></summary>
 
+<br>
+ 
 Soluções comuns:
 1. Atualize os mirrors: `reflector --latest 10 --sort rate --save /etc/pacman.d/mirrorlist`
 2. Sincronize bancos de dados: `pacman -Syy`
@@ -111,6 +129,8 @@ Soluções comuns:
 <details>
 <summary><b>Posso instalar junto com Windows (dual-boot)?</b></summary>
 
+<br>
+ 
 Sim! Pontos importantes:
 - Faça backup completo antes
 - Desabilite Fast Boot no Windows
@@ -123,6 +143,8 @@ Sim! Pontos importantes:
 <details>
 <summary><b>O GRUB não detecta o Windows, o que fazer?</b></summary>
 
+<br>
+ 
 Execute:
 ```bash
 sudo pacman -S os-prober
@@ -136,6 +158,8 @@ Se ainda não funcionar, consulte TROUBLESHOOTING.md
 <details>
 <summary><b>Posso instalar o Arch depois do Windows?</b></summary>
 
+<br>
+ 
 Sim, é o método recomendado. Instale sempre o Windows primeiro, depois o Arch. O GRUB detectará o Windows automaticamente.
 </details>
 
@@ -146,6 +170,8 @@ Sim, é o método recomendado. Instale sempre o Windows primeiro, depois o Arch.
 <details>
 <summary><b>Preciso configurar Secure Boot?</b></summary>
 
+<br>
+ 
 Não é obrigatório. Configure apenas se:
 - Você tem necessidade específica de segurança
 - Quer manter dual-boot com Windows 11 (que exige Secure Boot)
@@ -157,12 +183,16 @@ O sistema funciona perfeitamente sem Secure Boot.
 <details>
 <summary><b>Quando configurar Secure Boot?</b></summary>
 
+<br>
+ 
 Configure APÓS a instalação base estar funcionando e ANTES de instalar drivers e ambientes desktop. Isso facilita troubleshooting e evita conflitos.
 </details>
 
 <details>
 <summary><b>Secure Boot funciona com drivers NVIDIA?</b></summary>
 
+<br>
+ 
 Sim, mas requer assinatura dos módulos do kernel. O guia ARCH_SECURE_BOOT_GUIDE.md cobre este processo.
 </details>
 
@@ -173,6 +203,8 @@ Sim, mas requer assinatura dos módulos do kernel. O guia ARCH_SECURE_BOOT_GUIDE
 <details>
 <summary><b>O sistema não tem internet após instalação, o que fazer?</b></summary>
 
+<br>
+ 
 **Para WiFi:**
 ```bash
 nmcli device wifi list
@@ -188,11 +220,16 @@ sudo systemctl enable --now NetworkManager
 <details>
 <summary><b>Posso mudar de ambiente desktop depois?</b></summary>
 
+<br>
+ 
 Sim! Você pode instalar múltiplos ambientes e alternar no login. Para remover um ambiente antigo, desinstale seus pacotes com `pacman -Rns`.
 </details>
 
 <details>
 <summary><b>Como atualizar o sistema?</b></summary>
+
+<br>
+ 
 ```bash
 sudo pacman -Syu
 ```
@@ -203,6 +240,8 @@ Faça isso regularmente. O Arch é rolling release, então sempre há atualizaç
 <details>
 <summary><b>Devo instalar um AUR helper?</b></summary>
 
+<br>
+ 
 Recomendado: `yay` ou `paru`. Facilitam a instalação de pacotes do AUR.
 ```bash
 sudo pacman -S --needed git base-devel
@@ -219,12 +258,16 @@ makepkg -si
 <details>
 <summary><b>O Arch Linux é difícil?</b></summary>
 
+<br>
+ 
 O Arch tem reputação de ser difícil, mas com guias passo a passo, qualquer pessoa com conhecimento básico de Linux pode instalá-lo. A dificuldade está mais na quantidade de decisões do que na complexidade técnica.
 </details>
 
 <details>
 <summary><b>Por que escolher Arch Linux?</b></summary>
 
+<br>
+ 
 - Controle total sobre o sistema
 - Rolling release: sempre atualizado
 - Arch Wiki: melhor documentação do mundo Linux
@@ -236,6 +279,8 @@ O Arch tem reputação de ser difícil, mas com guias passo a passo, qualquer pe
 <details>
 <summary><b>O que é "rolling release"?</b></summary>
 
+<br>
+ 
 Significa que você recebe atualizações contínuas sem precisar reinstalar o sistema. Não existem "versões" como Ubuntu 22.04, 24.04. Você instala uma vez e atualiza sempre.
 </details>
 
