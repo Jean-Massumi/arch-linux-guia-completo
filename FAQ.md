@@ -286,5 +286,7 @@ Significa que você recebe atualizações contínuas sem precisar reinstalar o s
 <details>
 <summary><b>Preciso reinstalar o Arch periodicamente?</b></summary>
 
+<br>
+ 
 Não! Devido ao modelo rolling release, você mantém o sistema sempre atualizado com `pacman -Syu`. Muitos usuários têm instalações com anos sem reinstalação.
 </details>
