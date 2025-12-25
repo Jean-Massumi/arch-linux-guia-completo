@@ -15,6 +15,8 @@
 - [5. Sistema Híbrido (Intel + NVIDIA)](#5-sistema-híbrido-intel--nvidia)
 - [6. Verificação da Instalação](#6-verificação-da-instalação)
 - [7. Problemas Comuns](#7-problemas-comuns)
+- [8. Próximos Passos](#8-próximos-passos)
+- [9. Documentação Oficial](#9-documentação-oficial)
 
 ---
 
@@ -520,8 +522,11 @@ glxinfo | grep -i "opengl"
 
 ## 7. Problemas Comuns
 
-### 7.1 GPU Não Detectada
+<details>
+<summary>GPU Não Detectada</summary>
 
+<br>
+    
 ```bash
 # Reinstalar drivers
 sudo pacman -S --overwrite '*' mesa  # Intel/AMD
@@ -533,17 +538,19 @@ sudo mkinitcpio -P
 # Reiniciar
 sudo reboot
 ```
+</details>
 
-### 7.2 NVIDIA: Tela Preta Após Boot
+<details>
+<summary>NVIDIA: Tela Preta Após Boot</summary>
 
+<br>
+    
 **Solução 1: Adicionar nomodeset temporariamente**
-
 1. No menu GRUB, pressione `e` para editar
 2. Adicione `nomodeset` no final da linha `linux`
 3. Pressione `Ctrl+X` para boot
 
 **Solução 2: Verificar configuração**
-
 ```bash
 # Verificar módulos no mkinitcpio
 sudo nano /etc/mkinitcpio.conf
@@ -558,21 +565,28 @@ sudo mkinitcpio -P
 sudo grub-mkconfig -o /boot/grub/grub.cfg
 sudo reboot
 ```
+</details>
 
-### 7.3 NVIDIA: Performance Baixa
+<details>
+<summary>NVIDIA: Performance Baixa</summary>
 
+<br>
+    
 ```bash
 # Verificar se está usando GPU correta
 glxinfo | grep "OpenGL renderer"
-
 # Deve mostrar NVIDIA, não Intel ou software
 
 # Forçar uso da NVIDIA
 __NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia glxinfo | grep "OpenGL renderer"
 ```
+</details>
 
-### 7.4 AMD: Performance Baixa ou Travamentos
+<details>
+<summary>AMD: Performance Baixa ou Travamentos</summary>
 
+<br>
+    
 ```bash
 # Verificar módulo carregado
 lsmod | grep amdgpu
@@ -583,12 +597,15 @@ sudo modprobe amdgpu
 # Adicionar ao initramfs
 sudo nano /etc/mkinitcpio.conf
 # MODULES=(amdgpu)
-
 sudo mkinitcpio -P
 sudo reboot
 ```
+</details>
 
-### 7.5 Intel: Tearing (Imagem Rasgada)
+<details>
+<summary>Intel: Tearing (Imagem Rasgada)</summary>
+
+<br>
 
 ```bash
 # Criar configuração Intel
@@ -605,21 +622,16 @@ EndSection
 ```
 
 **Salvar e reiniciar**
+</details>
 
 ---
 
 ## Próximos Passos
 
-Com os drivers de GPU instalados, você está pronto para:
-
-1. **Instalar ambiente desktop/window manager:**
+**Instalar ambiente desktop/window manager:**
    - [Guia GNOME](./GNOME_COMPLETE_SETUP.md)
    - [Guia KDE Plasma](./KDE_COMPLETE_SETUP.md)
    - [Guia Hyprland](./HYPRLAND_COMPLETE_SETUP.md)
-
-2. **Configurar sistema de áudio** (PipeWire/PulseAudio)
-
-3. **Instalar aplicações essenciais**
 
 ---
 
