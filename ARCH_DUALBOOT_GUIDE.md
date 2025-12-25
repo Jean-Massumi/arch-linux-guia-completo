@@ -30,22 +30,12 @@
 
 ## Diferenças do Dual-Boot
 
-O processo de dual-boot difere da instalação padrão nos seguintes pontos:
-
 **O que é DIFERENTE no dual-boot:**
 
 1. **Partição EFI**: Você vai REUTILIZAR a partição EFI do Windows (não criar uma nova)
 2. **Particionamento**: Você vai criar partições no espaço livre (não apagar tudo)
 3. **GRUB**: Precisa detectar e adicionar o Windows ao menu de boot
 4. **Cuidados especiais**: Fast Boot, Secure Boot e BitLocker precisam ser desabilitados
-
-**O que é IGUAL à instalação padrão:**
-
-- Configuração de teclado e internet
-- Instalação do sistema base
-- Configuração de idioma, fuso horário e usuários
-- Instalação de drivers e NetworkManager
-- Todo o processo pós-instalação
 
 **Para tudo que não está especificamente listado neste guia de dual-boot, siga o [Guia de Instalação Base](./ARCH_BASE_INSTALL.md) normalmente.**
 
