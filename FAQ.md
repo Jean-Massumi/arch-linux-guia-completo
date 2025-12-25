@@ -152,7 +152,6 @@ sudo os-prober
 sudo grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
-Se ainda não funcionar, consulte TROUBLESHOOTING.md
 </details>
 
 <details>
