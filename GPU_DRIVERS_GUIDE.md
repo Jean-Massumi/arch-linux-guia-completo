@@ -70,43 +70,50 @@ lspci -v | grep -A 10 "VGA"
 inxi -G
 ```
 
-### 1.4 Instalar Ferramentas de Verificação
-````bash
-# Ferramentas para testar drivers (necessário para verificações posteriores)
-sudo pacman -S mesa-utils vulkan-tools
-````
-
-Essas ferramentas serão usadas para verificar se os drivers foram instalados corretamente.
-
 ---
 
 ## 2. Intel Integrado
 
 **Para GPUs Intel (HD Graphics, UHD Graphics, Iris, Iris Xe):**
 
-### 2.1 Instalação
-
+### 2.1 Instalação Básica
 ```bash
-# Drivers Mesa para Intel (OpenGL e Vulkan)
-sudo pacman -S mesa lib32-mesa vulkan-intel lib32-vulkan-intel
+# Driver OpenGL (obrigatório)
+sudo pacman -S mesa
 
-# Aceleração de vídeo
-sudo pacman -S intel-media-driver libva-intel-driver
+# Driver Vulkan (para jogos modernos e aplicações 3D)
+sudo pacman -S vulkan-intel
 ```
 
-### 2.2 Verificação
+### 2.2 Aceleração de Vídeo
 
+**Reduz uso de CPU ao assistir vídeos (YouTube, Netflix, etc).**
+
+**Escolha conforme sua GPU:**
+
+**GPUs Broadwell (2014) e mais recentes:**
 ```bash
-# Verificar OpenGL
-glxinfo | grep "OpenGL renderer"
-# Saída esperada: Mesa Intel...
-
-# Verificar Vulkan
-vulkaninfo | grep "deviceName"
-# Saída esperada: Intel...
+sudo pacman -S intel-media-driver
 ```
 
-**Pronto!** Sistema Intel está configurado. Você pode prosseguir para instalar o ambiente desktop.
+**GPUs Haswell (2013) e mais antigas:**
+```bash
+sudo pacman -S libva-intel-driver
+```
+
+> **Na dúvida?** Instale `intel-media-driver` - funciona para a maioria das GPUs modernas.
+
+### 2.3 Suporte 32-bit (Opcional)
+
+**Necessário APENAS para:**
+- Jogos antigos 32-bit
+- Steam (alguns jogos ainda são 32-bit)
+- Wine/Proton com aplicações 32-bit
+```bash
+sudo pacman -S lib32-mesa lib32-vulkan-intel
+```
+
+> **Se você não joga ou usa apenas aplicações 64-bit, pode pular esta etapa.**
 
 ---
 
@@ -114,36 +121,35 @@ vulkaninfo | grep "deviceName"
 
 **Para GPUs AMD (Radeon, RX 5000/6000/7000 Series, APUs Ryzen com gráficos integrados):**
 
-### 3.1 Instalação
 
+### 3.1 Drivers Essenciais
 ```bash
-# Drivers Mesa para AMD (OpenGL e Vulkan)
-sudo pacman -S mesa lib32-mesa vulkan-radeon lib32-vulkan-radeon
+# Driver OpenGL (obrigatório)
+sudo pacman -S mesa
 
-# Aceleração de vídeo
-sudo pacman -S libva-mesa-driver lib32-libva-mesa-driver
+# Driver Vulkan (jogos modernos e performance máxima)
+sudo pacman -S vulkan-radeon
 ```
 
-**Nota sobre drivers Vulkan AMD:**
-- `vulkan-radeon` (RADV): Driver open-source da Mesa (recomendado)
+> **Por que Vulkan?** A maioria dos jogos modernos usa Vulkan para melhor performance. Steam/Proton também requer Vulkan.
 
-### 3.2 Verificação
+### 3.2 Aceleração de Vídeo (Opcional)
 
+**Reduz uso de CPU ao assistir vídeos (YouTube, Netflix, OBS):**
 ```bash
-# Verificar OpenGL
-glxinfo | grep "OpenGL renderer"
-# Saída esperada: AMD Radeon...
-
-# Verificar Vulkan
-vulkaninfo | grep "deviceName"
-# Saída esperada: AMD...
-
-# Verificar módulo do kernel
-lsmod | grep amdgpu
-# Deve aparecer: amdgpu
+sudo pacman -S libva-mesa-driver
 ```
 
-**Pronto!** Sistema AMD está configurado. Você pode prosseguir para instalar o ambiente desktop.
+> **Pule se:** Não assiste vídeos ou não se importa com economia de energia.
+
+### 3.3 Suporte 32-bit (Para Jogos)
+
+**Steam, Proton, Wine e jogos 32-bit:**
+```bash
+sudo pacman -S lib32-mesa lib32-vulkan-radeon lib32-libva-mesa-driver
+```
+
+> **Pule se:** Não joga ou usa apenas aplicações 64-bit nativas.
 
 ---
 
@@ -153,15 +159,14 @@ lsmod | grep amdgpu
 
 ### 4.1 Passo 1: Escolha e Instale os Drivers
 
-**Se instalou APENAS 1 kernel (linux OU linux-lts):**
 ```bash
-# Drivers NVIDIA open-source (RTX 20xx, 30xx, 40xx, GTX 16xx)
+OPÇÃO 1: Se instalou APENAS o kernel linux (padrão):
 sudo pacman -S nvidia-open nvidia-utils lib32-nvidia-utils nvidia-settings
-```
 
-**Se instalou 2 kernels (linux + linux-lts):**
-```bash
-# Drivers NVIDIA com DKMS (compila para ambos os kernels automaticamente)
+OPÇÃO 2: Se instalou APENAS o kernel linux-lts:
+sudo pacman -S nvidia-open-lts nvidia-utils lib32-nvidia-utils nvidia-settings
+
+OPÇÃO 3: Se instalou 2+ kernels OU usa kernel customizado (zen, hardened, etc):
 sudo pacman -S nvidia-open-dkms nvidia-utils lib32-nvidia-utils nvidia-settings
 ```
 
@@ -236,22 +241,15 @@ GRUB_CMDLINE_LINUX_DEFAULT="quiet splash zswap.enabled=1 zswap.compressor=zstd z
 sudo grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
-### 4.6 Passo 6: Suporte Wayland (Se for usar Hyprland/Sway)
-
-```bash
-# Suporte EGL para Wayland
-sudo pacman -S egl-wayland
-```
-
 **Nota:** Se for usar Xorg (GNOME X11, KDE X11), este passo é opcional.
 
-### 4.7 Passo 7: Reiniciar
+### 4.6 Passo 7: Reiniciar
 
 ```bash
 sudo reboot
 ```
 
-### 4.8 Verificação
+### 4.7 Verificação
 
 **Após reiniciar:**
 
@@ -263,15 +261,11 @@ nvidia-smi
 # Verificar módulos
 lsmod | grep nvidia
 # Deve listar: nvidia, nvidia_drm, nvidia_modeset, nvidia_uvm
-
-# Verificar OpenGL
-glxinfo | grep "OpenGL renderer"
-# Saída esperada: NVIDIA...
 ```
 
 **Pronto!** Sistema NVIDIA está configurado. Você pode prosseguir para instalar o ambiente desktop.
 
-### 4.9 Drivers Open-Source (Nouveau)
+### 4.8 Drivers Open-Source (Nouveau)
 
 **Alternativa aos drivers proprietários NVIDIA.**
 
@@ -286,13 +280,13 @@ glxinfo | grep "OpenGL renderer"
 - Hardware muito recente
 
 **Instalação:**
-````bash
+```bash
 # Drivers Nouveau (open-source)
 sudo pacman -S mesa lib32-mesa xf86-video-nouveau
 
 # Aceleração de vídeo
 sudo pacman -S libva-mesa-driver lib32-libva-mesa-driver
-````
+```
 
 **Nota**: Se você instalou drivers proprietários NVIDIA antes, remova-os primeiro:
 ````bash
@@ -301,13 +295,13 @@ sudo reboot
 ````
 
 **Verificação:**
-````bash
+```bash
 lsmod | grep nouveau
 # Deve aparecer: nouveau
 
 glxinfo | grep "OpenGL renderer"
 # Saída: Nouveau...
-````
+```
 
 **Limitações conhecidas:**
 - Performance 50-70% inferior aos drivers proprietários
@@ -320,19 +314,19 @@ glxinfo | grep "OpenGL renderer"
 
 **Para laptops com GPU integrada Intel + GPU dedicada NVIDIA (Tecnologia Optimus):**
 
-### 5.1 Passo 1: Instalar Drivers Intel
+### 5.1 Passo 1: Instalar Drivers da GPU Integrada
 
-```bash
-# Drivers Mesa para Intel
-sudo pacman -S mesa lib32-mesa vulkan-intel lib32-vulkan-intel
-```
+**Instale os drivers conforme sua GPU integrada:**
+
+- **Se for Intel:** Siga as instruções da [Seção 2 - Intel Integrado](#2-intel-integrado)
+- **Se for AMD:** Siga as instruções da [Seção 3 - AMD](#3-amd)
 
 ### 5.2 Passo 2: Instalar Drivers NVIDIA
 
-```bash
-# Drivers proprietários NVIDIA
-sudo pacman -S nvidia nvidia-utils lib32-nvidia-utils nvidia-settings
-```
+**Siga as instruções da [Seção 4.1 - Escolha e Instale os Drivers](#41-passo-1-escolha-e-instale-os-drivers)**
+
+> Escolha a opção correta conforme seu(s) kernel(s): `nvidia-open`, `nvidia-open-lts` ou `nvidia-open-dkms`.
+
 
 ### 5.3 Passo 3: Configurar Módulos do Kernel
 
@@ -354,9 +348,16 @@ options nvidia_drm modeset=1 fbdev=1
 sudo nano /etc/mkinitcpio.conf
 ```
 
-**Modificar MODULES:**
+**Modificar MODULES conforme sua GPU integrada:**
+
+**Para Intel + NVIDIA:**
 ```
 MODULES=(i915 nvidia nvidia_modeset nvidia_uvm nvidia_drm)
+```
+
+**Para AMD + NVIDIA:**
+```
+MODULES=(amdgpu nvidia nvidia_modeset nvidia_uvm nvidia_drm)
 ```
 
 **Salvar e sair**
@@ -400,75 +401,54 @@ GRUB_CMDLINE_LINUX_DEFAULT="quiet splash zswap.enabled=1 zswap.compressor=zstd z
 sudo grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
-### 5.6 Passo 6: Suporte Wayland
-
+### 5.6 Passo 6: Instalar nvidia-prime
 ```bash
-sudo pacman -S egl-wayland
+sudo pacman -S nvidia-prime
 ```
 
-### 5.7 Passo 7: Reiniciar
+> **O que é?** Fornece o comando `prime-run` para usar a GPU NVIDIA facilmente.
 
+### 5.7 Passo 7: Reiniciar
 ```bash
 sudo reboot
 ```
 
 ### 5.8 Usando as Duas GPUs
 
-**Por padrão, o sistema usará a GPU Intel (economia de energia).**
+**Por padrão, o sistema usará a GPU integrada (economia de energia).**
 
-**Para rodar aplicação específica na GPU NVIDIA:**
-
+**Para rodar aplicação na GPU NVIDIA:**
 ```bash
-# Usar GPU NVIDIA para um programa
-__NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia nome_do_programa
+prime-run nome_do_programa
 ```
 
 **Exemplos:**
-
 ```bash
-# Firefox com GPU NVIDIA
-__NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia firefox
-
-# Steam com GPU NVIDIA
-__NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia steam
-
-# Verificar qual GPU está sendo usada
-__NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia glxinfo | grep "OpenGL renderer"
+prime-run firefox
+prime-run steam
+prime-run glxinfo | grep "OpenGL renderer"  # Verificar
 ```
 
-**Para sempre usar NVIDIA (não recomendado - gasta mais bateria):**
-
+**Para sempre usar NVIDIA (não recomendado - gasta muito mais bateria):**
 ```bash
-# Adicionar ao .bashrc
 echo 'export __NV_PRIME_RENDER_OFFLOAD=1' >> ~/.bashrc
 echo 'export __GLX_VENDOR_LIBRARY_NAME=nvidia' >> ~/.bashrc
-
-# Recarregar
 source ~/.bashrc
 ```
 
 ### 5.9 Verificação
-
 ```bash
-# Verificar ambas GPUs estão carregadas
+# Verificar ambas GPUs detectadas
 lspci | grep -E "VGA|3D"
 
-# Verificar módulos Intel
-lsmod | grep i915
-
-# Verificar módulos NVIDIA
-lsmod | grep nvidia
-
-# Ver qual GPU está ativa
+# GPU padrão (integrada)
 glxinfo | grep "OpenGL renderer"
-# Padrão: Intel
 
-# Forçar NVIDIA e verificar
-__NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia glxinfo | grep "OpenGL renderer"
-# Deve mostrar: NVIDIA
+# Testar NVIDIA
+prime-run glxinfo | grep "OpenGL renderer"
 ```
 
-**Pronto!** Sistema híbrido está configurado. Você pode prosseguir para instalar o ambiente desktop.
+> **Mais testes?** Veja [Seção 6 - Verificação Completa](#6-verificação-da-instalação)
 
 ---
 
@@ -477,7 +457,6 @@ __NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia glxinfo | grep "Ope
 ### 6.1 Comandos Universais
 
 **Funcionam para Intel, AMD e NVIDIA:**
-
 ```bash
 # Verificar OpenGL
 glxinfo | grep "OpenGL renderer"
