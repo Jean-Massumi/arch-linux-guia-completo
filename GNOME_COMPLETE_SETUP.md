@@ -72,20 +72,7 @@ sudo pacman -S totem
 
 ## 4. Temas e Ícones
 
-### 4.1 Buscar Temas e Ícones Disponíveis
-
-```bash
-# Buscar temas GTK
-pacman -Ss gtk-theme
-
-# Buscar pacotes de ícones
-pacman -Ss icon-theme
-
-# Buscar temas de cursor
-pacman -Ss cursor-theme
-```
-
-### 4.2 Temas Populares (Exemplos)
+### 4.1 Temas Populares (Exemplos)
 
 ```bash
 # Ícones modernos
@@ -95,7 +82,7 @@ sudo pacman -S papirus-icon-theme
 sudo pacman -S breeze
 ```
 
-### 4.3 Aplicar Temas
+### 4.2 Aplicar Temas
 
 1. Abra `gnome-tweaks`
 2. Vá em "Aparência"
@@ -104,8 +91,6 @@ sudo pacman -S breeze
 > **Dica**: Você também pode baixar temas de sites como [gnome-look.org](https://www.gnome-look.org) e extrair em `~/.themes` (temas GTK) ou `~/.icons` (ícones).
 
 ---
-
-
 
 ## 5. Ativação e Primeiro Boot
 
