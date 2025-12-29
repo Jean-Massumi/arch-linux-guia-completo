@@ -275,21 +275,6 @@ gnome-tweaks
 
 </details>
 
-<details>
-<summary><b>Ícones da bandeja do sistema não aparecem</b></summary>
-
-<br>
-
-```bash
-# Instalar extensão AppIndicator
-# Via extensions.gnome.org ou:
-yay -S gnome-shell-extension-appindicator
-
-# Ativar via gnome-tweaks → Extensões
-```
-
-</details>
-
 ---
 
 ## 9. Verificação Final
