@@ -245,7 +245,7 @@ xdg-user-dirs-update
 
 ```bash
 # Codecs essenciais
-sudo pacman -S ffmpeg
+sudo pacman -S ffmpeg gst-libav gst-plugins-good gst-plugins-bad gst-plugins-ugly gst-plugins-base gstreamer x264 x265 libde265 libva-mesa-driver
 
 # Fontes essenciais
 sudo pacman -S noto-fonts noto-fonts-emoji ttf-dejavu ttf-liberation ttf-font-awesome ttf-roboto
@@ -352,13 +352,8 @@ yay -Syu
 # Instalar UFW
 sudo pacman -S ufw
 
-# Bloquear todas as conexões vindas de fora
-sudo ufw default deny incoming
-# Saída: Default incoming policy changed to 'deny'
-
-# Permitir todas as conexões saindo do seu PC
-sudo ufw default allow outgoing
-# Saída: Default outgoing policy changed to 'allow'
+# Instalar GUFW - interface gráfica para UFW
+sudo pacman -S gufw
 
 # Ativar o firewall (responder 'y')
 sudo ufw enable
