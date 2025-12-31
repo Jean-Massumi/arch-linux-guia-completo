@@ -256,25 +256,6 @@ sudo pacman -S gnome-browser-connector
 
 </details>
 
-<details>
-<summary><b>Performance ruim / lag</b></summary>
-
-<br>
-
-**Desabilitar animações:**
-```bash
-gnome-tweaks
-# Geral → Animações → Desabilitar
-```
-
-**Reduzir extensões:**
-- Desative extensões desnecessárias em `gnome-tweaks` → Extensões
-
-**Verificar drivers de GPU:**
-- Consulte: [GPU_DRIVERS_GUIDE.md](./GPU_DRIVERS_GUIDE.md)
-
-</details>
-
 ---
 
 ## 9. Verificação Final
