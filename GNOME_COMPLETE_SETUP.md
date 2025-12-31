@@ -112,7 +112,7 @@ Após reiniciar:
    - Digite sua senha
    - Clique no ícone de **engrenagem** (canto inferior direito) para escolher:
      - **GNOME** (Wayland - padrão)
-     - **GNOME on Xorg** (se Xorg estiver instalado)
+     - **GNOME CLASSIC**
 
 2. **Tour inicial** (primeira vez)
    - Configuração de idioma e região
