@@ -34,9 +34,6 @@ Este guia assume que você completou o [Guia Essencial de Pós-Instalação](./A
 ```bash
 # Instalação completa recomendada
 sudo pacman -S gnome gnome-extra
-
-# Display Manager (tela de login gráfica)
-sudo pacman -S gdm
 ```
 
 ---
@@ -44,9 +41,6 @@ sudo pacman -S gdm
 ## 2. Ferramentas de Personalização
 
 ```bash
-# Tweaks (configurações avançadas - ESSENCIAL)
-sudo pacman -S gnome-tweaks
-
 # Suporte a extensões via navegador
 # Permite instalar extensões diretamente do site extensions.gnome.org
 sudo pacman -S gnome-browser-connector
