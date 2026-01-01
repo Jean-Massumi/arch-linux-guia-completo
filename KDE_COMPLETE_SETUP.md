@@ -5,9 +5,6 @@
 ```bash
 # Grupo KDE Plasma
 sudo pacman -S plasma kde-applications
-
-# OU instalação mínima
-sudo pacman -S plasma-desktop sddm dolphin konsole
 ```
 
 ### 6.2 Ativação do SDDM
