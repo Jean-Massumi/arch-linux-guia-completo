@@ -188,10 +188,10 @@ sudo systemctl start fstrim.timer
 
 ```bash
 # Compilação (necessário para AUR)
-sudo pacman -S base-devel git
+sudo pacman -S git
 
 # Compressão e arquivos
-sudo pacman -S zip unzip p7zip unrar tar
+sudo pacman -S zip unzip p7zip unrar
 
 # Rede e download
 sudo pacman -S wget curl rsync
