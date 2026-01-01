@@ -60,6 +60,9 @@ sudo pacman -S gedit
 
 # Player de vídeo nativo GNOME
 sudo pacman -S totem
+
+# Gerenciamento de energia
+sudo pacman -S gnome-power-manager
 ```
 
 ---
