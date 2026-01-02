@@ -191,7 +191,7 @@ sudo systemctl start fstrim.timer
 sudo pacman -S git
 
 # Compressão e arquivos
-sudo pacman -S zip unzip p7zip unrar
+sudo pacman -S zip unzip p7zip unrar tar
 
 # Rede e download
 sudo pacman -S wget curl rsync
@@ -303,19 +303,6 @@ sudo pacman -S gutenprint foomatic-db foomatic-db-engine
 
 **Nota**: Ferramentas de configuração gráfica (system-config-printer, print-manager) 
 serão instaladas junto com o ambiente desktop.
-
-### 4.3 Drivers de GPU
-
-Para instalação de drivers de vídeo (Intel, AMD, NVIDIA), consulte:
-
-**[Guia Completo de Drivers de GPU](./GPU_DRIVERS_GUIDE.md)**
-
-Este guia cobre:
-- Identificação do hardware
-- Drivers Intel (mesa + vulkan-intel)
-- Drivers AMD (mesa + vulkan-radeon)
-- Drivers NVIDIA (proprietários + open-source)
-- Configurações e troubleshooting
 
 ---
 
