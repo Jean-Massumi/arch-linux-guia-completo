@@ -163,36 +163,36 @@ gnome-tweaks
 
 ## 7. Atalhos de Teclado
 
-### 7.1 Atalhos Essenciais
+O GNOME possui diversos atalhos de teclado que facilitam a navegação e aumentam sua produtividade. No entanto, os atalhos podem variar dependendo da versão do GNOME instalada, configurações personalizadas e até mesmo do idioma do sistema.
 
-| Atalho | Ação |
-|--------|------|
-| `Super` | Abrir Activities (visão geral) |
-| `Super + A` | Mostrar aplicações |
-| `Super + L` | Bloquear tela |
-| `Super + D` | Mostrar desktop |
-| `Super + M` | Abrir bandeja de mensagens |
-| `Alt + Tab` | Alternar entre janelas |
-| `Super + Tab` | Alternar entre aplicações |
-| `Ctrl + Alt + T` | Abrir terminal (se configurado) |
+### Como Descobrir Seus Atalhos
 
-### 7.2 Gerenciamento de Janelas
+**Método 1: Configurações do Sistema**
+```bash
+# Abrir configurações de teclado
+gnome-control-center keyboard
+```
+- Acesse **Configurações** → **Teclado** → **Ver e Personalizar Atalhos**
+- Aqui você encontra TODOS os atalhos ativos no seu sistema
+- Você pode modificar, desativar ou criar novos atalhos
 
-| Atalho | Ação |
-|--------|------|
-| `Super + ↑` | Maximizar janela |
-| `Super + ↓` | Restaurar janela |
-| `Super + ←` | Janela metade esquerda da tela |
-| `Super + →` | Janela metade direita da tela |
-| `Super + H` | Esconder janela |
-| `Alt + F4` | Fechar janela |
-| `Alt + F2` | Executar comando |
+**Método 2: Busca Rápida**
+- Pressione `Super` (tecla Windows) para abrir o Activities
+- Digite "atalhos" ou "keyboard" na busca
+- Acesse diretamente as configurações de teclado
 
-### 7.3 Personalizar Atalhos
+### Atalhos Universais
 
-- Abra **Configurações** → **Teclado** → **Atalhos de Teclado**
-- Clique no atalho que deseja modificar
-- Pressione a nova combinação de teclas
+Alguns atalhos funcionam em praticamente qualquer instalação GNOME:
+- **`Super`**: Abre o Activities (visão geral de janelas e busca)
+- **`Alt + Tab`**: Alterna entre janelas abertas
+- **`Alt + F4`**: Fecha a janela atual
+
+### Aprendendo os Atalhos
+
+O GNOME possui um tour interativo no primeiro boot que ensina os atalhos básicos. Se você pulou essa etapa, pode acessar novamente através do aplicativo **Tour** ou explorar a documentação oficial.
+
+**Dica**: Reserve alguns minutos para explorar a lista completa de atalhos nas configurações. Conhecer os atalhos do seu sistema pode aumentar significativamente sua eficiência no dia a dia!
 
 ---
 
