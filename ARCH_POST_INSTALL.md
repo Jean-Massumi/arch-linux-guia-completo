@@ -414,57 +414,6 @@ efibootmgr -v
 
 ---
 
-## 9. Ambientes Desktop e Window Managers
-
-### 9.1 GNOME
-
-**GNOME** é um ambiente desktop moderno e elegante, focado na simplicidade e produtividade. É o padrão em distribuições como Ubuntu e Fedora, oferecendo uma interface limpa com workflow baseado em Activities e Workspaces.
-
-**Características:**
-- Interface moderna e intuitiva
-- Excelente para produtividade
-- Boa integração com aplicações
-- Suporte robusto a extensões
-
-**Para instalação completa do GNOME com todas as configurações:**
-
-[Guia Completo de Instalação do GNOME](./GNOME_COMPLETE_SETUP.md)
-
----
-
-### 9.2 KDE Plasma
-
-**KDE Plasma** é um ambiente desktop altamente customizável e rico em recursos. É perfeito para usuários que gostam de personalizar cada aspecto do sistema, oferecendo uma experiência similar ao Windows, mas com muito mais flexibilidade.
-
-**Características:**
-- Altamente customizável
-- Interface familiar (similar ao Windows)
-- Excelente performance
-- Suite completa de aplicações KDE
-
-**Para instalação completa do KDE Plasma com todas as configurações:**
-
-[Guia Completo de Instalação do KDE Plasma](./KDE_COMPLETE_SETUP.md)
-
----
-
-### 9.3 Hyprland
-
-**Hyprland** é um compositor Wayland moderno com tiling dinâmico, conhecido por suas animações suaves e alta customização. É a escolha perfeita para entusiastas que querem um ambiente bonito, eficiente e totalmente personalizável.
-
-**Características:**
-- Tiling window manager dinâmico
-- Animações e efeitos visuais impressionantes
-- Excelente performance
-- Configuração via arquivo de texto
-- Suporte nativo ao Wayland
-
-**Para instalação completa do Hyprland com todas as configurações:**
-
-[Guia Completo de Instalação do Hyprland](./HYPRLAND_COMPLETE_SETUP.md)
-
----
-
 ## Comandos Úteis
 
 ### Gerenciamento de Pacotes
