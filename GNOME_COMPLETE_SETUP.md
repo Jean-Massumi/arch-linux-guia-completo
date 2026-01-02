@@ -66,6 +66,12 @@ sudo pacman -S gnome-power-manager
 
 # Interface gráfica
 sudo pacman -S system-config-printer
+
+# Gerenciadores de arquivos, acesso a dispositivos,
+sudo pacman -S gvfs gvfs-mtp gvfs-gphoto2 gvfs-afc gvfs-nfs gvfs-smb
+
+# Suporte a thumbnails/previews de arquivos (imagens, vídeos, PDFs)
+sudo pacman -S ffmpegthumbnailer poppler-glib libgsf
 ```
 
 ---
