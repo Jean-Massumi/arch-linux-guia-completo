@@ -63,6 +63,9 @@ sudo pacman -S totem
 
 # Gerenciamento de energia
 sudo pacman -S gnome-power-manager
+
+# Interface gráfica
+sudo pacman -S system-config-printer
 ```
 
 ---
