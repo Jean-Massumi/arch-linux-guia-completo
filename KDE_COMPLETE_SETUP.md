@@ -37,8 +37,11 @@ sudo pacman -S plasma
 ### 1.2 Aplicações KDE Essenciais
 
 ```bash
-# Suite completa de aplicações KDE (~3GB)
+# Suite completa de aplicações KDE
 sudo pacman -S kde-applications
+
+# X11 (opcional)
+sudo pacman -S plasma-x11-session
 ```
 
 ---
@@ -114,9 +117,7 @@ O KDE Plasma oferece amplas opções de personalização. Explore as configuraç
 
 ---
 
-## 6. Atalhos de Teclado
-
-**Personalizar Atalhos**
+## 5. Atalhos de Teclado
 
 Para configurar ou visualizar todos os atalhos disponíveis:
 
@@ -134,9 +135,6 @@ Para configurar ou visualizar todos os atalhos disponíveis:
 ```bash
 # Verificar status
 sudo systemctl status sddm
-
-# Ver logs
-journalctl -xe | grep sddm
 
 # Verificar se está habilitado
 sudo systemctl is-enabled sddm
@@ -161,38 +159,6 @@ sudo systemctl start sddm
 1. Na tela de login (SDDM), clique no ícone de sessão (canto inferior esquerdo)
 2. Selecione **Plasma (X11)** em vez de Wayland
 
-**Para instalar Xorg:**
-```bash
-sudo pacman -S xorg-server xorg-apps
-```
-
-</details>
-
-<details>
-<summary><b>Plasma lento ou travando</b></summary>
-
-<br>
-
-**Desabilitar efeitos temporariamente:**
-```bash
-# Atalho rápido
-Alt + Shift + F12
-```
-
-**Desabilitar efeitos permanentemente:**
-- **Configurações do Sistema** → **Comportamento da Área de Trabalho** → **Efeitos de Desktop**
-- Desmarque efeitos pesados
-
-**Desabilitar indexação de arquivos (Baloo):**
-- **Configurações do Sistema** → **Pesquisar** → **Indexação de Arquivos**
-- Desmarque "Habilitar indexação de arquivos"
-
-**Reduzir widgets:**
-- Remova widgets desnecessários do painel e desktop
-
-**Verificar drivers de GPU:**
-- Consulte: [GPU_DRIVERS_GUIDE.md](./GPU_DRIVERS_GUIDE.md)
-
 </details>
 
 <details>
@@ -210,45 +176,6 @@ systemctl --user enable pipewire pipewire-pulse
 
 # Abrir mixer de áudio
 pavucontrol
-```
-
-</details>
-
-<details>
-<summary><b>Wayland ou X11 - Qual usar?</b></summary>
-
-<br>
-
-**Use Wayland se:**
-- Tem laptop (melhor para touchpad e gestos)
-- Quer melhor suporte a telas HiDPI
-- GPU Intel ou AMD recente
-
-**Use X11 se:**
-- Tem NVIDIA (especialmente com drivers proprietários)
-- Precisa de compartilhamento de tela confiável
-- Usa aplicações antigas incompatíveis com Wayland
-- Precisa de máxima estabilidade
-
-**Trocar entre sessões:**
-- Faça logout
-- Na tela de login (SDDM), clique no ícone de sessão
-- Escolha Plasma (Wayland) ou Plasma (X11)
-
-</details>
-
-<details>
-<summary><b>Painel desapareceu</b></summary>
-
-<br>
-
-```bash
-# Recriar painel padrão
-# Pressione Alt + F2 e digite:
-plasma-apply-desktoptheme breeze
-
-# Ou adicionar novo painel:
-# Clique direito na área de trabalho → Adicionar Painel → Painel Padrão
 ```
 
 </details>
