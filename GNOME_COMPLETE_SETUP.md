@@ -29,8 +29,6 @@ Este guia assume que você completou o [Guia Essencial de Pós-Instalação](./A
 
 ## 1. Instalação do GNOME
 
-### 1.1 GNOME Base + Extras
-
 ```bash
 # Instalação completa recomendada
 sudo pacman -S gnome gnome-extra
@@ -52,7 +50,7 @@ sudo pacman -S gnome-shell-extensions
 
 ---
 
-## 3. Aplicações Adicionais do GNOME
+## 3. Aplicações Adicionais
 
 ```bash
 # Editor de texto avançado
