@@ -388,32 +388,6 @@ sudo timeshift --restore
 
 ---
 
-## 8. Verificação Final
-
-```bash
-# Verificar serviços com falha
-systemctl --failed
-
-# Ver erros do último boot
-journalctl -p 3 -xb
-
-# Verificar temperatura
-sensors
-
-# Verificar swap
-swapon --show
-free -h
-
-# Informações completas do sistema
-inxi -Fxz
-neofetch
-
-# Verificar entradas de boot
-efibootmgr -v
-```
-
----
-
 ## Comandos Úteis
 
 ### Gerenciamento de Pacotes
