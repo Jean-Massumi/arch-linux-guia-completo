@@ -119,9 +119,43 @@ O KDE Plasma oferece amplas opções de personalização. Explore as configuraç
 
 ## 5. Atalhos de Teclado
 
-Para configurar ou visualizar todos os atalhos disponíveis:
+O KDE Plasma possui um sistema robusto e altamente personalizável de atalhos de teclado. Diferente de listas estáticas, os atalhos podem variar dependendo da versão do Plasma, idioma do sistema e configurações personalizadas.
 
-**Configurações do Sistema** → **Atalhos**
+### Como Descobrir Seus Atalhos
+
+**Método 1: Configurações do Sistema**
+```bash
+# Abrir configurações de atalhos
+systemsettings kcm_keys
+```
+- Acesse **Configurações do Sistema** → **Atalhos**
+- Aqui você encontra TODOS os atalhos organizados por categoria:
+  - **Atalhos Globais**: Funcionam em qualquer aplicação
+  - **Atalhos de Aplicações**: Específicos de cada programa
+- Você pode pesquisar, modificar ou criar novos atalhos facilmente
+
+**Método 2: Busca Rápida no KRunner**
+- Pressione `Alt + Space` ou `Alt + F2` para abrir o KRunner
+- Digite "atalhos" ou "shortcuts"
+- Acesse diretamente as configurações
+
+### Atalhos Universais
+
+Alguns atalhos funcionam em praticamente qualquer instalação KDE:
+- **`Alt + Space` ou `Alt + F2`**: Abre o KRunner (lançador de aplicações e comandos)
+- **`Alt + Tab`**: Alterna entre janelas abertas
+- **`Ctrl + Alt + Esc`**: Fecha aplicações travadas (cursor vira uma caveira)
+- **`Ctrl + F12`**: Mostra todas as janelas abertas (Present Windows)
+
+### Personalizando Seus Atalhos
+
+O KDE é extremamente flexível em personalização. Você pode:
+- Criar atalhos para qualquer aplicação ou comando
+- Definir gestos de mouse e touchpad
+- Configurar atalhos para scripts personalizados
+- Importar/exportar esquemas de atalhos
+
+**Dica**: Explore a categoria "KWin" nos atalhos globais para descobrir recursos poderosos de gerenciamento de janelas, como tiles, áreas de trabalho virtuais e efeitos especiais!
 
 ---
 
