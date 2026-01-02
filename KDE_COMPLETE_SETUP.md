@@ -348,7 +348,7 @@ systemctl is-active sddm
 # Deve mostrar: active
 
 # Informações do sistema
-neofetch
+fastfetch
 ```
 
 ---
