@@ -16,13 +16,12 @@ Este guia assume que você completou o [Guia Essencial de Pós-Instalação](./A
 ## Índice
 
 - [1. Instalação do KDE Plasma](#1-instalação-do-kde-plasma)
-- [2. Aplicações KDE](#2-aplicações-kde)
-- [3. Temas e Ícones](#3-temas-e-ícones)
-- [4. Ativação e Primeiro Boot](#4-ativação-e-primeiro-boot)
-- [5. Configurações Essenciais](#5-configurações-essenciais)
-- [6. Atalhos de Teclado](#6-atalhos-de-teclado)
-- [7. Solução de Problemas](#7-solução-de-problemas)
-- [8. Verificação Final](#8-verificação-final)
+- [2. Temas e Ícones](#2-temas-e-ícones)
+- [3. Ativação e Primeiro Boot](#3-ativação-e-primeiro-boot)
+- [4. Configurações Essenciais](#4-configurações-essenciais)
+- [5. Atalhos de Teclado](#5-atalhos-de-teclado)
+- [6. Solução de Problemas](#6-solução-de-problemas)
+- [7. Verificação Final](#7-verificação-final)
 
 ---
 
@@ -38,13 +37,13 @@ sudo pacman -S plasma
 ### 1.2 Aplicações KDE Essenciais
 
 ```bash
-# Suite completa de aplicações KDE
+# Suite completa de aplicações KDE (~3GB)
 sudo pacman -S kde-applications
 ```
 
 ---
 
-## 3. Temas e Ícones
+## 2. Temas e Ícones
 
 ```bash
 # Ícones modernos
@@ -65,9 +64,9 @@ sudo pacman -S kvantum
 
 ---
 
-## 4. Ativação e Primeiro Boot
+## 3. Ativação e Primeiro Boot
 
-### 4.1 Habilitar SDDM
+### 3.1 Habilitar SDDM
 
 ```bash
 # Habilitar SDDM para iniciar automaticamente
@@ -77,7 +76,7 @@ sudo systemctl enable sddm
 sudo reboot
 ```
 
-### 4.2 Primeiro Boot
+### 3.2 Primeiro Boot
 
 Após reiniciar:
 
@@ -93,112 +92,39 @@ Após reiniciar:
 
 ---
 
-## 5. Configurações Essenciais
+## 4. Configurações Essenciais
 
-### 5.1 Abrir Configurações do Sistema
+### 4.1 Abrir Configurações do Sistema
 
 ```bash
 systemsettings
 ```
 
-### 5.2 Configurações Recomendadas
+O KDE Plasma oferece amplas opções de personalização. Explore as configurações e ajuste conforme sua preferência:
 
-**Aparência:**
-- **Aparência Global**: Escolher tema (Breeze Light/Dark)
-- **Estilo de Aplicação**: Estilo dos widgets
-- **Decorações de Janela**: Bordas das janelas
-- **Ícones**: Trocar conjunto de ícones
-- **Cursores**: Estilo do cursor
+**Principais seções:**
+- **Aparência**: Temas, ícones, fontes, cores
+- **Área de Trabalho**: Efeitos, comportamento de janelas, atalhos
+- **Hardware**: Dispositivos de entrada, telas, energia
+- **Personalização**: Notificações, aplicações padrão
 
-**Área de Trabalho:**
-- **Comportamento da Área de Trabalho**: Efeitos, cantos ativos
-- **Gerenciamento de Janelas**: Comportamento de janelas
-- **Atalhos**: Configurar atalhos de teclado
-
-**Personalização:**
-- **Notificações**: Gerenciar notificações de apps
-- **Gerenciamento de Energia**: Perfis (AC/Bateria)
-- **Inicialização e Desligamento**: Apps ao iniciar
-
-**Hardware:**
-- **Dispositivos de Entrada**: Mouse, touchpad, teclado
-- **Telas**: Configuração de monitores múltiplos
-- **Energia**: Economia de energia e suspensão
-
-### 5.3 Personalizar Painel
-
-**Editar Painel:**
-1. Clique direito no painel
-2. Selecione **Editar Painel**
-3. Ajuste altura, posição
-4. Adicione/remova widgets
-5. Clique em **Concluído**
-
-**Adicionar Widgets:**
-1. Clique direito na área de trabalho
-2. Selecione **Adicionar Widgets**
-3. Arraste widgets para o painel ou desktop
-
-### 5.4 Efeitos de Desktop
-
-**Habilitar/Desabilitar efeitos:**
-1. **Configurações do Sistema** → **Comportamento da Área de Trabalho** → **Efeitos de Desktop**
-2. Escolha efeitos desejados:
-   - **Animações de janelas**
-   - **Desktop Cube** (visual)
-   - **Minimizar/Maximizar animados**
-   - **Transparência e blur**
-
-**Atalho rápido**: `Alt + Shift + F12` desabilita todos os efeitos temporariamente
+**Dicas:**
+- Clique direito no painel para editá-lo e adicionar widgets
+- Clique direito na área de trabalho para adicionar widgets
 
 ---
 
 ## 6. Atalhos de Teclado
 
-### 6.1 Atalhos Essenciais
+**Personalizar Atalhos**
 
-| Atalho | Ação |
-|--------|------|
-| `Meta` (Windows) | Abrir lançador de aplicações |
-| `Alt + F2` | Executar comando (KRunner) |
-| `Ctrl + Alt + L` | Bloquear tela |
-| `Alt + Tab` | Alternar entre janelas |
-| `Ctrl + Esc` | Gerenciador de tarefas |
-| `Alt + F1` | Menu de aplicações |
+Para configurar ou visualizar todos os atalhos disponíveis:
 
-### 6.2 Gerenciamento de Janelas
-
-| Atalho | Ação |
-|--------|------|
-| `Alt + F3` | Menu da janela |
-| `Alt + F4` | Fechar janela |
-| `Meta + ↑` | Maximizar janela |
-| `Meta + ↓` | Minimizar janela |
-| `Meta + ←` | Janela metade esquerda |
-| `Meta + →` | Janela metade direita |
-
-### 6.3 Áreas de Trabalho Virtuais
-
-| Atalho | Ação |
-|--------|------|
-| `Ctrl + F1-F12` | Trocar entre áreas de trabalho |
-| `Meta + Tab` | Visão geral de áreas de trabalho |
-
-### 6.4 Captura de Tela
-
-| Atalho | Ação |
-|--------|------|
-| `Print` | Captura de tela completa |
-| `Shift + Print` | Captura de região selecionada |
-| `Meta + Print` | Captura da janela ativa |
-
-### 6.5 Personalizar Atalhos
-
-**Configurações do Sistema** → **Atalhos** → **Atalhos Personalizados**
+**Configurações do Sistema** → **Atalhos**
 
 ---
 
-## 7. Solução de Problemas
+## 6. Solução de Problemas
 
 <details>
 <summary><b>SDDM não inicia após reboot</b></summary>
@@ -329,7 +255,7 @@ plasma-apply-desktoptheme breeze
 
 ---
 
-## 8. Verificação Final
+## 7. Verificação Final
 
 ```bash
 # Verificar sessão KDE
