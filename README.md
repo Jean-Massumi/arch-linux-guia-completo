@@ -28,8 +28,8 @@ Guia completo e atualizado para instalação do Arch Linux em português brasile
   - [Preparação](#preparação)
   - [Instalação Base](#instalação-base)
   - [Configurações Avançadas](#configurações-avançadas)
-  - [Pós-Instalação](#pós-instalação)
   - [Ambientes Desktop](#ambientes-desktop-completos)
+  - [Pós-Instalação](#pós-instalação)
   - [Aplicativos Recomendados](#aplicativos-recomendados)
   - [Gaming](#gaming)
 - [FAQ](#faq)
@@ -105,15 +105,7 @@ Complemento do guia base. Use apenas se for instalar junto com Windows.
 
 Configure APÓS a instalação base funcionar e ANTES da pós-instalação.
 
----
-
-### Pós-Instalação
-
-**[ARCH_POST_INSTALL.md](./ARCH_POST_INSTALL.md)** - Configuração do ambiente (OBRIGATÓRIO)
-
 **[GPU_DRIVERS_GUIDE.md](./GPU_DRIVERS_GUIDE.md)** - Drivers de vídeo (RECOMENDADO)
-
-Configure antes de instalar ambientes desktop.
 
 ---
 
@@ -124,6 +116,12 @@ Configure antes de instalar ambientes desktop.
 **[KDE_COMPLETE_SETUP.md](./KDE_COMPLETE_SETUP.md)** - Altamente customizável
 
 **[HYPRLAND_COMPLETE_SETUP.md](./HYPRLAND_COMPLETE_SETUP.md)** - Tiling window manager (requer conhecimento intermediário)
+
+---
+
+### Pós-Instalação
+
+**[ARCH_POST_INSTALL.md](./ARCH_POST_INSTALL.md)** - Configuração do ambiente (OBRIGATÓRIO)
 
 ---
 
