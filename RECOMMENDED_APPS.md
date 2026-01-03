@@ -210,11 +210,9 @@ sudo pacman -S gcc clang make cmake
 
 **MySQL** - Banco de dados relacional popular  
 **PostgreSQL** - Banco de dados relacional avançado  
-**MongoDB** - Banco de dados NoSQL orientado a documentos  
-**Redis** - Banco de dados em memória para cache
 
 ```bash
-sudo pacman -S mysql postgresql mongodb-bin redis
+sudo pacman -S mysql postgresql
 ```
 
 **Iniciar serviços:**
@@ -226,14 +224,6 @@ sudo systemctl start mysqld
 # PostgreSQL
 sudo systemctl enable postgresql
 sudo systemctl start postgresql
-
-# MongoDB
-sudo systemctl enable mongodb
-sudo systemctl start mongodb
-
-# Redis
-sudo systemctl enable redis
-sudo systemctl start redis
 ```
 
 ---
