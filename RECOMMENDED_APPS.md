@@ -304,11 +304,9 @@ yay -S heroic-games-launcher-bin
 ## Compatibilidade Windows
 
 **Wine** - Camada de compatibilidade para executar aplicativos Windows  
-**Winetricks** - Script auxiliar para instalar bibliotecas Windows  
-**PlayOnLinux** - Interface gráfica para gerenciar aplicações Wine
 
 ```bash
-sudo pacman -S wine winetricks playonlinux
+sudo pacman -S wine
 ```
 
 ---
