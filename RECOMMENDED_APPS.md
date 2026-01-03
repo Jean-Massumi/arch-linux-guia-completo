@@ -16,7 +16,6 @@
 - [Gerenciadores de Download](#gerenciadores-de-download)
 - [Gaming](#gaming)
 - [Segurança](#segurança)
-- [Instalando yay](#instalando-yay-aur-helper)
 
 ---
 
