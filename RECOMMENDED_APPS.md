@@ -212,15 +212,11 @@ sudo pacman -S gcc clang make cmake
 **PostgreSQL** - Banco de dados relacional avançado  
 
 ```bash
-sudo pacman -S mysql postgresql
+sudo pacman -S postgresql
 ```
 
 **Iniciar serviços:**
 ```bash
-# MySQL
-sudo systemctl enable mysqld
-sudo systemctl start mysqld
-
 # PostgreSQL
 sudo systemctl enable postgresql
 sudo systemctl start postgresql
