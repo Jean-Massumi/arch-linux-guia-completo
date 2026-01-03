@@ -108,7 +108,7 @@ yay -S slack-desktop
 
 ```bash
 sudo pacman -S vlc mpv
-yay -S spotify
+yay -S spotify 
 ```
 
 ---
@@ -168,12 +168,11 @@ sudo pacman -S kdenlive shotcut
 
 ## Programação e Desenvolvimento
 
-**Git** - Sistema de controle de versão  
 **Docker** - Plataforma de containers para desenvolvimento  
 **Markdown** - Visualizadores e editores de markdown
 
 ```bash
-sudo pacman -S git docker docker-compose marksman
+sudo pacman -S docker docker-compose marksman
 sudo systemctl enable docker
 sudo systemctl start docker
 ```
